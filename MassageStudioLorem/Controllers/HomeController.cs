@@ -6,6 +6,7 @@
     using Microsoft.Extensions.Logging;
 
     using MassageStudioLorem.Models;
+    using Models.Appointments;
 
     public class HomeController : Controller
     {
@@ -18,7 +19,11 @@
 
         public IActionResult Index()
         {
-            return View();
+            return View(new AppointmentInputModel()
+            {
+                SalonId = "1",
+                ServiceId = 2
+            });
         }
 
         public IActionResult Privacy()

@@ -17,6 +17,13 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\plugins\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\date-picker.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
