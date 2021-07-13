@@ -118,19 +118,12 @@ table {
 }
 
 th, td {
-  font-weight: unset;
-  padding-right: 10px;
+    padding-right: 10px;
 }
 
 .column100 {
   width: 130px;
   padding-left: 25px;
-}
-
-.column100.column1 {
-  width: 265px;
-  padding-left: 42px;
-	padding-right: 10px;
 }
 
 .row100.head th {
@@ -150,6 +143,7 @@ th, td {
 	font-family: Montserrat-Regular;
 	font-size: 14px;
 	font-weight: bold;
+    text-align: center;
 	color: #808080;
 	line-height: 1.4;
 }
@@ -160,6 +154,7 @@ th, td {
   color: #fff;
   line-height: 1.4;
   text-transform: uppercase;
+    text-align: center;
     font-weight: bold;
 
   background-color: #36304a;
