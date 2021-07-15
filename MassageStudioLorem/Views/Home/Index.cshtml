@@ -121,7 +121,7 @@
                     <div class="col-sm-10">
                         <div id="selectedDate" asp-for="@Model.Date" class="form-control" hidden></div>
                         <input asp-for="@Model.Date" value="" class="form-control" required readonly />
-                        <span @*asp-validation-for="Date"*@ class="text-danger"></span>
+                        <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -136,8 +136,8 @@
                     <div class="col-sm-10">
                         <button type="submit" class="button button-large
                                 button_1 elements_button my-2"
-                                @*asp-area="" asp-controller="Appointments" asp-action="MakeAnAppointment"*@>
-                            Make An Appointment
+                                asp-area="" asp-controller="Home" asp-action="Index">
+                            Book An Appointment
                         </button>
                     </div>
                 </div>

@@ -26,6 +26,23 @@
             });
         }
 
+        [HttpPost]
+        public IActionResult Index(AppointmentInputModel model)
+        {
+            if (model.Time == "4:00PM")
+            {
+                this.ModelState.AddModelError("", $"The {model.Time} hour is already booked for {model.Date}! Available hours are: ");
+                return View(model);
+            }
+
+            return View(new AppointmentInputModel()
+            {
+                SalonId = "1",
+                ServiceId = 2
+            });
+
+        }
+
         public IActionResult Privacy()
         {
             return View();
