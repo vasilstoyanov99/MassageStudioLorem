@@ -1,15 +1,16 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Data;
     using System.Diagnostics;
+    using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
 
     using MassageStudioLorem.Models;
-    using Microsoft.EntityFrameworkCore;
     using Models.Appointments;
-    using System.Linq;
+    using Data;
+    using Global;
+    using System;
+    using System.Text;
 
     public class HomeController : Controller
     {
@@ -19,6 +20,11 @@
 
         public IActionResult Index()
         {
+            if (DefaultTimeSchedule.TimeSchedule is null)
+            {
+                DefaultTimeSchedule.SeedTimeTable();
+            }
+
             var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
 
             return View(new AppointmentInputModel()
@@ -31,12 +37,27 @@
         [HttpPost]
         public IActionResult Index(AppointmentInputModel model)
         {
-            var check = this._data.MasseursBookedHours
+            var check = this._data.MasseursAvailableHours
                 .FirstOrDefault(x => x.MasseurId == model.MasseurId /*&& x.Date == model.Date*/ && x.Hour == model.Hour);
 
-            if (check != null)
+            if (check == null)
             {
-                this.ModelState.AddModelError("", $"The {model.Hour} hour is already booked for {model.Date}! Available hours are: ");
+                var availableHours = this._data
+                    .MasseursAvailableHours
+                    .Where(x => x.MasseurId == model.MasseurId /*&&
+                                x.Date == model.Date*/)
+                    .Select(x => new {x.Hour})
+                    .ToList();
+
+                var stringBuilder = new StringBuilder();
+
+                foreach (var hour in availableHours)
+                {
+                    stringBuilder.Append($"{hour.Hour} ");
+                }
+
+                this.ModelState.AddModelError("", $"The {model.Hour} hour is already booked for {model.Date}! Available hours are: {stringBuilder.ToString().TrimEnd()}");
+
                 return View(model);
             }
 

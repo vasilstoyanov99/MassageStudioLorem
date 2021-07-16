@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    [Migration("20210716004258_Initial-Migration")]
+    [Migration("20210716093601_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -426,7 +426,7 @@ namespace MassageStudioLorem.Data.Migrations
                     b.ToTable("Masseurs");
                 });
 
-            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurBookedHours", b =>
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurAvailableHours", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -461,7 +461,7 @@ namespace MassageStudioLorem.Data.Migrations
 
                     b.HasIndex("MasseurId");
 
-                    b.ToTable("MasseursBookedHours");
+                    b.ToTable("MasseursAvailableHours");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -647,7 +647,7 @@ namespace MassageStudioLorem.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurBookedHours", b =>
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurAvailableHours", b =>
                 {
                     b.HasOne("MassageStudioLorem.Data.Models.Masseur", "Masseur")
                         .WithMany()

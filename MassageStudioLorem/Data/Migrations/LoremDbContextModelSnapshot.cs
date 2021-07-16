@@ -424,7 +424,7 @@ namespace MassageStudioLorem.Data.Migrations
                     b.ToTable("Masseurs");
                 });
 
-            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurBookedHours", b =>
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurAvailableHours", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -459,7 +459,7 @@ namespace MassageStudioLorem.Data.Migrations
 
                     b.HasIndex("MasseurId");
 
-                    b.ToTable("MasseursBookedHours");
+                    b.ToTable("MasseursAvailableHours");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -645,7 +645,7 @@ namespace MassageStudioLorem.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurBookedHours", b =>
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurAvailableHours", b =>
                 {
                     b.HasOne("MassageStudioLorem.Data.Models.Masseur", "Masseur")
                         .WithMany()

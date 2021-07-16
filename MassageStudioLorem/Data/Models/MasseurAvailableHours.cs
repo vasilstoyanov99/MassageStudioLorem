@@ -1,14 +1,13 @@
 ﻿namespace MassageStudioLorem.Data.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Common.Models;
 
-    public class MasseurBookedHours : BaseDeletableModel<string>
+    public class MasseurAvailableHours : BaseDeletableModel<string>
     {
-        public MasseurBookedHours()
+        public MasseurAvailableHours()
         { 
             this.Id = Guid.NewGuid().ToString();
         }

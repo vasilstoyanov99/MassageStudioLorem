@@ -300,7 +300,7 @@ namespace MassageStudioLorem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MasseursBookedHours",
+                name: "MasseursAvailableHours",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -314,9 +314,9 @@ namespace MassageStudioLorem.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MasseursBookedHours", x => x.Id);
+                    table.PrimaryKey("PK_MasseursAvailableHours", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MasseursBookedHours_Masseurs_MasseurId",
+                        name: "FK_MasseursAvailableHours_Masseurs_MasseurId",
                         column: x => x.MasseurId,
                         principalTable: "Masseurs",
                         principalColumn: "Id",
@@ -486,13 +486,13 @@ namespace MassageStudioLorem.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MasseursBookedHours_IsDeleted",
-                table: "MasseursBookedHours",
+                name: "IX_MasseursAvailableHours_IsDeleted",
+                table: "MasseursAvailableHours",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MasseursBookedHours_MasseurId",
-                table: "MasseursBookedHours",
+                name: "IX_MasseursAvailableHours_MasseurId",
+                table: "MasseursAvailableHours",
                 column: "MasseurId");
         }
 
@@ -520,7 +520,7 @@ namespace MassageStudioLorem.Data.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "MasseursBookedHours");
+                name: "MasseursAvailableHours");
 
             migrationBuilder.DropTable(
                 name: "Massages");

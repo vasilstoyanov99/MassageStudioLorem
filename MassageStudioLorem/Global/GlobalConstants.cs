@@ -13,5 +13,14 @@
         {
             public const string DateTime = "Please select a valid date and hour!";
         }
+
+        public static class DateTimeFormats
+        {
+            public const string DateFormat = "dd-MM-yyyy";
+
+            public const string TimeFormat = "h:mmtt";
+
+            public const string DateTimeFormat = "dd-MM-yyyy h:mmtt";
+        }
     }
 }
