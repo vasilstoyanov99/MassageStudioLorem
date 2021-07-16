@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Models.Appointments
 {
+    using CustomValidationAttributes;
     using System.ComponentModel.DataAnnotations;
     using System.Collections.Generic;
 
@@ -13,18 +14,18 @@
         }
 
         [Required]
-        public string MasseurId { get; init; }
+        public string MasseurId { get; set; }
 
         [Required]
-        public int MassageId { get; init; }
+        public int MassageId { get; set; }
 
         [Required]
-        //[ValidateDateString(ErrorMessage = GlobalConstants.ErrorMessages.DateTime)]
-        public string Date { get; init; }
+        [ValidateDateString(ErrorMessage = GlobalConstants.ErrorMessages.Date)]
+        public string Date { get; set; }
 
         [Required]
-        //[ValidateTimeString(ErrorMessage = GlobalConstants.ErrorMessages.DateTime)]
-        public string Hour { get; init; }
+        [ValidateHourString(ErrorMessage = GlobalConstants.ErrorMessages.Hour)]
+        public string Hour { get; set; }
 
         public ICollection<string> WorkHours { get; set; }
     }

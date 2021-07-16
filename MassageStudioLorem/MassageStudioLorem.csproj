@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\CustomValidationAttributes\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\plugins\" />
   </ItemGroup>

@@ -1,10 +1,12 @@
-﻿namespace MassageStudioLorem.Global
+﻿namespace MassageStudioLorem.Models.CustomValidationAttributes
 {
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
 
-    public class ValidateTimeStringAttribute : RequiredAttribute
+    using Global;
+
+    public class ValidateHourStringAttribute : RequiredAttribute
     {
         public override bool IsValid(object value)
         {

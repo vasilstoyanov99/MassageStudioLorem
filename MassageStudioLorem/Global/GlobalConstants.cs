@@ -11,7 +11,11 @@
 
         public static class ErrorMessages
         {
-            public const string DateTime = "Please select a valid date and hour!";
+            public const string Hour
+                = "Please select a valid hour!";
+
+            public const string Date
+                = "Please select a valid date!";
         }
 
         public static class DateTimeFormats
