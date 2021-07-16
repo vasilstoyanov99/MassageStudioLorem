@@ -1,10 +1,12 @@
 ﻿namespace MassageStudioLorem.Infrastructure
 {
+    using Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
 
     using MassageStudioLorem.Data;
+    using System;
 
     public static class ApplicationBuilderExtensions
     {
@@ -17,17 +19,36 @@
 
             data.Database.Migrate();
 
-            //SeedCategories(data);
+            SeedData(data);
 
             return app;
         }
 
-        //private static void SeedCategories(CarRentingDbContext data)
-        //{
-        //    if (!data.Categories.Any())
-        //    {
-                
-        //    }
-        //}
+        private static void SeedData(LoremDbContext data)
+        {
+            var masseur = new Masseur()
+            {
+                FirstName = "test",
+                LastName = "testov",
+                MiddleName = "idk",
+                DateOfBirth = DateTime.UtcNow,
+                Description = "I love to test",
+                PhoneNumber = "sheeeeshhh",
+                ProfileImagePath = "img path",
+                User = new ApplicationUser()
+                {
+                    PhoneNumber = "088080480",
+                    Email = "test@test.com",
+                    PasswordHash = "c1227a915087c5d676f2c40ea286d8c2320d31b1fc68b6455f2550b438510cd6"
+                }
+            };
+
+            data.Masseurs.Add(masseur);
+            var booked = new MasseurBookedHours()
+                {MasseurId = masseur.Id, Hour = "4:00PM", Date = "date"};
+            data.MasseursBookedHours.Add(booked);
+
+            data.SaveChanges();
+        }
     }
 }

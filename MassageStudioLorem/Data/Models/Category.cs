@@ -12,7 +12,6 @@
         public Category()
         {
             this.Id = Guid.NewGuid().ToString();
-
             this.Massages = new HashSet<Massage>();
         }
 

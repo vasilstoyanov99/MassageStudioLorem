@@ -7,10 +7,10 @@
     public class AppointmentInputModel
     {
         [Required]
-        public string SalonId { get; set; }
+        public string MasseurId { get; set; }
 
         [Required]
-        public int ServiceId { get; set; }
+        public int MassageId { get; set; }
 
         [Required]
         //[ValidateDateString(ErrorMessage = GlobalConstants.ErrorMessages.DateTime)]
@@ -18,6 +18,6 @@
 
         [Required]
         //[ValidateTimeString(ErrorMessage = GlobalConstants.ErrorMessages.DateTime)]
-        public string Time { get; set; }
+        public string Hour { get; set; }
     }
 }

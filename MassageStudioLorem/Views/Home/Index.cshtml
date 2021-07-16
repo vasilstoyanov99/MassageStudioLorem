@@ -114,8 +114,8 @@
                     @await Component.InvokeAsync("SalonServiceDetails", new { Model.SalonId, Model.ServiceId })
                 </div>*@
             <form method="post" enctype="multipart/form-data">
-                <input asp-for="@Model.SalonId" value="@Model.SalonId" class="form-control" hidden>
-                <input asp-for="@Model.ServiceId" value="@Model.ServiceId" class="form-control" hidden>
+                <input asp-for="@Model.MasseurId" value="@Model.MasseurId" class="form-control" hidden>
+                <input asp-for="@Model.MassageId" value="@Model.MassageId" class="form-control" hidden>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Date</label>
                     <div class="col-sm-10">
@@ -125,11 +125,11 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Time</label>
+                    <label class="col-sm-2 col-form-label">Hour</label>
                     <div class="col-sm-10">
-                        <div id="selectedTime" asp-for="@Model.Time" class="form-control" hidden></div>
-                        <input asp-for="@Model.Time" value="" class="form-control" required readonly />
-                        <span asp-validation-for="Time" class="text-danger"></span>
+                        <div id="selectedTime" asp-for="@Model.Hour" class="form-control" hidden></div>
+                        <input asp-for="@Model.Hour" value="" class="form-control" required readonly />
+                        <span asp-validation-for="Hour" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row mt-4">
@@ -153,17 +153,7 @@
     </div>
 </div>
 
-<!--
-<div id="selectedDate"></div>
-<div id="selectedTime"></div>
--->
-
 @section Scripts {
     <script src="~/js/bootstrap-datepicker.js" asp-append-version="true"></script>
     <script src="~/js/date-picker.js" asp-append-version="true"></script>
-    <script type="text/javascript">
-        $.validator.setDefaults({
-            ignore: ""
-        })
-    </script>
 }

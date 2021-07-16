@@ -38,6 +38,8 @@
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<MasseurBookedHours> MasseursBookedHours { get; set; }
+
         public override int SaveChanges()
         {
             return SaveChanges(true);

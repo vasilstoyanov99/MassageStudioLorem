@@ -12,7 +12,6 @@
         public Masseur()
         {
             this.Id = Guid.NewGuid().ToString();
-
             //Rating = new List<double>();
             this.WorkSchedule = new HashSet<Appointment>();
             this.Comments = new HashSet<Comment>();
@@ -48,6 +47,9 @@
         [Required] public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+
+        //public virtual ICollection<MasseurBookedHours>
+        //    BookedHours { get; set; }
 
         //TODO: Check if a collection should be virtual
         public virtual ICollection<Appointment> WorkSchedule { get; set; }

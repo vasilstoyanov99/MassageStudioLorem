@@ -1,46 +1,52 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
+    using Data;
     using System.Diagnostics;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
     using MassageStudioLorem.Models;
+    using Microsoft.EntityFrameworkCore;
     using Models.Appointments;
+    using System.Linq;
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly LoremDbContext _data;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        public HomeController(LoremDbContext data) => this._data = data;
 
         public IActionResult Index()
         {
+            var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
+
             return View(new AppointmentInputModel()
             {
-                SalonId = "1",
-                ServiceId = 2
+                MasseurId = masseur.Id,
+                MassageId = 1
             });
         }
 
         [HttpPost]
         public IActionResult Index(AppointmentInputModel model)
         {
-            if (model.Time == "4:00PM")
+            var check = this._data.MasseursBookedHours
+                .FirstOrDefault(x => x.MasseurId == model.MasseurId /*&& x.Date == model.Date*/ && x.Hour == model.Hour);
+
+            if (check != null)
             {
-                this.ModelState.AddModelError("", $"The {model.Time} hour is already booked for {model.Date}! Available hours are: ");
+                this.ModelState.AddModelError("", $"The {model.Hour} hour is already booked for {model.Date}! Available hours are: ");
                 return View(model);
             }
 
+            var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
+
             return View(new AppointmentInputModel()
             {
-                SalonId = "1",
-                ServiceId = 2
+                MasseurId = masseur.Id,
+                MassageId = 1
             });
-
         }
 
         public IActionResult Privacy()

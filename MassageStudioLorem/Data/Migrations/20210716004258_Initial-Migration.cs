@@ -300,6 +300,30 @@ namespace MassageStudioLorem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MasseursBookedHours",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Hour = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasseursBookedHours", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MasseursBookedHours_Masseurs_MasseurId",
+                        column: x => x.MasseurId,
+                        principalTable: "Masseurs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Appointments",
                 columns: table => new
                 {
@@ -460,6 +484,16 @@ namespace MassageStudioLorem.Data.Migrations
                 name: "IX_Masseurs_UserId",
                 table: "Masseurs",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MasseursBookedHours_IsDeleted",
+                table: "MasseursBookedHours",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MasseursBookedHours_MasseurId",
+                table: "MasseursBookedHours",
+                column: "MasseurId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -484,6 +518,9 @@ namespace MassageStudioLorem.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "MasseursBookedHours");
 
             migrationBuilder.DropTable(
                 name: "Massages");
