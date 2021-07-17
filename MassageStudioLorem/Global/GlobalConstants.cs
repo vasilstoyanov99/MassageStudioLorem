@@ -6,7 +6,10 @@
         {
             public const int NameMaxLength = 50;
 
-            public const int DescriptionMaxLength = 800;
+            public const int ShortDescriptionMaxLength = 150;
+
+            public const int LongDescriptionMaxLength = 800;
+
         }
 
         public static class ErrorMessages

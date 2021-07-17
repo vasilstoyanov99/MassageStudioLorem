@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Data.Models
 {
+    using Global;
     using System;
     using System.ComponentModel.DataAnnotations;
 
@@ -13,10 +14,15 @@
         }
 
         [Required]
-        public string Description { get; set; }
+        [MaxLength(GlobalConstants.DataValidations.ShortDescriptionMaxLength)]
+        public string ShortDescription { get; set; }
 
         [Required]
-        public string Type { get; set; }
+        [MaxLength(GlobalConstants.DataValidations.LongDescriptionMaxLength)]
+        public string LongDescription { get; set; }
+
+        //[Required]
+        //public string Category { get; set; }
 
         [Required]
         public double Price { get; set; }

@@ -1,5 +1,6 @@
 namespace MassageStudioLorem
 {
+    using Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -23,7 +24,10 @@ namespace MassageStudioLorem
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<IdentityUser>
+                //    (IdentityOptionsProvider.GetIdentityOptions)
+                //.AddRoles<ApplicationRole>
+                (options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;

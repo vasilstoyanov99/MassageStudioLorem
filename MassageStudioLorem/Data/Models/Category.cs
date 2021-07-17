@@ -19,12 +19,6 @@
         [MaxLength(GlobalConstants.DataValidations.NameMaxLength)]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(GlobalConstants.DataValidations.DescriptionMaxLength)]
-        public string Description { get; set; }
-
-        [Required]
-        public string ImageUrl { get; set; }
 
         public virtual ICollection<Massage> Massages { get; set; }
     }

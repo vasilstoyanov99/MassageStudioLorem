@@ -28,7 +28,7 @@
 
         public DbSet<Client> Clients { get; set; }
 
-        public DbSet<ApplicationUser> IdentityUsers { get; set; }
+        //public DbSet<ApplicationUser> IdentityUsers { get; set; }
 
         public DbSet<Massage> Massages { get; set; }
 
