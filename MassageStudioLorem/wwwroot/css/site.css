@@ -216,10 +216,10 @@ body {
 
 .card {
     background: #fff;
-/*    transition: .5s;*/
+    transition: .5s;
     border: 0;
     margin-bottom: 30px;
-/*    border-radius: .55rem;*/
+    border-radius: .55rem;
     position: relative;
     width: 100%;
     box-shadow: 0 1px 2px 0 rgb(0 0 0);
@@ -243,11 +243,7 @@ body {
     transition: all .4s ease
 }
 
-    /*.single_post .body {
-        padding: 10px
-    }*/
-
-    .single_post .img-post {
+.single_post .img-post {
         position: relative;
         overflow: hidden;
         max-height: 500px;
@@ -280,7 +276,7 @@ body {
         }
 
     .single_post .footer {
-        padding: 0 30px 30px 30px
+        padding: 0 0px 20px 5px
     }
 
         .single_post .footer .actions {
@@ -354,19 +350,6 @@ body {
                 }
 
 @media (max-width: 640px) {
-    .blog-page .left-box .single-comment-box > ul > li {
-        padding: 25px 0
-    }
-
-    .blog-page .left-box .single-comment-box ul li .icon-box {
-        display: inline-block
-    }
-
-    .blog-page .left-box .single-comment-box ul li .text-box {
-        display: block;
-        padding-left: 0;
-        margin-top: 10px
-    }
 
     .blog-page .single_post .footer .stats {
         float: none;
@@ -375,6 +358,6 @@ body {
 
     .blog-page .single_post .body,
     .blog-page .single_post .footer {
-        padding: 30px
+        padding: 10px
     }
 }

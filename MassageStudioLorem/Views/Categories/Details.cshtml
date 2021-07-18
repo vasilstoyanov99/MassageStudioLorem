@@ -17,12 +17,17 @@
                             @Model.Name
                         </h3>
                         <h5 style=" text-align: center">@Model.LongDescription</h5>
+                        <h5 class="text-left" style="margin-top: 50px">Price: @Model.Price.ToString("F2")</h5>
                     </div>
                     <div class="footer text-center">
                         <div class="actions">
                             <a href="javascript:void(0);" class="btn btn-outline-primary">Book</a>
                         </div>
-                    </div>
+                    @*</div>
+                    <div class="footer">
+                        <h5 class="text-left">Price: @Model.Price.ToString("F2")</h5>
+                    </div>*@
+                </div>
                 </div>
             </div>
         </div>
