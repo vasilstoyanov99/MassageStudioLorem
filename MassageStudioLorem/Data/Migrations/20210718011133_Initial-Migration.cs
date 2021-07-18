@@ -271,6 +271,7 @@ namespace MassageStudioLorem.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ShortDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     LongDescription = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
