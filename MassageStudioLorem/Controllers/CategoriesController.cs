@@ -72,7 +72,8 @@
                 Id = massage.Id,
                 ImageUrl = massage.ImageUrl,
                 LongDescription = massage.LongDescription,
-                Price = massage.Price
+                Price = massage.Price,
+                Name = massage.Name
             };
 
             return View(massageViewModel);
