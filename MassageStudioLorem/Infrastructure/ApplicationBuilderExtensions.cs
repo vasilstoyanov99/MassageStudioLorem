@@ -62,22 +62,26 @@
 
             if (categoryFromDatabase is null)
             {
-                var category = new Category() { Name = "Test" };
-
-                var massage = new Massage()
+                for (int i = 0; i < 2; i++)
                 {
-                    ImageUrl =
-                        "https://www.henryford.com/-/media/henry-ford-blog/images/interior-banner-images/2018/12/massage-therapy-101.jpg?h=785&la=en&w=1920&hash=FF15876F3BCCBFBAA00F4548BA9E834C",
-                    LongDescription =
-                        "Swedish massage is a gentle type of full-body massage that’s ideal for people who: \r\nare new to massage, \r\n have a lot of tension, \r\n are sensitive to touch, \r\n It can help release muscle knots, \r\n and it’s also a good choice for when you want to fully relax during a massage. \r\n For this massage, you’ll remove your clothes, though you may choose to keep your underwear on. You’ll be covered with a sheet while lying on the massage table. The massage therapist will move the sheet to uncover areas that they are actively working on. \r\n The massage therapist will use a combination of: \r\n kneading \r\n long, flowing strokes in the direction of the heart \r\n deep circular motions \r\n vibration and tapping \r\n passive joint movement techniques",
-                    ShortDescription =
-                        "Perfect for relaxation, with pressure designed to your comfort to reduce tension.",
-                    Price = 69.69
-                };
+                    var category = new Category() { Name = "Test" };
 
-                category.Massages.Add(massage);
+                    var massage = new Massage()
+                    {
+                        ImageUrl =
+                            "https://www.henryford.com/-/media/henry-ford-blog/images/interior-banner-images/2018/12/massage-therapy-101.jpg?h=785&la=en&w=1920&hash=FF15876F3BCCBFBAA00F4548BA9E834C",
+                        LongDescription =
+                            "Swedish massage is a gentle type of full-body massage that’s ideal for people who: \r\n are new to massage, \r\n have a lot of tension, \r\n are sensitive to touch, \r\n It can help release muscle knots, \r\n and it’s also a good choice for when you want to fully relax during a massage. \r\n For this massage, you’ll remove your clothes, though you may choose to keep your underwear on. You’ll be covered with a sheet while lying on the massage table. The massage therapist will move the sheet to uncover areas that they are actively working on. \r\n The massage therapist will use a combination of: \r\n kneading \r\n long, flowing strokes in the direction of the heart \r\n deep circular motions \r\n vibration and tapping \r\n passive joint movement techniques",
+                        ShortDescription =
+                            "Perfect for relaxation, with pressure designed to your comfort to reduce tension.",
+                        Price = 69.69,
+                        Name = "test name"
+                    };
 
-                data.Categories.Add(category);
+                    category.Massages.Add(massage);
+
+                    data.Categories.Add(category);
+                }
             }
 
             data.SaveChanges();

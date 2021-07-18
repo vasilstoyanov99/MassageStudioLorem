@@ -165,3 +165,42 @@ body {
 .button_3 a span {
     color: #404040;
 }
+
+/*Divider*/
+
+hr.solid {
+    border-top: 2px solid #999;
+}
+
+
+hr.hr-text {
+    position: relative;
+    border: none;
+    height: 1px;
+    background: #999;
+}
+
+hr.hr-text::before {
+    content: attr(data-content);
+    display: inline-block;
+    background: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #999;
+    border-radius: 30rem;
+    padding: 0.2rem 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+body {
+    min-height: 100vh;
+    background-color: #fff;
+    color: #333;
+}
+
+.text-uppercase {
+    letter-spacing: .1em;
+}
