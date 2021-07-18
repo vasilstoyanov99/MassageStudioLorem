@@ -9,7 +9,6 @@
             public const int ShortDescriptionMaxLength = 150;
 
             public const int LongDescriptionMaxLength = 800;
-
         }
 
         public static class ErrorMessages
@@ -28,6 +27,14 @@
             public const string TimeFormat = "h:mmtt";
 
             public const string DateTimeFormat = "dd-MM-yyyy h:mmtt";
+        }
+
+        public static class Paging
+        {
+            public const int CurrentPageStart = 1;
+
+            public const int CategoriesPerPage = 1;
+
         }
     }
 }

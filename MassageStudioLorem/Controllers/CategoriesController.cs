@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
     using Data;
+    using Global;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models.Categories;
@@ -15,15 +16,28 @@
 
         public CategoriesController(LoremDbContext data) => this._data = data;
 
-        public IActionResult Index()
+        public IActionResult All([FromQuery]
+            AllCategoriesQueryModel query)
         {
-            var categoriesWithMassages = 
+            var totalCategories = this._data.Categories.Count();
+
+            if (query.CurrentPage > totalCategories
+                || query.CurrentPage < 1)
+            {
+                return this.RedirectToAction("All");
+            }
+
+            var categoryWithMassages = 
                 this._data
                     .Categories
-                    .Include(x => x.Massages)
-                    .Select(c => new AllCategoriesViewModel()
+                    .Skip((query.CurrentPage - 1) * 
+                          GlobalConstants.Paging.CategoriesPerPage)
+                    .Take(GlobalConstants.Paging.CategoriesPerPage)
+                    .Include(c => c.Massages)
+                    .Select(c => new AllCategoriesQueryModel()
                     {
                         Name = c.Name,
+                        CurrentPage = query.CurrentPage,
                         Massages = c.Massages
                             .Select(m => new MassageListingViewModel()
                             {
@@ -37,7 +51,9 @@
                     })
                     .ToList();
 
-            return View(categoriesWithMassages);
+            categoryWithMassages[0].TotalCategories = totalCategories;
+
+            return View(categoryWithMassages[0]);
         }
 
         public IActionResult Details(string id)

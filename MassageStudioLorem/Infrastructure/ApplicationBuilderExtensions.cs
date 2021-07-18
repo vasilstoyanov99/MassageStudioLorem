@@ -56,15 +56,12 @@
                 data.MasseursAvailableHours.Add(available);
             }
 
-            var categoryFromDatabase = data
-                .Categories
-                .FirstOrDefault(c => c.Name == "Test");
-
-            if (categoryFromDatabase is null)
+            if (data.Categories.Count() == 0)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    var category = new Category() { Name = "Test" };
+                    var category = new Category() { Name =
+                        $"Test - {i}" };
 
                     var massage = new Massage()
                     {
@@ -75,7 +72,7 @@
                         ShortDescription =
                             "Perfect for relaxation, with pressure designed to your comfort to reduce tension.",
                         Price = 69.69,
-                        Name = "test name"
+                        Name = $"test name - {i}"
                     };
 
                     category.Massages.Add(massage);
