@@ -6,6 +6,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://kit.fontawesome.com/b6a9d2686f.js" crossorigin="anonymous"></script>
     @this.RenderSection("Styles", required: false)
 </head>
 <body>
@@ -43,6 +44,14 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.UtcNow.Year - MassageStudioLorem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="float-sm-right">
+                 <span class="fas fa-map-marker-alt fa-lg text-dark" data-toggle="tooltip" title="" data-original-title="5842 Hillcrest Rd"></span>
+                <span class="text-dark big">5408 Lorem Rd</span>
+                <span class="fas fa-phone fa-lg text-dark" data-toggle="tooltip" title="" data-original-title="(870) 288-4149"></span>
+                <span class="text-dark big">(605) 475-6961</span>
+                <span class="fas fa-envelope fa-lg text-dark" data-toggle="tooltip" data-original-title="" title=""></span>
+                <span class="text-dark big text-truncate">massagestudiolorem@lorem.com</span>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
