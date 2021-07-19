@@ -1,14 +1,14 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Data;
-    using Global;
+    using System;
+    using System.Linq;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+
+    using Data;
+    using Global;
     using Models.Categories;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class CategoriesController : Controller
     {
@@ -64,7 +64,7 @@
 
             if (String.IsNullOrEmpty(id) || massage is null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("All");
             }
 
             var massageViewModel = new MassageListingViewModel()
