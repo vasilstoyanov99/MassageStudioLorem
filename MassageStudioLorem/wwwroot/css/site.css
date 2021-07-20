@@ -61,12 +61,12 @@ html {
 
 body {
     /* Margin bottom by footer height */
-    margin-bottom: auto;
+    margin-bottom: 60px;
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
+    /*position: absolute;
+    bottom: 0;*/
     width: 100%;
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
@@ -214,7 +214,7 @@ body {
 
 body {
     background-color: #f4f7f6;
-/*    margin-top: 20px;*/
+    margin-top: 20px;
 }
 
 .card {
