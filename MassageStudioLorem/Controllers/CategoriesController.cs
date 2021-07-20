@@ -24,7 +24,7 @@
             if (query.CurrentPage > totalCategories
                 || query.CurrentPage < 1)
             {
-                return this.RedirectToAction("All");
+                return this.RedirectToAction(nameof(this.All));
             }
 
             var categoryWithMassages = 
@@ -64,7 +64,7 @@
 
             if (String.IsNullOrEmpty(id) || massage is null)
             {
-                return RedirectToAction("All");
+                return RedirectToAction(nameof(this.All));
             }
 
             var massageViewModel = new MassageListingViewModel()
