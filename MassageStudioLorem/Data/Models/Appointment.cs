@@ -3,29 +3,29 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using MassageStudioLorem.Data.Common.Models;
-
-    public class Appointment : BaseDeletableModel<string>
+    public class Appointment
     {
         public Appointment()
         {
             this.Id = Guid.NewGuid().ToString();
         }
 
+        public string Id { get; set; }
+
         [Required]
         public string ClientId { get; set; }
 
-        public virtual Client Client { get; set; }
+        public Client Client { get; set; }
 
         [Required] 
         public string MasseurId { get; set; }
 
-        public virtual Masseur Masseur { get; set; }
+        public Masseur Masseur { get; set; }
 
         [Required] 
         public string MassageId { get; set; }
 
-        public virtual Massage Massage { get; set; }
+        public Massage Massage { get; set; }
 
         public DateTime DateTime { get; set; }
 

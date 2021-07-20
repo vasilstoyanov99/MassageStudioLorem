@@ -1,17 +1,18 @@
 ﻿namespace MassageStudioLorem.Data.Models
 {
-    using Global;
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using MassageStudioLorem.Data.Common.Models;
+    using Global;
 
-    public class Massage : BaseDeletableModel<string>
+    public class Massage
     {
         public Massage()
         {
             this.Id = Guid.NewGuid().ToString();
         }
+
+        public string Id { get; set; }
 
         [Required]
         [MaxLength(GlobalConstants.DataValidations.ShortDescriptionMaxLength)]

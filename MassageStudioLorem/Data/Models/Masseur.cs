@@ -3,11 +3,11 @@
     using System;
     using System.Collections.Generic;
 
+    using Microsoft.AspNetCore.Identity;
+
     using System.ComponentModel.DataAnnotations;
 
-    using MassageStudioLorem.Data.Common.Models;
-
-    public class Masseur : BaseDeletableModel<string>
+    public class Masseur
     {
         public Masseur()
         {
@@ -18,14 +18,15 @@
             this.Massages = new HashSet<Massage>();
         }
 
-        //TODO: Should I remove the [Required] attribute cuz of validator service?
+        public string Id { get; set; }
+
         [Required] public string FirstName { get; set; }
 
         [Required] public string MiddleName { get; set; }
 
         [Required] public string LastName { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        //public DateTime DateOfBirth { get; set; }
 
         //TODO: I can add a sorting feature by gender!
         //Gender will be enum ->  Male = 1,
@@ -46,17 +47,14 @@
 
         [Required] public string UserId { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
-
         //public virtual ICollection<MasseurBookedHours>
         //    BookedHours { get; set; }
 
-        //TODO: Check if a collection should be virtual
-        public virtual ICollection<Appointment> WorkSchedule { get; set; }
+        public ICollection<Appointment> WorkSchedule { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
         // A collection of massages that the masseur can do
-        public virtual ICollection<Massage> Massages { get; set; }
+        public ICollection<Massage> Massages { get; set; }
     }
 }

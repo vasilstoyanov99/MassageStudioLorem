@@ -6,6 +6,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using MassageStudioLorem.Data;
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.Linq;
 
@@ -27,43 +28,48 @@
 
         private static void SeedData(LoremDbContext data)
         {
-            var masseurFromDatabase = data
+            Masseur? masseurFromDatabase = data
                 .Masseurs
                 .FirstOrDefault(x => x.FirstName == "test");
 
-            if (masseurFromDatabase == null)
-            {
-                var masseur = new Masseur()
-                {
-                    FirstName = "test",
-                    LastName = "testov",
-                    MiddleName = "idk",
-                    DateOfBirth = DateTime.UtcNow,
-                    Description = "I love to test",
-                    PhoneNumber = "sheeeeshhh",
-                    ProfileImagePath = "img path",
-                    User = new ApplicationUser()
-                    {
-                        PhoneNumber = "088080480",
-                        Email = "test@test.com",
-                        PasswordHash = "c1227a915087c5d676f2c40ea286d8c2320d31b1fc68b6455f2550b438510cd6"
-                    }
-                };
+            //if (masseurFromDatabase == null)
+            //{
+            //    Masseur masseur = new Masseur()
+            //    {
+            //        FirstName = "test",
+            //        LastName = "testov",
+            //        MiddleName = "idk",
+            //        Description = "I love to test",
+            //        PhoneNumber = "sheeeeshhh",
+            //        ProfileImagePath = "img path"
+            //    };
 
-                data.Masseurs.Add(masseur);
-                var available = new MasseurAvailableHours()
-                    { MasseurId = masseur.Id, Hour = "4:00PM", Date = "date" };
-                data.MasseursAvailableHours.Add(available);
-            }
+            //    IdentityUser user = new()
+            //    {
+            //        PhoneNumber = "088080480",
+            //        Email = "test@test.com",
+            //        PasswordHash = "c1227a915087c5d676f2c40ea286d8c2320d31b1fc68b6455f2550b438510cd6"
+            //    };
+
+            //    masseur.UserId = user.Id;
+
+            //    data.Masseurs.Add(masseur);
+
+            //    data.SaveChanges();
+
+            //    var available = new MasseurAvailableHours()
+            //        { MasseurId = masseur.Id, Hour = "4:00PM", Date = "date" };
+            //    data.MasseursAvailableHours.Add(available);
+            //}
 
             if (data.Categories.Count() == 0)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    var category = new Category() { Name =
+                    Category category = new Category() { Name =
                         $"Test - {i}" };
 
-                    var massage = new Massage()
+                    Massage massage = new Massage()
                     {
                         ImageUrl =
                             "https://www.henryford.com/-/media/henry-ford-blog/images/interior-banner-images/2018/12/massage-therapy-101.jpg?h=785&la=en&w=1920&hash=FF15876F3BCCBFBAA00F4548BA9E834C",

@@ -3,25 +3,25 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using MassageStudioLorem.Data.Common.Models;
-
-    public class Comment : BaseDeletableModel<string>
+    public class Comment
     {
         public Comment()
         {
             this.Id = Guid.NewGuid().ToString();
         }
 
+        public string Id { get; set; }
+
         public string Content { get; set; }
 
         [Required]
         public string ClientId { get; set; }
 
-        public virtual Client Client { get; set; }
+        public Client Client { get; set; }
 
         [Required]
         public string MasseurId { get; set; }
         
-        public virtual Masseur Masseur { get; set; }
+        public Masseur Masseur { get; set; }
     }
 }

@@ -3,19 +3,19 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using Common.Models;
-
-    public class MasseurAvailableHours : BaseDeletableModel<string>
+    public class MasseurAvailableHours
     {
         public MasseurAvailableHours()
         { 
             this.Id = Guid.NewGuid().ToString();
         }
 
+        public string Id { get; set; }
+
         [Required]
         public string MasseurId { get; set; }
 
-        public virtual Masseur Masseur { get; set; }
+        public Masseur Masseur { get; set; }
 
         [Required]
         public string Date { get; set; }
