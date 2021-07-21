@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using Global;
+    using static Global.GlobalConstants.DataValidations;
 
     public class Massage
     {
@@ -15,23 +15,25 @@
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(GlobalConstants.DataValidations.ShortDescriptionMaxLength)]
+        [MaxLength(ShortDescriptionMaxLength)]
         public string ShortDescription { get; set; }
 
         [Required]
-        [MaxLength(GlobalConstants.DataValidations.LongDescriptionMaxLength)]
+        [MaxLength(LongDescriptionMaxLength)]
         public string LongDescription { get; set; }
 
         //[Required]
         //public string Category { get; set; }
 
         [Required]
+        [MaxLength(MassageMaxLength)]
         public string Name { get; set; }
 
         [Required]
         public double Price { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        [RegularExpression(UrlRegex)]
+        public string ImageUrl { get; init; }
     }
 }

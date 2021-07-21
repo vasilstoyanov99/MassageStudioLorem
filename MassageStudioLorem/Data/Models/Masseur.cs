@@ -2,10 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-
-    using Microsoft.AspNetCore.Identity;
-
     using System.ComponentModel.DataAnnotations;
+
+    using static Global.GlobalConstants.DataValidations;
 
     public class Masseur
     {
@@ -20,11 +19,17 @@
 
         public string Id { get; set; }
 
-        [Required] public string FirstName { get; set; }
+        [Required] 
+        [MaxLength(NameMaxLength)]
+        public string FirstName { get; set; }
 
-        [Required] public string MiddleName { get; set; }
+        [Required] 
+        [MaxLength(NameMaxLength)]
+        public string MiddleName { get; set; }
 
-        [Required] public string LastName { get; set; }
+        [Required] 
+        [MaxLength(NameMaxLength)]
+        public string LastName { get; set; }
 
         //public DateTime DateOfBirth { get; set; }
 
@@ -33,11 +38,17 @@
         //Female = 2, 
         //public Gender Gender { get; set; }
 
-        [Required] public string ProfileImagePath { get; set; }
+        [Required] 
+        [RegularExpression(UrlRegex)]
+        public string ProfileImagePath { get; set; }
 
-        [Required] public string Description { get; set; }
+        [Required] 
+        [MaxLength(MasseurDescriptionMaxLength)]
+        public string Description { get; set; }
 
-        [Required] public string PhoneNumber { get; set; }
+        [Required] 
+        [Phone]
+        public string PhoneNumber { get; set; }
 
 
         // TODO: Check if Rating should be double
@@ -45,7 +56,8 @@
 
         public int RatersCount { get; set; }
 
-        [Required] public string UserId { get; set; }
+        [Required] 
+        public string UserId { get; set; }
 
         //public virtual ICollection<MasseurBookedHours>
         //    BookedHours { get; set; }

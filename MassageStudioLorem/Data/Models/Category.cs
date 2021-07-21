@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using MassageStudioLorem.Global;
+    using static Global.GlobalConstants.DataValidations;
 
     public class Category
     {
@@ -17,7 +17,7 @@
         public string Id { get; set; }
 
         [Required]
-        [MaxLength(GlobalConstants.DataValidations.NameMaxLength)]
+        [MaxLength(CategoryNameMaxLength)]
         public string Name { get; set; }
 
 
