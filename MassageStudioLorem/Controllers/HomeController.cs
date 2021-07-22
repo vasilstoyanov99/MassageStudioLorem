@@ -35,7 +35,6 @@
         }
 
         //[HttpPost]
-        //[AutoValidateAntiforgeryToken]
         //public IActionResult Index(AppointmentInputModel model)
         //{
         //    var check = this._data.MasseursAvailableHours
@@ -47,7 +46,7 @@
         //            .MasseursAvailableHours
         //            .Where(x => x.MasseurId == model.MasseurId /*&&
         //                        x.Date == model.Date*/)
-        //            .Select(x => new { x.Hour })
+        //            .Select(x => new {x.Hour})
         //            .ToList();
 
         //        var stringBuilder = new StringBuilder();

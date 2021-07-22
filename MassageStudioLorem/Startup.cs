@@ -11,6 +11,7 @@ namespace MassageStudioLorem
 
     using MassageStudioLorem.Data;
     using MassageStudioLorem.Infrastructure;
+    using Microsoft.AspNetCore.Mvc;
 
     public class Startup
     {
@@ -42,7 +43,10 @@ namespace MassageStudioLorem
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
