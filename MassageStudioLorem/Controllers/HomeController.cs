@@ -34,41 +34,42 @@
             });
         }
 
-        //[HttpPost]
-        //public IActionResult Index(AppointmentInputModel model)
-        //{
-        //    var check = this._data.MasseursAvailableHours
-        //        .FirstOrDefault(x => x.MasseurId == model.MasseurId /*&& x.Date == model.Date*/ && x.Hour == model.Hour);
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Index(AppointmentInputModel model)
+        {
+            var check = this._data.MasseursAvailableHours
+                .FirstOrDefault(x => x.MasseurId == model.MasseurId /*&& x.Date == model.Date*/ && x.Hour == model.Hour);
 
-        //    if (check == null)
-        //    {
-        //        var availableHours = this._data
-        //            .MasseursAvailableHours
-        //            .Where(x => x.MasseurId == model.MasseurId /*&&
-        //                        x.Date == model.Date*/)
-        //            .Select(x => new {x.Hour})
-        //            .ToList();
+            if (check == null)
+            {
+                var availableHours = this._data
+                    .MasseursAvailableHours
+                    .Where(x => x.MasseurId == model.MasseurId /*&&
+                                x.Date == model.Date*/)
+                    .Select(x => new { x.Hour })
+                    .ToList();
 
-        //        var stringBuilder = new StringBuilder();
+                var stringBuilder = new StringBuilder();
 
-        //        foreach (var hour in availableHours)
-        //        {
-        //            stringBuilder.Append($"{hour.Hour} ");
-        //        }
+                foreach (var hour in availableHours)
+                {
+                    stringBuilder.Append($"{hour.Hour} ");
+                }
 
-        //        this.ModelState.AddModelError("", $"The {model.Hour} hour is already booked for {model.Date}! Available hours are: {stringBuilder.ToString().TrimEnd()}");
+                this.ModelState.AddModelError("", $"The {model.Hour} hour is already booked for {model.Date}! Available hours are: {stringBuilder.ToString().TrimEnd()}");
 
-        //        return View(model);
-        //    }
+                return View(model);
+            }
 
-        //    var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
+            var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
 
-        //    return View(new AppointmentInputModel()
-        //    {
-        //        MasseurId = masseur.Id,
-        //        MassageId = 1
-        //    });
-        //}
+            return View(new AppointmentInputModel()
+            {
+                MasseurId = masseur.Id,
+                MassageId = 1
+            });
+        }
 
         public IActionResult Privacy()
         {
