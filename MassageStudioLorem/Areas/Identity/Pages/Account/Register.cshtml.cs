@@ -1,6 +1,6 @@
 ﻿namespace MassageStudioLorem.Areas.Identity.Pages.Account
 {
-    using Data;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
@@ -16,7 +16,8 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
-    using System;
+
+    using Data;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
