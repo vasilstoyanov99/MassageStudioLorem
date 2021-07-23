@@ -16,8 +16,8 @@
 
         [Required]
         [StringLength(MasseurDescriptionMaxLength,
-             ErrorMessage = MasseurDescription),
-             MinLength(MasseurDescriptionMinLength)]
+             ErrorMessage = MasseurDescription,
+             MinimumLength = MasseurDescriptionMinLength)]
         public string Description { get; set; }
 
         [Display(Name = "Category")]

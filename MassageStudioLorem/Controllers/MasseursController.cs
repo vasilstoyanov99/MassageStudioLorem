@@ -3,6 +3,7 @@
     using Data;
     using Data.Enums;
     using Data.Models;
+    using Ganss.XSS;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Server.IIS.Core;
@@ -38,6 +39,11 @@
                     (nameof(masseurModel.CategoryId), CategoryIdError);
             }
 
+            if (this._data.Masseurs.Any(x => x.UserId == this.User.GetId()))
+            {
+                this.ModelState.AddModelError(String.Empty, AlreadyMasseur);
+            }
+
             //TODO: I'm not sure if this is necessary!
 
             if (!Enum.TryParse(typeof(Gender),
@@ -47,17 +53,20 @@
                     (nameof(masseurModel.Gender), GenderIdError);
             }
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || this.ModelState.ErrorCount > 0)
             {
                 masseurModel.Categories = this.GetCategories;
 
                 return View(masseurModel);
             }
 
+            var htmlSanitizer = new HtmlSanitizer();
+
             var masseur = new Masseur()
             {
-                ProfileImageUrl = masseurModel.ProfileImageUrl, 
-                Description = masseurModel.Description,
+                ProfileImageUrl = htmlSanitizer
+                    .Sanitize(masseurModel.ProfileImageUrl), 
+                Description = htmlSanitizer.Sanitize(masseurModel.Description),
                 CategoryId = masseurModel.CategoryId,
                 Gender = masseurModel.Gender,
                 UserId = this.User.GetId()

@@ -49,7 +49,7 @@
             //TODO: Find a way to make this not hard-coded!
 
             public const string MasseurDescription
-                = "The provided description must be between 1000 and 20 characters long!";
+                = "The provided description must be between {1} and {2} characters long!";
 
             public const string PasswordLength
                 = "The {0} must be at least {2} and at max {1} characters long.";
@@ -60,6 +60,8 @@
             public const string CategoryIdError = "Category does not exist.";
 
             public const string GenderIdError = "Please choose between the provided options!";
+
+            public const string AlreadyMasseur = "You are already a masseur!";
         }
 
         public static class DateTimeFormats
