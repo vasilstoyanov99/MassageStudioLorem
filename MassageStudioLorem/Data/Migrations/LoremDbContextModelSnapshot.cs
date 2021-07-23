@@ -197,7 +197,7 @@ namespace MassageStudioLorem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfileImagePath")
+                    b.Property<string>("ProfileImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

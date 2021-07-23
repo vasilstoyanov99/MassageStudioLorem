@@ -1,13 +1,6 @@
 ﻿namespace MassageStudioLorem.Areas.Identity.Pages.Account
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Encodings.Web;
-    using System.Threading.Tasks;
-
+    using Data;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -16,8 +9,12 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
-
-    using Data;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -35,15 +32,14 @@
             IEmailSender emailSender,
             LoremDbContext data)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-            _emailSender = emailSender;
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+            this._logger = logger;
+            this._emailSender = emailSender;
             this._data = data;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        [BindProperty] public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -57,7 +53,12 @@
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+                MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -76,84 +77,86 @@
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            this.ReturnUrl = returnUrl;
+            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync
             (string returnUrl = null)
         {
-            var phoneNumberFromBase = this._data
+            string? phoneNumberFromBase = this._data
                 .Users
-                .FirstOrDefault(u => u.PhoneNumber == Input.PhoneNumber);
+                .Select(u => u.PhoneNumber)
+                .Where(pn =>
+                    pn.Trim() == this.Input.PhoneNumber.Trim())
+                .FirstOrDefault();
 
-            returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            returnUrl ??= this.Url.Content("~/");
+            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 IdentityResult result = null;
 
                 if (phoneNumberFromBase == null)
                 {
-                    var user = new IdentityUser { Email = Input.Email, UserName = Input.Email, PhoneNumber = Input.PhoneNumber };
-                    result = await _userManager
-                        .CreateAsync(user, Input.Password);
+                    IdentityUser user = new IdentityUser
+                    {
+                        Email = this.Input.Email,
+                        UserName = this.Input.UserName,
+                        PhoneNumber = this.Input.PhoneNumber
+                    };
+
+                    result = await this._userManager
+                        .CreateAsync(user, this.Input.Password);
 
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation
+                        this._logger.LogInformation
                             ("User created a new account with password.");
 
-                        var code = await _userManager.
-                            GenerateEmailConfirmationTokenAsync(user);
+                        string code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders
                             .Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                        var callbackUrl = Url.Page(
+                        string callbackUrl = this.Url.Page(
                             "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = user.Id,
-                                code, returnUrl },
-                            protocol: Request.Scheme);
+                            null,
+                            new {area = "Identity", userId = user.Id, code, returnUrl},
+                            this.Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email,
+                        await this._emailSender.SendEmailAsync(this.Input.Email,
                             "Confirm your email",
                             $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        if (this._userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return RedirectToPage("RegisterConfirmation",
-                                new { email = Input.Email, returnUrl });
+                            return this.RedirectToPage("RegisterConfirmation",
+                                new {email = this.Input.Email, returnUrl});
                         }
-                        else
-                        {
-                            await _signInManager.SignInAsync(user,
-                                isPersistent: false);
-                            return LocalRedirect(returnUrl);
-                        }
+
+                        await this._signInManager.SignInAsync(user,
+                            false);
+                        return this.LocalRedirect(returnUrl);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(String.Empty, "Please enter a different phone number!");
+                    this.ModelState.AddModelError(string.Empty, "Please enter a different phone number!");
                 }
 
                 if (result != null)
                 {
-                    foreach (var error in result.Errors)
+                    foreach (IdentityError error in result.Errors)
                     {
-                        if (!error.Description.Contains("Username"))
-                        {
-                            ModelState.AddModelError(string.Empty, 
-                                error.Description);
-                        }
+                        this.ModelState.AddModelError(string.Empty,
+                            error.Description);
                     }
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return Page();
+            return this.Page();
         }
     }
 }

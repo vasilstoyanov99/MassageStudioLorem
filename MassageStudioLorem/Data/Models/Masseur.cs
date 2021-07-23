@@ -40,7 +40,7 @@
 
         [Required] 
         [RegularExpression(UrlRegex)]
-        public string ProfileImagePath { get; set; }
+        public string ProfileImageUrl { get; set; }
 
         [Required] 
         [MaxLength(MasseurDescriptionMaxLength)]

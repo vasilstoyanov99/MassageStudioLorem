@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    [Migration("20210722235115_Initial-Migration")]
+    [Migration("20210723022543_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -199,7 +199,7 @@ namespace MassageStudioLorem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfileImagePath")
+                    b.Property<string>("ProfileImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

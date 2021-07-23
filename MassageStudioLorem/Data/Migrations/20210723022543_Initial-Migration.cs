@@ -193,7 +193,7 @@ namespace MassageStudioLorem.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
                     MiddleName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
-                    ProfileImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<double>(type: "float", nullable: false),
