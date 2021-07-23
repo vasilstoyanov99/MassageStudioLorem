@@ -169,9 +169,8 @@ namespace MassageStudioLorem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfileImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -191,11 +190,11 @@ namespace MassageStudioLorem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
+                    MiddleName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
                     ProfileImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<double>(type: "float", nullable: false),
                     RatersCount = table.Column<int>(type: "int", nullable: false),
@@ -217,7 +216,7 @@ namespace MassageStudioLorem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -244,8 +243,8 @@ namespace MassageStudioLorem.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ShortDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    LongDescription = table.Column<string>(type: "nvarchar(800)", maxLength: 800, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LongDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
