@@ -4,9 +4,9 @@
     {
         public static class DataValidations
         {
-            public const int NameMaxLength = 26;
+            //public const int NameMaxLength = 26;
 
-            public const int NameMinLength = 2;
+            //public const int NameMinLength = 2;
 
             public const int CategoryNameMaxLength = 50;
 
@@ -28,9 +28,9 @@
 
             public const int MassageMinLength = 4;
 
-            public const int MasseurDescriptionMaxLength = 150;
+            public const int MasseurDescriptionMaxLength = 1000;
 
-            public const int MasseurDescriptionMintLength = 10;
+            public const int MasseurDescriptionMinLength = 20;
 
             public const string UrlRegex = @"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$";
         }
@@ -42,6 +42,24 @@
 
             public const string Date
                 = "Please select a valid date!";
+
+            public const string InvalidUrl
+                = "The provided url is invalid!";
+                    
+            //TODO: Find a way to make this not hard-coded!
+
+            public const string MasseurDescription
+                = "The provided description must be between 1000 and 20 characters long!";
+
+            public const string PasswordLength
+                = "The {0} must be at least {2} and at max {1} characters long.";
+
+            public const string PasswordConformation
+                = "The password and confirmation password do not match.";
+
+            public const string CategoryIdError = "Category does not exist.";
+
+            public const string GenderIdError = "Please choose between the provided options!";
         }
 
         public static class DateTimeFormats

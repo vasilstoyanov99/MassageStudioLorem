@@ -28,9 +28,9 @@
 
         private static void SeedData(LoremDbContext data)
         {
-            Masseur masseurFromDatabase = data
-                .Masseurs
-                .FirstOrDefault(x => x.FirstName == "test");
+            //Masseur masseurFromDatabase = data
+            //    .Masseurs
+            //    .FirstOrDefault(x => x.FirstName == "test");
 
             //if (masseurFromDatabase == null)
             //{

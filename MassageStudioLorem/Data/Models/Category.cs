@@ -20,7 +20,6 @@
         [MaxLength(CategoryNameMaxLength)]
         public string Name { get; set; }
 
-
         public ICollection<Massage> Massages { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    [Migration("20210723022543_Initial-Migration")]
+    [Migration("20210723120949_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,20 +74,6 @@ namespace MassageStudioLorem.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -175,29 +161,17 @@ namespace MassageStudioLorem.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CategoryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
-
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProfileImageUrl")
                         .IsRequired()
@@ -214,6 +188,8 @@ namespace MassageStudioLorem.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -513,11 +489,19 @@ namespace MassageStudioLorem.Data.Migrations
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Masseur", b =>
                 {
+                    b.HasOne("MassageStudioLorem.Data.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithOne()
                         .HasForeignKey("MassageStudioLorem.Data.Models.Masseur", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.MasseurAvailableHours", b =>

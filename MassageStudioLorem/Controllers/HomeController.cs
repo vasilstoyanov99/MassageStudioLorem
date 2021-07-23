@@ -25,7 +25,7 @@
                 DefaultTimeSchedule.SeedTimeTable();
             }
 
-            var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
+            //var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
 
             return View(new AppointmentInputModel()
             {
@@ -46,7 +46,10 @@
         //            .MasseursAvailableHours
         //            .Where(x => x.MasseurId == model.MasseurId /*&&
         //                        x.Date == model.Date*/)
-        //            .Select(x => new {x.Hour})
+        //            .Select(x => new
+        //              {
+        //                  x.Hour
+        //              })
         //            .ToList();
 
         //        var stringBuilder = new StringBuilder();

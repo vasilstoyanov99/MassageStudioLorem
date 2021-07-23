@@ -36,13 +36,15 @@
 
         public class InputModel
         {
-            [Required] [EmailAddress] public string Email { get; set; }
+            [Required]
+            public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")] public bool RememberMe { get; set; }
+            [Display(Name = "Remember me?")]
+            public bool RememberMe { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -71,9 +73,7 @@
 
             if (this.ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                SignInResult result = await this._signInManager.PasswordSignInAsync(this.Input.Email,
+                SignInResult result = await this._signInManager.PasswordSignInAsync(this.Input.Username,
                     this.Input.Password, this.Input.RememberMe, false);
 
                 if (result.Succeeded)

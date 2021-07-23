@@ -16,22 +16,22 @@
 
         public string Id { get; set; }
 
-        [Required] 
-        [MaxLength(NameMaxLength)]
-        public string FirstName { get; set; }
+        //[Required] 
+        //[MaxLength(NameMaxLength)]
+        //public string FirstName { get; set; }
 
-        [Required] 
-        [MaxLength(NameMaxLength)]
-        public string LastName { get; set; }
+        //[Required] 
+        //[MaxLength(NameMaxLength)]
+        //public string LastName { get; set; }
 
         //public DateTime DateOfBirth { get; set; }
 
         // TODO: Check if this is needed
         //public string ProfileImagePath { get; set; }
 
-        [Required] 
-        [Phone]
-        public string PhoneNumber { get; set; }
+        //[Required] 
+        //[Phone]
+        //public string PhoneNumber { get; set; }
 
         [Required]
         public string UserId { get; set; }

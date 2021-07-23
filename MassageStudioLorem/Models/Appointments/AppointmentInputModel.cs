@@ -27,6 +27,6 @@
         [ValidateHourString(ErrorMessage = GlobalConstants.ErrorMessages.Hour)]
         public string Hour { get; set; }
 
-        public ICollection<string> WorkHours { get; set; }
+        public IEnumerable<string> WorkHours { get; set; }
     }
 }

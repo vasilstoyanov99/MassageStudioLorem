@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Data.Models
 {
+    using Enums;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -19,24 +20,22 @@
 
         public string Id { get; set; }
 
-        [Required] 
-        [MaxLength(NameMaxLength)]
-        public string FirstName { get; set; }
+        //[Required] 
+        //[MaxLength(NameMaxLength)]
+        //public string FirstName { get; set; }
 
-        [Required] 
-        [MaxLength(NameMaxLength)]
-        public string MiddleName { get; set; }
+        //[Required] 
+        //[MaxLength(NameMaxLength)]
+        //public string MiddleName { get; set; }
 
-        [Required] 
-        [MaxLength(NameMaxLength)]
-        public string LastName { get; set; }
+        //[Required] 
+        //[MaxLength(NameMaxLength)]
+        //public string LastName { get; set; }
 
         //public DateTime DateOfBirth { get; set; }
 
         //TODO: I can add a sorting feature by gender!
-        //Gender will be enum ->  Male = 1,
-        //Female = 2, 
-        //public Gender Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [Required] 
         [RegularExpression(UrlRegex)]
@@ -46,9 +45,9 @@
         [MaxLength(MasseurDescriptionMaxLength)]
         public string Description { get; set; }
 
-        [Required] 
-        [Phone]
-        public string PhoneNumber { get; set; }
+        //[Required] 
+        //[Phone]
+        //public string PhoneNumber { get; set; }
 
 
         // TODO: Check if Rating should be double
@@ -58,6 +57,11 @@
 
         [Required] 
         public string UserId { get; set; }
+
+        [Required]
+        public string CategoryId { get; set; }
+
+        public Category Category { get; set; }
 
         //public virtual ICollection<MasseurBookedHours>
         //    BookedHours { get; set; }

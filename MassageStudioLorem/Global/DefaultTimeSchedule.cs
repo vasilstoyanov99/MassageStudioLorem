@@ -4,7 +4,7 @@
 
     public static class DefaultTimeSchedule
     {
-        public static ICollection<string> TimeSchedule
+        public static IEnumerable<string> TimeSchedule
         { get; private set; }
 
         public static void SeedTimeTable()

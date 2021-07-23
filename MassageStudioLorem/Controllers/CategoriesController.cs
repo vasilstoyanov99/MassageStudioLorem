@@ -14,7 +14,8 @@
     {
         private readonly LoremDbContext _data;
 
-        public CategoriesController(LoremDbContext data) => this._data = data;
+        public CategoriesController(LoremDbContext data) =>
+            this._data = data;
 
         public IActionResult All([FromQuery]
             AllCategoriesQueryModel query)

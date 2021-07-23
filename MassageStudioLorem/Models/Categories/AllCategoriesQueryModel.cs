@@ -15,7 +15,7 @@
 
         public int TotalCategories { get; set; }
 
-        public ICollection<MassageListingViewModel> Massages 
+        public IEnumerable<MassageListingViewModel> Massages 
         { get; set; }
     }
 }

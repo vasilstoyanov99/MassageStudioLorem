@@ -1,0 +1,54 @@
+﻿@model MassageStudioLorem.Models.Masseurs.BecomeMasseurFormModel
+
+@{
+    ViewBag.Title = "Become A Masseur";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+}
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="ProfileImageUrl"></label>
+                <input asp-for="ProfileImageUrl" class="form-control">
+                <span asp-validation-for="ProfileImageUrl" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control">
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId">Please choose the category of massages you can perform!</label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender">Please choose your biological gender!</label>
+                <select asp-for="Gender" class="form-control">
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+
+            <input class="btn btn-primary mt-3" type="submit" value="Save" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/multiselection.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+    <script src="/lib/jquery/dist/jquery.js"></script>
+}

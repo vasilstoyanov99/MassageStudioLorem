@@ -1,6 +1,12 @@
 ﻿namespace MassageStudioLorem.Areas.Identity.Pages.Account
 {
-    using Data;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -9,12 +15,9 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Encodings.Web;
-    using System.Threading.Tasks;
+
+    using Data;
+    using static Global.GlobalConstants.ErrorMessages;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -57,7 +60,8 @@
             public string UserName { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+            [StringLength(100,
+                ErrorMessage = PasswordLength,
                 MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -66,7 +70,8 @@
             [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password",
+                ErrorMessage = PasswordConformation)]
             public string ConfirmPassword { get; set; }
 
             [Required]
@@ -84,7 +89,7 @@
         public async Task<IActionResult> OnPostAsync
             (string returnUrl = null)
         {
-            string? phoneNumberFromBase = this._data
+            string phoneNumberFromBase = this._data
                 .Users
                 .Select(u => u.PhoneNumber)
                 .Where(pn =>
