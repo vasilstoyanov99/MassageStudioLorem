@@ -79,7 +79,8 @@
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync
+            (string returnUrl = null)
         {
             var phoneNumberFromBase = this._data.Users.FirstOrDefault(u => u.PhoneNumber == Input.PhoneNumber);
 
