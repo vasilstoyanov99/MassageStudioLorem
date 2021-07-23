@@ -82,7 +82,9 @@
         public async Task<IActionResult> OnPostAsync
             (string returnUrl = null)
         {
-            var phoneNumberFromBase = this._data.Users.FirstOrDefault(u => u.PhoneNumber == Input.PhoneNumber);
+            var phoneNumberFromBase = this._data
+                .Users
+                .FirstOrDefault(u => u.PhoneNumber == Input.PhoneNumber);
 
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -94,7 +96,8 @@
                 if (phoneNumberFromBase == null)
                 {
                     var user = new IdentityUser { Email = Input.Email, UserName = Input.Email, PhoneNumber = Input.PhoneNumber };
-                    result = await _userManager.CreateAsync(user, Input.Password);
+                    result = await _userManager
+                        .CreateAsync(user, Input.Password);
 
                     if (result.Succeeded)
                     {
