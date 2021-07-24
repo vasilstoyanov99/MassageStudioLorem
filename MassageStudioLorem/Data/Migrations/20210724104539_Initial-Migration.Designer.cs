@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    [Migration("20210724013449_Initial-Migration")]
+    [Migration("20210724104539_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,9 +131,6 @@ namespace MassageStudioLorem.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("MasseurId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(40)
@@ -150,8 +147,6 @@ namespace MassageStudioLorem.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("MasseurId");
 
                     b.ToTable("Massages");
                 });
@@ -491,10 +486,6 @@ namespace MassageStudioLorem.Data.Migrations
                     b.HasOne("MassageStudioLorem.Data.Models.Category", null)
                         .WithMany("Massages")
                         .HasForeignKey("CategoryId");
-
-                    b.HasOne("MassageStudioLorem.Data.Models.Masseur", null)
-                        .WithMany("Massages")
-                        .HasForeignKey("MasseurId");
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Masseur", b =>
@@ -589,8 +580,6 @@ namespace MassageStudioLorem.Data.Migrations
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Masseur", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Massages");
 
                     b.Navigation("WorkSchedule");
                 });

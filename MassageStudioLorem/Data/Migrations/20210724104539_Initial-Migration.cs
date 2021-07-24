@@ -183,6 +183,29 @@ namespace MassageStudioLorem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Massages",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    LongDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Massages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Massages_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Masseurs",
                 columns: table => new
                 {
@@ -215,82 +238,6 @@ namespace MassageStudioLorem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_Masseurs_MasseurId",
-                        column: x => x.MasseurId,
-                        principalTable: "Masseurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Massages",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ShortDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    LongDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Massages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Massages_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Massages_Masseurs_MasseurId",
-                        column: x => x.MasseurId,
-                        principalTable: "Masseurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MasseursAvailableHours",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Hour = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MasseursAvailableHours", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MasseursAvailableHours_Masseurs_MasseurId",
-                        column: x => x.MasseurId,
-                        principalTable: "Masseurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Appointments",
                 columns: table => new
                 {
@@ -318,6 +265,52 @@ namespace MassageStudioLorem.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Appointments_Masseurs_MasseurId",
+                        column: x => x.MasseurId,
+                        principalTable: "Masseurs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Masseurs_MasseurId",
+                        column: x => x.MasseurId,
+                        principalTable: "Masseurs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MasseursAvailableHours",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Hour = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MasseursAvailableHours", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MasseursAvailableHours_Masseurs_MasseurId",
                         column: x => x.MasseurId,
                         principalTable: "Masseurs",
                         principalColumn: "Id",
@@ -398,11 +391,6 @@ namespace MassageStudioLorem.Data.Migrations
                 name: "IX_Massages_CategoryId",
                 table: "Massages",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Massages_MasseurId",
-                table: "Massages",
-                column: "MasseurId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Masseurs_CategoryId",

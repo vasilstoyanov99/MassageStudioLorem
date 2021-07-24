@@ -12,10 +12,9 @@
         public Masseur()
         {
             this.Id = Guid.NewGuid().ToString();
-            //Rating = new List<double>();
             this.WorkSchedule = new HashSet<Appointment>();
             this.Comments = new HashSet<Comment>();
-            this.Massages = new HashSet<Massage>();
+            //this.Massages = new HashSet<Massage>();
         }
 
         public string Id { get; set; }
@@ -71,6 +70,6 @@
         public ICollection<Comment> Comments { get; set; }
 
         // A collection of massages that the masseur can do
-        public ICollection<Massage> Massages { get; set; }
+        //public ICollection<Massage> Massages { get; set; }
     }
 }
