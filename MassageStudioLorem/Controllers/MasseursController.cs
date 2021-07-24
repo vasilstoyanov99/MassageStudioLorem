@@ -98,9 +98,10 @@
                 .Select(m => new MasseurViewModel()
                 {
                     Id = m.UserId,
+                    ProfileImageUrl = m.ProfileImageUrl,
                     FirstAndLastName = m.FirstName + " " + m.LastName,
                     RatersCount = m.RatersCount,
-                    Rating = m.Rating
+                    Rating = 2
                 })
                 .ToList();
 
