@@ -64,6 +64,8 @@
 
             var masseur = new Masseur()
             {
+                FirstName = masseurModel.FirstName,
+                LastName = masseurModel.LastName,
                 ProfileImageUrl = htmlSanitizer
                     .Sanitize(masseurModel.ProfileImageUrl), 
                 Description = htmlSanitizer.Sanitize(masseurModel.Description),

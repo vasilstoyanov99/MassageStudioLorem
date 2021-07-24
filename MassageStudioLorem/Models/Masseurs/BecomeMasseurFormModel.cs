@@ -10,8 +10,23 @@
     public class BecomeMasseurFormModel
     {
         [Required]
+        [StringLength(NameMaxLength,
+            ErrorMessage = NameError,
+            MinimumLength = NameMinLength)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(NameMaxLength,
+            ErrorMessage = NameError,
+            MinimumLength = NameMinLength)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
         [RegularExpression(UrlRegex, 
             ErrorMessage = InvalidUrl)]
+        [Display(Name = "Profile Image URL")]
         public string ProfileImageUrl { get; set; }
 
         [Required]
@@ -20,7 +35,6 @@
              MinimumLength = MasseurDescriptionMinLength)]
         public string Description { get; set; }
 
-        [Display(Name = "Category")]
         public string CategoryId { get; set; }
 
         public Gender Gender { get; set; }

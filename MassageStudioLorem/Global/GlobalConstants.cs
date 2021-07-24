@@ -4,9 +4,9 @@
     {
         public static class DataValidations
         {
-            //public const int NameMaxLength = 26;
+            public const int NameMaxLength = 26;
 
-            //public const int NameMinLength = 2;
+            public const int NameMinLength = 2;
 
             public const int CategoryNameMaxLength = 50;
 
@@ -43,8 +43,11 @@
             public const string Date
                 = "Please select a valid date!";
 
+            public const string NameError
+                = "The provided name must be between {1} and {2} characters long!";
+
             public const string InvalidUrl
-                = "The provided url is invalid!";
+                = "The provided URL is invalid!";
                     
             //TODO: Find a way to make this not hard-coded!
 
