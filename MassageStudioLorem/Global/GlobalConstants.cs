@@ -86,6 +86,8 @@
 
             public const int CategoriesPerPage = 1;
 
+            public const int MasseursPerPage = 3;
+
         }
     }
 }

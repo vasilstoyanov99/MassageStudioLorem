@@ -4,6 +4,7 @@
     using Data.Enums;
     using Data.Models;
     using Ganss.XSS;
+    using Global;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Server.IIS.Core;
@@ -16,6 +17,7 @@
 
     using static Global.GlobalConstants.ErrorMessages;
 
+    using static MassageStudioLorem.Global.GlobalConstants.Paging;
 
     public class MasseursController : Controller
     {
@@ -118,51 +120,71 @@
                 {Masseurs = allMasseursModel});
         }
 
-        public IActionResult Sorted(string massageId,
-            string categoryId)
+        public IActionResult Sorted([FromQuery] MasseursListViewModel query)
         {
             var massage = this._data
                 .Massages
-                .FirstOrDefault(m => m.Id == massageId);
+                .FirstOrDefault(m => m.Id == query.MassageId);
 
-            if (String.IsNullOrEmpty(massageId) || massage == null)
+            if (String.IsNullOrEmpty(query.MassageId) || massage == null)
             {
                 return RedirectToAction("All", "Categories");
             }
 
             var category = this._data
                 .Categories
-                .FirstOrDefault(c => c.Id == categoryId);
+                .FirstOrDefault(c => c.Id == query.CategoryId);
 
-            if (String.IsNullOrEmpty(categoryId) || category == null)
+            if (String.IsNullOrEmpty(query.CategoryId) || category == null)
             {
                 return RedirectToAction("All", "Categories");
             }
 
-            if (!this._data.Masseurs.Any(m => m.CategoryId == categoryId))
+            if (!this._data.Masseurs.Any(m => m.CategoryId == query.CategoryId))
             {
-                this.ModelState.AddModelError(String.Empty, 
-                    NoMasseursFoundUnderCategory);
+                this.ModelState
+                    .AddModelError(String.Empty, NoMasseursFoundUnderCategory);
+
                 return View(new MasseursListViewModel()
                 {
                     Masseurs = null
                 });
             }
 
+            var totalMasseurs = this._data
+                .Masseurs
+                .Where(m => m.CategoryId == query.CategoryId).Count();
+
+            if (query.CurrentPage > totalMasseurs
+                || query.CurrentPage < 1)
+            {
+                return this.RedirectToAction(nameof(this.All));
+            }
+
             var sortedMasseursModel = this._data
                 .Masseurs
-                .Where(c => c.CategoryId == categoryId)
+                .Skip((query.CurrentPage - 1) *
+                      GlobalConstants.Paging.MasseursPerPage)
+                .Take(GlobalConstants.Paging.MasseursPerPage)
+                .Where(c => c.CategoryId == query.CategoryId)
                 .Select(m => new MasseurViewModel()
                 {
                     Id = m.UserId,
                     ProfileImageUrl = m.ProfileImageUrl,
                     FirstAndLastName = m.FirstName + " " + m.LastName,
                     RatersCount = m.RatersCount,
-                    Rating = 2
+                    Rating = 2,
                 })
                 .ToList();
 
-            return this.View(new MasseursListViewModel() { Masseurs = sortedMasseursModel });
+            return this.View(new MasseursListViewModel()
+            {   Masseurs = sortedMasseursModel,
+                MassageId = query.MassageId,
+                CategoryId = query.CategoryId,
+                CurrentPage = query.CurrentPage,
+                MaxPage =
+                    Math.Ceiling(totalMasseurs * 1.00 / MasseursPerPage * 1.00)
+            });
         }
 
         public IActionResult Details(string massageId,
@@ -191,7 +213,7 @@
                 .Masseurs
                 .FirstOrDefault(m => m.UserId == masseurId);
 
-            if (String.IsNullOrEmpty(categoryId) || masseur == null)
+            if (String.IsNullOrEmpty(masseurId) || masseur == null)
             {
                 // TODO: do it better
                 return RedirectToAction("All", "Categories");
@@ -204,7 +226,7 @@
                 FirstAndLastName = masseur.FirstName + " " + masseur.LastName,
                 ProfileImageUrl = masseur.ProfileImageUrl,
                 RatersCount = masseur.RatersCount,
-                Rating = masseur.Rating
+                Rating = 2
             };
 
             return View(masseurModel);

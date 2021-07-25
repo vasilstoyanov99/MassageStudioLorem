@@ -64,14 +64,14 @@
                 .Massages
                 .FirstOrDefault(m => m.Id == massageId);
 
-            var category = this._data
-                .Categories
-                .FirstOrDefault(c => c.Id == categoryId);
-
             if (String.IsNullOrEmpty(massageId) || massage == null)
             {
                 return RedirectToAction(nameof(this.All));
             }
+
+            var category = this._data
+                .Categories
+                .FirstOrDefault(c => c.Id == categoryId);
 
             if (String.IsNullOrEmpty(categoryId) || category == null)
             {

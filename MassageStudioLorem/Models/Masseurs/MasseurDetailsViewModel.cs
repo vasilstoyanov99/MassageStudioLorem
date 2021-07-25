@@ -10,6 +10,10 @@
 
         public string Description { get; set; }
 
+        public string MassageId { get; set; }
+
+        public string CategoryId { get; set; }
+
         public double Rating { get; set; }
 
         public int RatersCount { get; set; }

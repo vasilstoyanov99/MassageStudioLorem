@@ -20,18 +20,20 @@
 
         public IActionResult Index()
         {
-            if (DefaultTimeSchedule.TimeSchedule is null)
-            {
-                DefaultTimeSchedule.SeedTimeTable();
-            }
+            //if (DefaultTimeSchedule.TimeSchedule == null)
+            //{
+            //    DefaultTimeSchedule.SeedTimeTable();
+            //}
 
-            //var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
+            ////var masseur = this._data.Masseurs.FirstOrDefault(x => x.FirstName == "test");
 
-            return View(new AppointmentInputModel()
-            {
-                MasseurId = "ff",
-                MassageId = 1
-            });
+            //return View(new AppointmentQueryModel()
+            //{
+            //    MasseurId = "ff",
+            //    MassageId = 1
+            //});
+
+            return View();
         }
 
         //[HttpPost]
