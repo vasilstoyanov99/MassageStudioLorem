@@ -65,6 +65,10 @@
             public const string GenderIdError = "Please choose between the provided options!";
 
             public const string AlreadyMasseur = "You are already a masseur!";
+
+            public const string NoMasseursFoundUnderCategory = "No masseurs are found under this category!";
+
+            public const string NoMasseursFound = "No masseurs are found!";
         }
 
         public static class DateTimeFormats

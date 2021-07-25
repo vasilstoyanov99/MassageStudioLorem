@@ -9,6 +9,8 @@
         public AllCategoriesQueryModel() => this.CurrentPage = 
             GlobalConstants.Paging.CurrentPageStart;
 
+        public string Id { get; init; }
+
         public string Name { get; init; }
 
         public int CurrentPage { get; set; }

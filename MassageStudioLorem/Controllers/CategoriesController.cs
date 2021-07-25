@@ -37,6 +37,7 @@
                     .Include(c => c.Massages)
                     .Select(c => new AllCategoriesQueryModel()
                     {
+                        Id = c.Id,
                         Name = c.Name,
                         CurrentPage = query.CurrentPage,
                         Massages = c.Massages
@@ -57,13 +58,22 @@
             return View(categoryWithMassages[0]);
         }
 
-        public IActionResult Details(string id)
+        public IActionResult Details(string massageId, string categoryId)
         {
             var massage = this._data
                 .Massages
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == massageId);
 
-            if (String.IsNullOrEmpty(id) || massage is null)
+            var category = this._data
+                .Categories
+                .FirstOrDefault(c => c.Id == categoryId);
+
+            if (String.IsNullOrEmpty(massageId) || massage == null)
+            {
+                return RedirectToAction(nameof(this.All));
+            }
+
+            if (String.IsNullOrEmpty(categoryId) || category == null)
             {
                 return RedirectToAction(nameof(this.All));
             }
@@ -71,6 +81,7 @@
             var massageViewModel = new MassageListingViewModel()
             {
                 Id = massage.Id,
+                CategoryId = categoryId,
                 ImageUrl = massage.ImageUrl,
                 LongDescription = massage.LongDescription,
                 Price = massage.Price,
