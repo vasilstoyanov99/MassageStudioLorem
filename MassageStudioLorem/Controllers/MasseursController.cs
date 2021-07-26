@@ -17,7 +17,7 @@
 
     using static Global.GlobalConstants.ErrorMessages;
 
-    using static MassageStudioLorem.Global.GlobalConstants.Paging;
+    using static Global.GlobalConstants.Paging;
 
     public class MasseursController : Controller
     {
@@ -30,10 +30,10 @@
         {
             if (this._data.Masseurs.Any(x => x.UserId == this.User.GetId()))
             {
-                return RedirectToAction("Index", "Home");
+                return this.RedirectToAction("Index", "Home");
             }
 
-            return View(new BecomeMasseurFormModel()
+            return this.View(new BecomeMasseurFormModel()
             {
                 Categories = this.GetCategories
             });
@@ -66,11 +66,11 @@
                     (nameof(masseurModel.Gender), GenderIdError);
             }
 
-            if (!ModelState.IsValid || this.ModelState.ErrorCount > 0)
+            if (!this.ModelState.IsValid || this.ModelState.ErrorCount > 0)
             {
                 masseurModel.Categories = this.GetCategories;
 
-                return View(masseurModel);
+                return this.View(masseurModel);
             }
 
             var htmlSanitizer = new HtmlSanitizer();
@@ -90,34 +90,49 @@
             this._data.Masseurs.Add(masseur);
             this._data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery] MasseursListViewModel query)
         {
             if (!this._data.Masseurs.Any())
             {
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
-                return View(new MasseursListViewModel()
+                return this.View(new MasseursListViewModel()
                 {
                     Masseurs = null
                 });
             }
 
+            var totalMasseurs = this._data.Masseurs.Count();
+
+            if (query.CurrentPage > totalMasseurs
+                || query.CurrentPage < 1)
+            {
+                return this.RedirectToAction(nameof(this.All));
+            }
+
             var allMasseursModel = this._data
                 .Masseurs
+                .Skip((query.CurrentPage - 1) * MasseursPerPage)
+                .Take(MasseursPerPage)
                 .Select(m => new MasseurViewModel()
                 {
                     Id = m.UserId,
                     ProfileImageUrl = m.ProfileImageUrl,
                     FirstAndLastName = m.FirstName + " " + m.LastName,
                     RatersCount = m.RatersCount,
-                    Rating = 2
+                    Rating = 2 // TODO: Get Rating from the DB!
                 })
                 .ToList();
 
-            return this.View(new MasseursListViewModel() 
-                {Masseurs = allMasseursModel});
+            return this.View(new MasseursListViewModel()
+            {
+                Masseurs = allMasseursModel,
+                CurrentPage = query.CurrentPage,
+                MaxPage =
+                    Math.Ceiling(totalMasseurs * 1.00 / MasseursPerPage * 1.00)
+            });
         }
 
         public IActionResult Sorted([FromQuery] MasseursListViewModel query)
@@ -128,7 +143,7 @@
 
             if (String.IsNullOrEmpty(query.MassageId) || massage == null)
             {
-                return RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Categories");
             }
 
             var category = this._data
@@ -137,7 +152,7 @@
 
             if (String.IsNullOrEmpty(query.CategoryId) || category == null)
             {
-                return RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Categories");
             }
 
             if (!this._data.Masseurs.Any(m => m.CategoryId == query.CategoryId))
@@ -145,7 +160,7 @@
                 this.ModelState
                     .AddModelError(String.Empty, NoMasseursFoundUnderCategory);
 
-                return View(new MasseursListViewModel()
+                return this.View(new MasseursListViewModel()
                 {
                     Masseurs = null
                 });
@@ -163,9 +178,8 @@
 
             var sortedMasseursModel = this._data
                 .Masseurs
-                .Skip((query.CurrentPage - 1) *
-                      GlobalConstants.Paging.MasseursPerPage)
-                .Take(GlobalConstants.Paging.MasseursPerPage)
+                .Skip((query.CurrentPage - 1) * MasseursPerPage)
+                .Take(MasseursPerPage)
                 .Where(c => c.CategoryId == query.CategoryId)
                 .Select(m => new MasseurViewModel()
                 {
@@ -197,7 +211,7 @@
 
             if (String.IsNullOrEmpty(massageId) || massage == null)
             {
-                return RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Categories");
             }
 
             var category = this._data
@@ -206,7 +220,7 @@
 
             if (String.IsNullOrEmpty(categoryId) || category == null)
             {
-                return RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Categories");
             }
 
             var masseur = this._data
@@ -216,7 +230,7 @@
             if (String.IsNullOrEmpty(masseurId) || masseur == null)
             {
                 // TODO: do it better
-                return RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Categories");
             }
 
             var masseurModel = new MasseurDetailsViewModel()
@@ -229,7 +243,7 @@
                 Rating = 2
             };
 
-            return View(masseurModel);
+            return this.View(masseurModel);
         }
 
         private IEnumerable<MassageCategoryViewModel> GetCategories
