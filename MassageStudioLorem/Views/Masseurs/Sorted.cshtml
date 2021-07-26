@@ -46,7 +46,7 @@
                                 <span>@masseur.Rating.ToString("F") / 5.00 ) from @masseur.RatersCount votes</span>
                             </div>
                             <a asp-controller="Masseurs" asp-action="Details" asp-route-categoryId="@Model.CategoryId" asp-route-massageId="@Model.MassageId" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">View More</a>
-                            <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.MassageId" asp-route-masseurId="@masseur.Id"asp-route-id="" class="btn btn-outline-primary">Book</a>
+                            <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.MassageId" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">Book</a>
                         </div>
                     </div>
                 </div>
