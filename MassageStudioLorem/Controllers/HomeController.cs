@@ -5,7 +5,7 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using MassageStudioLorem.Models;
+    using Models;
     using Models.Appointments;
     using Data;
     using Global;
@@ -33,7 +33,7 @@
             //    MassageId = 1
             //});
 
-            return View();
+            return this.View();
         }
 
         //[HttpPost]
@@ -75,8 +75,8 @@
         //    });
         //}
 
-        public IActionResult Privacy() => View();
+        public IActionResult Privacy() => this.View();
 
-        public IActionResult Error() => View();
+        public IActionResult Error() => this.View();
     }
 }

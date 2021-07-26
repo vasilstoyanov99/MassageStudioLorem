@@ -55,7 +55,7 @@
 
             categoryWithMassages[0].TotalCategories = totalCategories;
 
-            return View(categoryWithMassages[0]);
+            return this.View(categoryWithMassages[0]);
         }
 
         public IActionResult Details(string massageId, string categoryId)
@@ -66,7 +66,7 @@
 
             if (String.IsNullOrEmpty(massageId) || massage == null)
             {
-                return RedirectToAction(nameof(this.All));
+                return this.RedirectToAction(nameof(this.All));
             }
 
             var category = this._data
@@ -75,7 +75,7 @@
 
             if (String.IsNullOrEmpty(categoryId) || category == null)
             {
-                return RedirectToAction(nameof(this.All));
+                return this.RedirectToAction(nameof(this.All));
             }
 
             var massageViewModel = new MassageListingViewModel()
@@ -88,7 +88,7 @@
                 Name = massage.Name
             };
 
-            return View(massageViewModel);
+            return this.View(massageViewModel);
         }
     }
 }
