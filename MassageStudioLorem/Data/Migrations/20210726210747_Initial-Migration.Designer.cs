@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    [Migration("20210724104539_Initial-Migration")]
+    [Migration("20210726210747_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,8 @@ namespace MassageStudioLorem.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("MassageId");
+                    b.HasIndex("MassageId")
+                        .IsUnique();
 
                     b.HasIndex("MasseurId");
 
@@ -120,6 +121,7 @@ namespace MassageStudioLorem.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageUrl")
@@ -428,29 +430,23 @@ namespace MassageStudioLorem.Data.Migrations
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Appointment", b =>
                 {
-                    b.HasOne("MassageStudioLorem.Data.Models.Client", "Client")
+                    b.HasOne("MassageStudioLorem.Data.Models.Client", null)
                         .WithMany("Appointments")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MassageStudioLorem.Data.Models.Massage", "Massage")
-                        .WithMany()
-                        .HasForeignKey("MassageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("MassageStudioLorem.Data.Models.Massage", null)
+                        .WithOne()
+                        .HasForeignKey("MassageStudioLorem.Data.Models.Appointment", "MassageId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MassageStudioLorem.Data.Models.Masseur", "Masseur")
+                    b.HasOne("MassageStudioLorem.Data.Models.Masseur", null)
                         .WithMany("WorkSchedule")
                         .HasForeignKey("MasseurId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Massage");
-
-                    b.Navigation("Masseur");
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Client", b =>
@@ -485,7 +481,9 @@ namespace MassageStudioLorem.Data.Migrations
                 {
                     b.HasOne("MassageStudioLorem.Data.Models.Category", null)
                         .WithMany("Massages")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Masseur", b =>

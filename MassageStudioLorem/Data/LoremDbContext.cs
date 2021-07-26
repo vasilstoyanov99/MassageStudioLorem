@@ -52,6 +52,27 @@
                 .HasForeignKey<Client>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .Entity<Appointment>()
+                .HasOne<Masseur>()
+                .WithMany(x => x.WorkSchedule)
+                .HasForeignKey(x => x.MasseurId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //builder
+            //    .Entity<Appointment>()
+            //    .HasOne<Client>()
+            //    .WithMany(x => x.Appointments)
+            //    .HasForeignKey(x => x.ClientId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Appointment>()
+                .HasOne<Massage>()
+                .WithOne()
+                .HasForeignKey<Appointment>(x => x.MassageId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(builder);
         }
     }

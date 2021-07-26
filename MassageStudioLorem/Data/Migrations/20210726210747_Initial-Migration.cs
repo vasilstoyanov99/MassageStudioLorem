@@ -189,10 +189,10 @@ namespace MassageStudioLorem.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ShortDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     LongDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,7 +202,7 @@ namespace MassageStudioLorem.Data.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,13 +262,13 @@ namespace MassageStudioLorem.Data.Migrations
                         column: x => x.MassageId,
                         principalTable: "Massages",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appointments_Masseurs_MasseurId",
                         column: x => x.MasseurId,
                         principalTable: "Masseurs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -325,7 +325,8 @@ namespace MassageStudioLorem.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_MassageId",
                 table: "Appointments",
-                column: "MassageId");
+                column: "MassageId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_MasseurId",
