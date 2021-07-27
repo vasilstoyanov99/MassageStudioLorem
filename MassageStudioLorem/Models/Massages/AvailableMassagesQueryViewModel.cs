@@ -5,9 +5,10 @@
 
     using static Global.GlobalConstants.Paging;
 
-    public class AvailableMassagesQueryModel
+    public class AvailableMassagesQueryViewModel
     {
-        public AvailableMassagesQueryModel() => this.CurrentPage = CurrentPageStart;
+        public AvailableMassagesQueryViewModel() 
+            => this.CurrentPage = CurrentPageStart;
 
         public int CurrentPage { get; set; }
 

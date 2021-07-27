@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Models.Categories
 {
+    using Massages;
     using System.Collections.Generic;
 
     using static Global.GlobalConstants.Paging;

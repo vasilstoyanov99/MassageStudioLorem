@@ -20,27 +20,27 @@
             this._data = data;
 
         public IActionResult All([FromQuery]
-            AllCategoriesQueryViewModel query)
+            AllCategoriesQueryViewModel queryModel)
         {
             var totalCategories = this._data.Categories.Count();
 
-            if (query.CurrentPage > totalCategories
-                || query.CurrentPage < 1)
+            if (queryModel.CurrentPage > totalCategories
+                || queryModel.CurrentPage < 1)
             {
                 return this.RedirectToAction(nameof(this.All));
             }
 
-            var categoryWithMassages = 
+            var allCategoriesModel = 
                 this._data
                     .Categories
-                    .Skip((query.CurrentPage - 1) * CategoriesPerPage)
+                    .Skip((queryModel.CurrentPage - 1) * CategoriesPerPage)
                     .Take(CategoriesPerPage)
                     .Include(c => c.Massages)
                     .Select(c => new AllCategoriesQueryViewModel()
                     {
                         Id = c.Id,
                         Name = c.Name,
-                        CurrentPage = query.CurrentPage,
+                        CurrentPage = queryModel.CurrentPage,
                         Massages = c.Massages
                             .Select(m => new MassageListingViewModel()
                             {
@@ -53,70 +53,72 @@
                     })
                     .ToList();
 
-            categoryWithMassages[0].TotalCategories = totalCategories;
+            allCategoriesModel[0].TotalCategories = totalCategories;
 
-            return this.View(categoryWithMassages[0]);
+            return this.View(allCategoriesModel[0]);
         }
 
-        public IActionResult Details(string massageId, string categoryId)
+        public IActionResult Details
+            ([FromQuery] MassageDetailsQueryModel queryModel)
         {
             var massage = this._data
                 .Massages
-                .FirstOrDefault(m => m.Id == massageId);
+                .FirstOrDefault(m => m.Id == queryModel.MassageId);
 
-            if (String.IsNullOrEmpty(massageId) || massage == null)
+            if (String.IsNullOrEmpty(queryModel.MassageId) || massage == null)
             {
                 return this.RedirectToAction(nameof(this.All));
             }
 
             var category = this._data
                 .Categories
-                .FirstOrDefault(c => c.Id == categoryId);
+                .FirstOrDefault(c => c.Id == queryModel.CategoryId);
 
-            if (String.IsNullOrEmpty(categoryId) || category == null)
+            if (String.IsNullOrEmpty(queryModel.CategoryId) || category == null)
             {
                 return this.RedirectToAction(nameof(this.All));
             }
 
-            var massageViewModel = new MassageDetailsViewModel()
+            var massageDetailsModel = new MassageDetailsViewModel()
             {
                 Id = massage.Id,
-                CategoryId = categoryId,
+                CategoryId = queryModel.CategoryId,
                 ImageUrl = massage.ImageUrl,
                 LongDescription = massage.LongDescription,
                 Price = massage.Price,
                 Name = massage.Name
             };
 
-            return this.View(massageViewModel);
+            return this.View(massageDetailsModel);
         }
 
-        public IActionResult AvailableMassages([FromQuery] AvailableMassagesQueryModel query)
+        public IActionResult AvailableMassages
+            ([FromQuery] AvailableMassagesQueryViewModel queryModel)
         {
             var category = this._data
                 .Categories
-                .FirstOrDefault(c => c.Id == query.CategoryId);
+                .FirstOrDefault(c => c.Id == queryModel.CategoryId);
 
-            if (String.IsNullOrEmpty(query.CategoryId) || category == null)
+            if (String.IsNullOrEmpty(queryModel.CategoryId) || category == null)
             {
                 return this.RedirectToAction(nameof(this.All));
             }
 
-            if (!this._data.Massages.Any(m => m.CategoryId == query.CategoryId))
+            if (!this._data.Massages.Any(m => m.CategoryId == queryModel.CategoryId))
             {
                 this.ModelState
                     .AddModelError(String.Empty, NoMassagesFoundUnderCategory);
 
-                return this.View(new AvailableMassagesQueryModel()
+                return this.View(new AvailableMassagesQueryViewModel()
                 {
                     Massages = null
                 });
             }
 
-            var sortedMassagesModel = this._data
+            var availableMassagesModel = this._data
                 .Massages
-                .Where(m => m.CategoryId == query.CategoryId)
-                .Skip((query.CurrentPage - 1) * CategoriesPerPage)
+                .Where(m => m.CategoryId == queryModel.CategoryId)
+                .Skip((queryModel.CurrentPage - 1) * CategoriesPerPage)
                 .Take(CategoriesPerPage)
                 .Select(m => new MassageListingViewModel()
                 {
@@ -127,50 +129,51 @@
                 })
                 .ToList();
 
-            var totalMassages = this._data.Massages.Where(m => m.CategoryId == query.CategoryId).Count();
+            var totalMassages = this._data.Massages.Where(m => m.CategoryId == queryModel.CategoryId).Count();
 
-            return this.View(new AvailableMassagesQueryModel()
+            return this.View(new AvailableMassagesQueryViewModel()
             {
-                Massages = sortedMassagesModel,
-                CategoryId = query.CategoryId,
-                MasseurId = query.MasseurId,
-                CurrentPage = query.CurrentPage,
+                Massages = availableMassagesModel,
+                CategoryId = queryModel.CategoryId,
+                MasseurId = queryModel.MasseurId,
+                CurrentPage = queryModel.CurrentPage,
                 MaxPage = Math.Ceiling
                     (totalMassages * 1.00 / MassagesPerPage * 1.00)
             });
         }
 
-        public IActionResult AvailableMassageDetails(string massageId, string masseurId)
+        public IActionResult AvailableMassageDetails
+            ([FromQuery] AvailableMassageDetailsQueryModel queryModel)
         {
             var massage = this._data
                 .Massages
-                .FirstOrDefault(m => m.Id == massageId);
+                .FirstOrDefault(m => m.Id == queryModel.MassageId);
 
-            if (String.IsNullOrEmpty(massageId) || massage == null)
+            if (String.IsNullOrEmpty(queryModel.MassageId) || massage == null)
             {
                 return this.RedirectToAction(nameof(this.All));
             }
 
             var masseur = this._data
                 .Masseurs
-                .FirstOrDefault(m => m.UserId == masseurId);
+                .FirstOrDefault(m => m.UserId == queryModel.MasseurId);
 
-            if (String.IsNullOrEmpty(masseurId) || masseur == null)
+            if (String.IsNullOrEmpty(queryModel.MasseurId) || masseur == null)
             {
                 return this.RedirectToAction(nameof(this.All));
             }
 
-            var massageViewModel = new MassageDetailsViewModel()
+            var massageDetailsModel = new MassageDetailsViewModel()
             {
                 Id = massage.Id,
-                MasseurId = masseurId,
+                MasseurId = queryModel.MasseurId,
                 ImageUrl = massage.ImageUrl,
                 LongDescription = massage.LongDescription,
                 Price = massage.Price,
                 Name = massage.Name
             };
 
-            return this.View("Details", massageViewModel);
+            return this.View("Details", massageDetailsModel);
         }
     }
 }

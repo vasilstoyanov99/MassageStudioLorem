@@ -4,9 +4,9 @@
 
     using System.Collections.Generic;
 
-    public class AvailableMasseursListViewModel
+    public class AvailableMasseursListQueryViewModel
     {
-        public AvailableMasseursListViewModel() => this.CurrentPage = 
+        public AvailableMasseursListQueryViewModel() => this.CurrentPage = 
             CurrentPageStart;
 
         public int CurrentPage { get; set; }

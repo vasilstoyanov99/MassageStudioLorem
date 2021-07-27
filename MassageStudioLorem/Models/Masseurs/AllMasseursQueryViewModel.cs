@@ -4,9 +4,9 @@
 
     using static Global.GlobalConstants.Paging;
 
-    public class AllMasseursListViewModel
+    public class AllMasseursViewModel
     {
-        public AllMasseursListViewModel() => this.CurrentPage = CurrentPageStart;
+        public AllMasseursViewModel() => this.CurrentPage = CurrentPageStart;
 
         public int CurrentPage { get; set; }
 
