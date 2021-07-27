@@ -71,6 +71,9 @@
             public const string NoMasseursFound = "No masseurs are found!";
 
             public const string NoMassagesFoundUnderCategory = "No massages are found under this category!";
+
+            public const string ImageUrlRecommendation =
+                "We recommend to upload it on imgur.com and then right click over the post -> Copy image address. The URL should end with .jpg / .png etc...";
         }
 
         public static class DateTimeFormats
@@ -91,7 +94,6 @@
             public const int MasseursPerPage = 3;
 
             public const int MassagesPerPage = 3;
-
         }
     }
 }

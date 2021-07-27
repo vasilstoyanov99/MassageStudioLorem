@@ -1,4 +1,5 @@
-﻿@model MassageStudioLorem.Models.Masseurs.BecomeMasseurFormModel
+﻿@model MassageStudioLorem.Models.Masseurs.BecomeMasseurFormModel;
+@using MassageStudioLorem.Global
 
 @{
     ViewBag.Title = "Become A Masseur";
@@ -28,7 +29,7 @@
                 <input asp-for="ProfileImageUrl" class="form-control">
                 <span asp-validation-for="ProfileImageUrl" class="small text-danger"></span>
                 <h7 class="text-muted">
-                    We recommend to upload it on imgur.com and then right click over the post -> Copy image address.
+                    @GlobalConstants.ErrorMessages.ImageUrlRecommendation
                 </h7>
                 
             </div>
