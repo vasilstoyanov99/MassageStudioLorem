@@ -4,20 +4,14 @@
     using Data.Enums;
     using Data.Models;
     using Ganss.XSS;
-    using Global;
     using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Server.IIS.Core;
-    using Models.Categories;
     using Models.Masseurs;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
-
     using static Global.GlobalConstants.ErrorMessages;
-
     using static Global.GlobalConstants.Paging;
 
     public class MasseursController : Controller
@@ -35,10 +29,7 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
-            return this.View(new BecomeMasseurFormModel()
-            {
-                Categories = this.GetCategories
-            });
+            return this.View(new BecomeMasseurFormModel() {Categories = this.GetCategories});
         }
 
         [Authorize]
@@ -84,7 +75,7 @@
                 FirstName = htmlSanitizer.Sanitize(masseurModel.FirstName),
                 LastName = htmlSanitizer.Sanitize(masseurModel.LastName),
                 ProfileImageUrl = htmlSanitizer
-                    .Sanitize(masseurModel.ProfileImageUrl), 
+                    .Sanitize(masseurModel.ProfileImageUrl),
                 Description = htmlSanitizer.Sanitize(masseurModel.Description),
                 CategoryId = masseurModel.CategoryId,
                 Gender = masseurModel.Gender,
@@ -104,10 +95,7 @@
             {
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
 
-                return this.View(new AllMasseursQueryViewModel()
-                {
-                    Masseurs = null
-                });
+                return this.View(new AllMasseursQueryViewModel() {Masseurs = null});
             }
 
             var totalMasseurs = this._data.Masseurs.Count();
@@ -216,10 +204,7 @@
                 this.ModelState
                     .AddModelError(String.Empty, NoMasseursFoundUnderCategory);
 
-                return this.View(new AvailableMasseursQueryViewModel()
-                {
-                    Masseurs = null
-                });
+                return this.View(new AvailableMasseursQueryViewModel() {Masseurs = null});
             }
 
             var totalMasseurs = this._data
@@ -248,7 +233,7 @@
                 .ToList();
 
             return this.View(new AvailableMasseursQueryViewModel()
-            { 
+            {
                 Masseurs = availableMasseursModel,
                 MassageId = queryModel.MassageId,
                 CategoryId = queryModel.CategoryId,
@@ -288,14 +273,10 @@
         private IEnumerable<MassageCategoryViewModel> GetCategories
             => this._data
                 .Categories
-                .Select(c => new MassageCategoryViewModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
+                .Select(c => new MassageCategoryViewModel() {Id = c.Id, Name = c.Name})
                 .ToList();
 
         private string GetMasseurPhoneNumber(string masseurId) =>
-        this._data.Users.FirstOrDefault(u => u.Id == masseurId)?.PhoneNumber;
+            this._data.Users.FirstOrDefault(u => u.Id == masseurId)?.PhoneNumber;
     }
 }

@@ -1,14 +1,7 @@
 ﻿namespace MassageStudioLorem.Data
 {
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
     using MassageStudioLorem.Data.Models;
     using Microsoft.AspNetCore.Identity;
 
@@ -34,7 +27,10 @@
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<MasseurAvailableHours> MasseursAvailableHours
-        { get; set; }
+        {
+            get;
+            set;
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

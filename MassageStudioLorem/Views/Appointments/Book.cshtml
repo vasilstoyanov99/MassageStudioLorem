@@ -1,11 +1,11 @@
-﻿@model MassageStudioLorem.Models.Appointments.AppointmentFormModel;
+﻿@model MassageStudioLorem.Models.Appointments.AppointmentFormModel
 
 @{
     ViewBag.Title = "Book an appointment";
 }
 
 @section Styles {
-    <link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/date-picker.css" rel="stylesheet" asp-append-version="true"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/84fee8031d.css">
 }
 
@@ -16,7 +16,7 @@
                 <form autocomplete="off">
                     <div class="card-header">
                         <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
-                            <input type="text" id="dp1" class="datepicker" placeholder="&#xf073; Pick Date" style="font-family:Arial, FontAwesome, white" name="date" readonly />
+                            <input type="text" id="dp1" class="datepicker" placeholder="&#xf073; Pick Date" style="font-family: Arial, FontAwesome, white" name="date" readonly/>
                         </div>
                     </div>
                     <div class="card-body p-3 p-sm-5">
@@ -44,21 +44,21 @@
                     <label class="col-sm-2 col-form-label">Masseur</label>
                     <div class="col-sm-10">
                         <div asp-for="@Model.MasseurFirstAndLastName" class="form-control" hidden></div>
-                        <input asp-for="@Model.MasseurFirstAndLastName" value="@Model.MasseurFirstAndLastName" class="form-control" required readonly />
+                        <input asp-for="@Model.MasseurFirstAndLastName" value="@Model.MasseurFirstAndLastName" class="form-control" required readonly/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Massage</label>
                     <div class="col-sm-10">
                         <div asp-for="@Model.MassageName" class="form-control" hidden></div>
-                        <input asp-for="@Model.MassageName" value="@Model.MassageName" class="form-control" required readonly />
+                        <input asp-for="@Model.MassageName" value="@Model.MassageName" class="form-control" required readonly/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Date</label>
                     <div class="col-sm-10">
                         <div id="selectedDate" asp-for="@Model.Date" class="form-control" hidden></div>
-                        <input asp-for="@Model.Date" value="" class="form-control" required readonly />
+                        <input asp-for="@Model.Date" value="" class="form-control" required readonly/>
                         <span asp-validation-for="@Model.Date" class="text-danger"></span>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     <label class="col-sm-2 col-form-label">Hour</label>
                     <div class="col-sm-10">
                         <div id="selectedTime" asp-for="@Model.Hour" class="form-control" hidden></div>
-                        <input asp-for="@Model.Hour" value="" class="form-control" required readonly />
+                        <input asp-for="@Model.Hour" value="" class="form-control" required readonly/>
                         <span asp-validation-for="@Model.Hour" class="text-danger"></span>
                     </div>
                 </div>

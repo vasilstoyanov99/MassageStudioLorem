@@ -34,9 +34,11 @@
                             </span>
                             <span>( @Model.Rating.ToString("F") / 5.00 ) from @Model.RatersCount votes</span>
                         </div>
-                        <h5 style=" text-align: center">@Model.Description</h5>
+                        <h5 style="text-align: center">@Model.Description</h5>
                     </div>
-                    <h6 class="text-center"><span class="fas fa-phone fa-lg text-dark"></span>      @Model.PhoneNumber</h6>
+                    <h6 class="text-center">
+                        <span class="fas fa-phone fa-lg text-dark"></span> @Model.PhoneNumber
+                    </h6>
                     <div class="footer text-center">
                         <div class="actions">
                             @if (Model.MassageId == null)
@@ -45,7 +47,7 @@
                             }
                             else
                             {
-                        <a asp-controller="Appointments" asp-action="Book" asp-route-massgeId="@Model.MassageId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
+                                <a asp-controller="Appointments" asp-action="Book" asp-route-massgeId="@Model.MassageId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
                             }
                             @*<div href="javascript:void(0);" class="btn btn-outline-primary">Book a massage</div>*@
                         </div>

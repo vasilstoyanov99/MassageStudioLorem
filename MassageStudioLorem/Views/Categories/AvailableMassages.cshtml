@@ -27,7 +27,7 @@
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@massage.Name</h5>
                             <p class="card-text">@massage.ShortDescription</p>
-                            <a asp-controller="Categories" asp-action="AvailableMassageDetails" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId"  class="btn btn-outline-primary">View More</a>
+                            <a asp-controller="Categories" asp-action="AvailableMassageDetails" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">View More</a>
                             <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
                         </div>
                     </div>

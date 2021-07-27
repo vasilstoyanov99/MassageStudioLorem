@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static Global.GlobalConstants.DataValidations;
-
     public class Client
     {
         public Client()
@@ -33,8 +31,7 @@
         //[Phone]
         //public string PhoneNumber { get; set; }
 
-        [Required]
-        public string UserId { get; set; }
+        [Required] public string UserId { get; set; }
 
         public ICollection<Appointment> Appointments { get; set; }
     }

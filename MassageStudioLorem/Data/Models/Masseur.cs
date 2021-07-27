@@ -4,7 +4,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
     using static Global.GlobalConstants.DataValidations;
 
     public class Masseur
@@ -19,28 +18,24 @@
 
         public string Id { get; set; }
 
-        [Required]
-        [MaxLength(NameMaxLength)]
-        public string FirstName { get; set; }
+        [Required] [MaxLength(NameMaxLength)] public string FirstName { get; set; }
 
         //[Required] 
         //[MaxLength(NameMaxLength)]
         //public string MiddleName { get; set; }
 
-        [Required]
-        [MaxLength(NameMaxLength)]
-        public string LastName { get; set; }
+        [Required] [MaxLength(NameMaxLength)] public string LastName { get; set; }
 
         //public DateTime DateOfBirth { get; set; }
 
         //TODO: I can add a sorting feature by gender!
         public Gender Gender { get; set; }
 
-        [Required] 
+        [Required]
         [RegularExpression(UrlRegex)]
         public string ProfileImageUrl { get; set; }
 
-        [Required] 
+        [Required]
         [MaxLength(MasseurDescriptionMaxLength)]
         public string Description { get; set; }
 
@@ -54,11 +49,9 @@
 
         public int RatersCount { get; set; }
 
-        [Required] 
-        public string UserId { get; set; }
+        [Required] public string UserId { get; set; }
 
-        [Required]
-        public string CategoryId { get; set; }
+        [Required] public string CategoryId { get; set; }
 
         public Category Category { get; set; }
 

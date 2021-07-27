@@ -2,10 +2,8 @@
 {
     using System;
     using System.Linq;
-
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-
     using Data;
     using Microsoft.AspNetCore.Authorization;
     using static Global.GlobalConstants.ErrorMessages;
@@ -21,8 +19,7 @@
             this._data = data;
 
         [Authorize]
-        public IActionResult All([FromQuery]
-            AllCategoriesQueryViewModel queryModel)
+        public IActionResult All([FromQuery] AllCategoriesQueryViewModel queryModel)
         {
             var totalCategories = this._data.Categories.Count();
 
@@ -32,7 +29,7 @@
                 return this.RedirectToAction(nameof(this.All));
             }
 
-            var allCategoriesModel = 
+            var allCategoriesModel =
                 this._data
                     .Categories
                     .Skip((queryModel.CurrentPage - 1) * CategoriesPerPage)
@@ -113,10 +110,7 @@
                 this.ModelState
                     .AddModelError(String.Empty, NoMassagesFoundUnderCategory);
 
-                return this.View(new AvailableMassagesQueryViewModel()
-                {
-                    Massages = null
-                });
+                return this.View(new AvailableMassagesQueryViewModel() {Massages = null});
             }
 
             var availableMassagesModel = this._data
@@ -126,10 +120,7 @@
                 .Take(CategoriesPerPage)
                 .Select(m => new MassageListingViewModel()
                 {
-                    Id = m.Id,
-                    Name = m.Name,
-                    ImageUrl = m.ImageUrl,
-                    ShortDescription = m.ShortDescription
+                    Id = m.Id, Name = m.Name, ImageUrl = m.ImageUrl, ShortDescription = m.ShortDescription
                 })
                 .ToList();
 

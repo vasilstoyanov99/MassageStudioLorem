@@ -16,7 +16,7 @@
                         <h3 class="text-center" style="padding: 10px">
                             @Model.Name
                         </h3>
-                        <h5 style=" text-align: center">@Model.LongDescription</h5>
+                        <h5 style="text-align: center">@Model.LongDescription</h5>
                         <h5 class="text-left" style="margin-top: 50px">Price: @Model.Price.ToString("F2")</h5>
                     </div>
                     <div class="footer text-center">
@@ -27,7 +27,7 @@
                             }
                             else
                             {
-                        <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
+                                <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
                             }
                         </div>
                     </div>

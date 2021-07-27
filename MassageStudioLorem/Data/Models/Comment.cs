@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-
     using static Global.GlobalConstants.DataValidations;
 
     public class Comment
@@ -18,14 +17,12 @@
         [MaxLength(CommentMaxLength)]
         public string Content { get; set; }
 
-        [Required]
-        public string ClientId { get; set; }
+        [Required] public string ClientId { get; set; }
 
         public Client Client { get; set; }
 
-        [Required]
-        public string MasseurId { get; set; }
-        
+        [Required] public string MasseurId { get; set; }
+
         public Masseur Masseur { get; set; }
     }
 }

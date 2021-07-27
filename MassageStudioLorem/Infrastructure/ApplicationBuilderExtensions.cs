@@ -4,10 +4,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
-
     using MassageStudioLorem.Data;
-    using Microsoft.AspNetCore.Identity;
-    using System;
     using System.Linq;
 
     public static class ApplicationBuilderExtensions
@@ -66,8 +63,11 @@
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Category category = new Category() { Name =
-                        $"Test - {i}" };
+                    Category category = new Category()
+                    {
+                        Name =
+                            $"Test - {i}"
+                    };
 
                     Massage massage = new Massage()
                     {
