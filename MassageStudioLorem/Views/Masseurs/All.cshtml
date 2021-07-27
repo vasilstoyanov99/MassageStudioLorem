@@ -1,8 +1,17 @@
-﻿@model MassageStudioLorem.Models.Masseurs.MasseursListViewModel
+﻿@model MassageStudioLorem.Models.Masseurs.AllMasseursListViewModel
 
 @{
-    ViewBag.Title = "Masseurs";
+    ViewBag.Title = "All Masseurs";
 }
+
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <div class="mb-4">
+            <h6 class="text-uppercase">All Masseurs</h6>
+            <hr class="solid">
+        </div>
+    </div>
+</div>
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -14,7 +23,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-3" style="width: 16rem">
-                        <img class="card-img-top" src="@masseur.ProfileImageUrl" alt="Masseur's profile photo'">
+                        <img class="card-img-top" src="@masseur.ProfileImageUrl" alt="@masseur.FirstAndLastName's profile photo'">
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@masseur.FirstAndLastName</h5>
                             <div>
@@ -35,8 +44,8 @@
                                 </span>
                                 <span>( @masseur.Rating.ToString("F") / 5.00 ) from @masseur.RatersCount votes</span>
                             </div>
-                            <a asp-controller="Categories" asp-action="Details" asp-route-id="tt" class="btn btn-outline-primary">View More</a>
-                            <a asp-controller="Categories" asp-action="" asp-route-id="" class="btn btn-outline-primary">Massages</a>
+                            <a asp-controller="Masseurs" asp-action="DetailsWithOnlyMasseurId" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">View More</a>
+                            <a asp-controller="Categories" asp-action="Sorted" asp-route-masseurId="@masseur.Id" asp-route-categoryId="@masseur.CategoryId" class="btn btn-outline-primary">Book</a>
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,13 @@
 ﻿namespace MassageStudioLorem.Models.Masseurs
 {
-    using Global;
+    using static Global.GlobalConstants.Paging;
+
     using System.Collections.Generic;
 
-    public class MasseursListViewModel
+    public class SortedMasseursListViewModel
     {
-        public MasseursListViewModel() => this.CurrentPage =
-            GlobalConstants.Paging.CurrentPageStart;
+        public SortedMasseursListViewModel() => this.CurrentPage = 
+            CurrentPageStart;
 
         public int CurrentPage { get; set; }
 

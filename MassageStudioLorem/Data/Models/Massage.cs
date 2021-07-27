@@ -22,8 +22,8 @@
         [MaxLength(LongDescriptionMaxLength)]
         public string LongDescription { get; set; }
 
-        //[Required]
-        //public string Category { get; set; }
+        [Required]
+        public string CategoryId { get; set; }
 
         [Required]
         [MaxLength(MassageMaxLength)]

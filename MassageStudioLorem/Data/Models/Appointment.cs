@@ -15,17 +15,17 @@
         [Required]
         public string ClientId { get; set; }
 
-        public Client Client { get; set; }
+        //public Client Client { get; set; }
 
         [Required] 
         public string MasseurId { get; set; }
 
-        public Masseur Masseur { get; set; }
+        //public Masseur Masseur { get; set; }
 
         [Required] 
         public string MassageId { get; set; }
 
-        public Massage Massage { get; set; }
+        //public Massage Massage { get; set; }
 
         public DateTime DateTime { get; set; }
 

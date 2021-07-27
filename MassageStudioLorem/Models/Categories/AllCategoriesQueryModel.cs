@@ -2,12 +2,11 @@
 {
     using System.Collections.Generic;
 
-    using Global;
+    using static Global.GlobalConstants.Paging;
 
     public class AllCategoriesQueryModel
     {
-        public AllCategoriesQueryModel() => this.CurrentPage = 
-            GlobalConstants.Paging.CurrentPageStart;
+        public AllCategoriesQueryModel() => this.CurrentPage = CurrentPageStart;
 
         public string Id { get; init; }
 

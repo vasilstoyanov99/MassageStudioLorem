@@ -1,10 +1,8 @@
 ﻿namespace MassageStudioLorem.Models.Massages
 {
-    public class MassageListingViewModel
+    public class SortedMassageListingViewModel
     {
         public string Id { get; init; }
-
-        public string CategoryId { get; init; }
 
         public string ShortDescription { get; init; }
 

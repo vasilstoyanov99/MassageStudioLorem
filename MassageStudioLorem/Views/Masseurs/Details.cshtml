@@ -11,7 +11,7 @@
                 <div class="card single_post">
                     <div class="body">
                         <div class="img-post">
-                            <img class="d-block img-fluid" src="@Model.ProfileImageUrl" alt="@Model.FirstAndLastName profile picture">
+                            <img class="d-block img-fluid" src="@Model.ProfileImageUrl" alt="@Model.FirstAndLastName's profile picture">
                         </div>
                         <h3 class="text-center" style="padding: 10px">
                             @Model.FirstAndLastName
@@ -38,7 +38,15 @@
                     </div>
                     <div class="footer text-center">
                         <div class="actions">
-                            <div href="javascript:void(0);" class="btn btn-outline-primary">Book a massage</div>
+                            @if (Model.MassageId == null)
+                            {
+                                <a asp-controller="Categories" asp-action="Sorted" asp-route-categoryId="@Model.CategoryId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
+                            }
+                            else
+                            {
+                        <a asp-controller="Appointments" asp-action="Book" asp-route-massgeId="@Model.MassageId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
+                            }
+                            @*<div href="javascript:void(0);" class="btn btn-outline-primary">Book a massage</div>*@
                         </div>
                     </div>
                 </div>

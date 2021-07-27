@@ -7,8 +7,12 @@
     using Microsoft.EntityFrameworkCore;
 
     using Data;
-    using Global;
+    using static Global.GlobalConstants.ErrorMessages;
+    using static Global.GlobalConstants.Paging;
     using Models.Categories;
+    using Models.Massages;
+    using Models.Masseurs;
+    using MassageListingViewModel = Models.Categories.MassageListingViewModel;
 
     public class CategoriesController : Controller
     {
@@ -31,9 +35,8 @@
             var categoryWithMassages = 
                 this._data
                     .Categories
-                    .Skip((query.CurrentPage - 1) * 
-                          GlobalConstants.Paging.CategoriesPerPage)
-                    .Take(GlobalConstants.Paging.CategoriesPerPage)
+                    .Skip((query.CurrentPage - 1) * CategoriesPerPage)
+                    .Take(CategoriesPerPage)
                     .Include(c => c.Massages)
                     .Select(c => new AllCategoriesQueryModel()
                     {
@@ -89,6 +92,57 @@
             };
 
             return this.View(massageViewModel);
+        }
+
+        public IActionResult Sorted([FromQuery] SortedMassagesQueryModel query)
+        {
+            var category = this._data
+                .Categories
+                .FirstOrDefault(c => c.Id == query.CategoryId);
+
+            if (String.IsNullOrEmpty(query.CategoryId) || category == null)
+            {
+                return this.RedirectToAction(nameof(this.All));
+            }
+
+            if (!this._data.Massages.Any(m => m.CategoryId == query.CategoryId))
+            {
+                this.ModelState
+                    .AddModelError(String.Empty, NoMassagesFoundUnderCategory);
+
+                return this.View(new SortedMassagesQueryModel()
+                {
+                    Massages = null
+                });
+            }
+
+            var sortedMassagesModel = this._data
+                .Massages
+                .Where(m => m.CategoryId == query.CategoryId)
+                .Skip((query.CurrentPage - 1) * CategoriesPerPage)
+                .Take(CategoriesPerPage)
+                .Select(m => new SortedMassageListingViewModel()
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    LongDescription = m.LongDescription,
+                    ImageUrl = m.ImageUrl,
+                    Price = m.Price,
+                    ShortDescription = m.ShortDescription
+                })
+                .ToList();
+
+            var totalMassages = this._data.Massages.Where(m => m.CategoryId == query.CategoryId).Count();
+
+            return this.View(new SortedMassagesQueryModel()
+            {
+                Massages = sortedMassagesModel,
+                CategoryId = query.CategoryId,
+                MasseurId = query.MasseurId,
+                CurrentPage = query.CurrentPage,
+                MaxPage = Math.Ceiling
+                    (totalMassages * 1.00 / MassagesPerPage * 1.00)
+            });
         }
     }
 }

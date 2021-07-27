@@ -69,6 +69,8 @@
             public const string NoMasseursFoundUnderCategory = "No masseurs are found under this category!";
 
             public const string NoMasseursFound = "No masseurs are found!";
+
+            public const string NoMassagesFoundUnderCategory = "No massages are found under this category!";
         }
 
         public static class DateTimeFormats
@@ -87,6 +89,8 @@
             public const int CategoriesPerPage = 1;
 
             public const int MasseursPerPage = 3;
+
+            public const int MassagesPerPage = 3;
 
         }
     }

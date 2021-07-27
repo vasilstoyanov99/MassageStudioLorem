@@ -1,14 +1,14 @@
-﻿@model MassageStudioLorem.Models.Masseurs.MasseursListViewModel
+﻿@model MassageStudioLorem.Models.Masseurs.SortedMasseursListViewModel
 
 
 @{
-    ViewBag.Title = "Masseurs";
+    ViewBag.Title = "Available Masseurs";
 }
 
 <div class="row">
     <div class="col-lg-8 mx-auto text-center">
         <div class="mb-4">
-            <h6 class="text-uppercase">Available Masseurs</h6>
+            <h6 class="text-uppercase">@ViewBag.Title</h6>
             <hr class="solid">
         </div>
     </div>
@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-3" style="width: 16rem">
-                        <img class="card-img-top" src="@masseur.ProfileImageUrl" alt="Masseur's profile photo'">
+                        <img class="card-img-top" src="@masseur.ProfileImageUrl" alt="@masseur.FirstAndLastName's profile photo'">
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@masseur.FirstAndLastName</h5>
                             <div>
