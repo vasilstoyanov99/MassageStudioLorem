@@ -7,6 +7,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using Data;
+    using Microsoft.AspNetCore.Authorization;
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.GlobalConstants.Paging;
     using Models.Categories;
@@ -19,6 +20,7 @@
         public CategoriesController(LoremDbContext data) =>
             this._data = data;
 
+        [Authorize]
         public IActionResult All([FromQuery]
             AllCategoriesQueryViewModel queryModel)
         {
@@ -58,6 +60,7 @@
             return this.View(allCategoriesModel[0]);
         }
 
+        [Authorize]
         public IActionResult Details
             ([FromQuery] MassageDetailsQueryModel queryModel)
         {
@@ -92,6 +95,7 @@
             return this.View(massageDetailsModel);
         }
 
+        [Authorize]
         public IActionResult AvailableMassages
             ([FromQuery] AvailableMassagesQueryViewModel queryModel)
         {
@@ -142,6 +146,7 @@
             });
         }
 
+        [Authorize]
         public IActionResult AvailableMassageDetails
             ([FromQuery] AvailableMassageDetailsQueryModel queryModel)
         {

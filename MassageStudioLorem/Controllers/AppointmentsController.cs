@@ -2,6 +2,7 @@
 {
     using Data;
     using Global;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Appointments;
     using System;
@@ -15,6 +16,7 @@
 
         public AppointmentsController(LoremDbContext data) => this._data = data;
 
+        [Authorize]
         public IActionResult Book([FromQuery] AppointmentIdsQueryModel query)
         {
             if (DefaultTimeSchedule.TimeSchedule == null)
@@ -50,6 +52,7 @@
             });
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Book([FromQuery] AppointmentFormModel query)
         {

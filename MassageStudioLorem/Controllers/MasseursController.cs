@@ -6,6 +6,7 @@
     using Ganss.XSS;
     using Global;
     using Infrastructure;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Server.IIS.Core;
     using Models.Categories;
@@ -26,6 +27,7 @@
         public MasseursController(LoremDbContext data) =>
             this._data = data;
 
+        [Authorize]
         public IActionResult BecomeMasseur()
         {
             if (this._data.Masseurs.Any(x => x.UserId == this.User.GetId()))
@@ -39,6 +41,7 @@
             });
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult BecomeMasseur
             (BecomeMasseurFormModel masseurModel)
@@ -93,12 +96,13 @@
             return this.RedirectToAction("Index", "Home");
         }
 
-        public IActionResult All([FromQuery] AllMasseursListViewModel query)
+        [Authorize]
+        public IActionResult All([FromQuery] AllMasseursQueryViewModel query)
         {
             if (!this._data.Masseurs.Any())
             {
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
-                return this.View(new AllMasseursListViewModel()
+                return this.View(new AllMasseursQueryViewModel()
                 {
                     Masseurs = null
                 });
@@ -127,7 +131,7 @@
                 })
                 .ToList();
 
-            return this.View(new AllMasseursListViewModel()
+            return this.View(new AllMasseursQueryViewModel()
             {
                 Masseurs = allMasseursModel,
                 CurrentPage = query.CurrentPage,
@@ -136,6 +140,7 @@
             });
         }
 
+        [Authorize]
         public IActionResult Details
             ([FromQuery] MasseurDetailsQueryModel queryModel)
         {
@@ -180,6 +185,7 @@
             return this.View(masseurDetails);
         }
 
+        [Authorize]
         public IActionResult AvailableMasseurs
             ([FromQuery] AvailableMasseursQueryViewModel queryModel)
         {
@@ -249,6 +255,7 @@
             });
         }
 
+        [Authorize]
         public IActionResult AvailableMasseurDetails(string masseurId)
         {
             var masseur = this._data
