@@ -1,4 +1,4 @@
-﻿namespace MassageStudioLorem.Models.Categories
+﻿namespace MassageStudioLorem.Models.Massages
 {
     public class MassageListingViewModel
     {

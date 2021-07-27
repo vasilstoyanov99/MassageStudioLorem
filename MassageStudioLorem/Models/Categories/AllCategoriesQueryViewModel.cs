@@ -4,9 +4,10 @@
 
     using static Global.GlobalConstants.Paging;
 
-    public class AllCategoriesQueryModel
+    public class AllCategoriesQueryViewModel
     {
-        public AllCategoriesQueryModel() => this.CurrentPage = CurrentPageStart;
+        public AllCategoriesQueryViewModel() 
+            => this.CurrentPage = CurrentPageStart;
 
         public string Id { get; init; }
 

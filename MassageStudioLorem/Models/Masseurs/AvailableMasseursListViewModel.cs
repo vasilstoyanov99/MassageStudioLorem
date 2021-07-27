@@ -4,9 +4,9 @@
 
     using System.Collections.Generic;
 
-    public class SortedMasseursListViewModel
+    public class AvailableMasseursListViewModel
     {
-        public SortedMasseursListViewModel() => this.CurrentPage = 
+        public AvailableMasseursListViewModel() => this.CurrentPage = 
             CurrentPageStart;
 
         public int CurrentPage { get; set; }
@@ -17,6 +17,7 @@
 
         public double MaxPage { get; set; }
 
-        public IEnumerable<MasseurViewModel> Masseurs { get; set; }
+        public IEnumerable<AvailableMasseurListingViewModel> Masseurs
+        { get; set; }
     }
 }

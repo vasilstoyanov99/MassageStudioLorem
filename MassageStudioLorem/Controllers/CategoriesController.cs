@@ -11,8 +11,6 @@
     using static Global.GlobalConstants.Paging;
     using Models.Categories;
     using Models.Massages;
-    using Models.Masseurs;
-    using MassageListingViewModel = Models.Categories.MassageListingViewModel;
 
     public class CategoriesController : Controller
     {
@@ -22,7 +20,7 @@
             this._data = data;
 
         public IActionResult All([FromQuery]
-            AllCategoriesQueryModel query)
+            AllCategoriesQueryViewModel query)
         {
             var totalCategories = this._data.Categories.Count();
 
@@ -38,7 +36,7 @@
                     .Skip((query.CurrentPage - 1) * CategoriesPerPage)
                     .Take(CategoriesPerPage)
                     .Include(c => c.Massages)
-                    .Select(c => new AllCategoriesQueryModel()
+                    .Select(c => new AllCategoriesQueryViewModel()
                     {
                         Id = c.Id,
                         Name = c.Name,
@@ -93,7 +91,7 @@
             return this.View(massageViewModel);
         }
 
-        public IActionResult AvailableMassages([FromQuery] SortedMassagesQueryModel query)
+        public IActionResult AvailableMassages([FromQuery] AvailableMassagesQueryModel query)
         {
             var category = this._data
                 .Categories
@@ -109,7 +107,7 @@
                 this.ModelState
                     .AddModelError(String.Empty, NoMassagesFoundUnderCategory);
 
-                return this.View(new SortedMassagesQueryModel()
+                return this.View(new AvailableMassagesQueryModel()
                 {
                     Massages = null
                 });
@@ -120,7 +118,7 @@
                 .Where(m => m.CategoryId == query.CategoryId)
                 .Skip((query.CurrentPage - 1) * CategoriesPerPage)
                 .Take(CategoriesPerPage)
-                .Select(m => new SortedMassagesListingViewModel()
+                .Select(m => new MassageListingViewModel()
                 {
                     Id = m.Id,
                     Name = m.Name,
@@ -131,7 +129,7 @@
 
             var totalMassages = this._data.Massages.Where(m => m.CategoryId == query.CategoryId).Count();
 
-            return this.View(new SortedMassagesQueryModel()
+            return this.View(new AvailableMassagesQueryModel()
             {
                 Massages = sortedMassagesModel,
                 CategoryId = query.CategoryId,

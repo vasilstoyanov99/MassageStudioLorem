@@ -1,12 +1,13 @@
 ﻿namespace MassageStudioLorem.Models.Massages
 {
+    using Categories;
     using System.Collections.Generic;
 
     using static Global.GlobalConstants.Paging;
 
-    public class SortedMassagesQueryModel
+    public class AvailableMassagesQueryModel
     {
-        public SortedMassagesQueryModel() => this.CurrentPage = CurrentPageStart;
+        public AvailableMassagesQueryModel() => this.CurrentPage = CurrentPageStart;
 
         public int CurrentPage { get; set; }
 
@@ -16,7 +17,7 @@
 
         public string MasseurId { get; init; }
 
-        public IEnumerable<SortedMassagesListingViewModel> Massages
+        public IEnumerable<MassageListingViewModel> Massages
         { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MassageStudioLorem.Models.Masseurs
 {
-    public class MasseurViewModel
+    public class AvailableMasseurListingViewModel
     {
         public string Id { get; set; }
 
