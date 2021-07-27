@@ -49,7 +49,6 @@
                                 Id = m.Id,
                                 ImageUrl = m.ImageUrl,
                                 ShortDescription = m.ShortDescription,
-                                Price = m.Price,
                                 Name = m.Name
                             })
                             .ToList()
@@ -81,7 +80,7 @@
                 return this.RedirectToAction(nameof(this.All));
             }
 
-            var massageViewModel = new MassageListingViewModel()
+            var massageViewModel = new MassageDetailsViewModel()
             {
                 Id = massage.Id,
                 CategoryId = categoryId,
@@ -121,13 +120,11 @@
                 .Where(m => m.CategoryId == query.CategoryId)
                 .Skip((query.CurrentPage - 1) * CategoriesPerPage)
                 .Take(CategoriesPerPage)
-                .Select(m => new SortedMassageListingViewModel()
+                .Select(m => new SortedMassagesListingViewModel()
                 {
                     Id = m.Id,
                     Name = m.Name,
-                    LongDescription = m.LongDescription,
                     ImageUrl = m.ImageUrl,
-                    Price = m.Price,
                     ShortDescription = m.ShortDescription
                 })
                 .ToList();
@@ -143,6 +140,39 @@
                 MaxPage = Math.Ceiling
                     (totalMassages * 1.00 / MassagesPerPage * 1.00)
             });
+        }
+
+        public IActionResult AvailableMassageDetails(string massageId, string masseurId)
+        {
+            var massage = this._data
+                .Massages
+                .FirstOrDefault(m => m.Id == massageId);
+
+            if (String.IsNullOrEmpty(massageId) || massage == null)
+            {
+                return this.RedirectToAction(nameof(this.All));
+            }
+
+            var masseur = this._data
+                .Masseurs
+                .FirstOrDefault(m => m.UserId == masseurId);
+
+            if (String.IsNullOrEmpty(masseurId) || masseur == null)
+            {
+                return this.RedirectToAction(nameof(this.All));
+            }
+
+            var massageViewModel = new MassageDetailsViewModel()
+            {
+                Id = massage.Id,
+                MasseurId = masseurId,
+                ImageUrl = massage.ImageUrl,
+                LongDescription = massage.LongDescription,
+                Price = massage.Price,
+                Name = massage.Name
+            };
+
+            return this.View("Details", massageViewModel);
         }
     }
 }

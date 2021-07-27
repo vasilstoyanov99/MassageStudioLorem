@@ -1,6 +1,6 @@
-﻿namespace MassageStudioLorem.Models.Categories
+﻿namespace MassageStudioLorem.Models.Massages
 {
-    public class MassageListingViewModel
+    public class SortedMassagesListingViewModel
     {
         public string Id { get; init; }
 
@@ -8,6 +8,5 @@
 
         public string ImageUrl { get; init; }
 
-        public string Name { get; init; }
-    }
+        public string Name { get; init; } }
 }

@@ -16,7 +16,7 @@
 
         public string MasseurId { get; init; }
 
-        public IEnumerable<SortedMassageListingViewModel> Massages
+        public IEnumerable<SortedMassagesListingViewModel> Massages
         { get; set; }
     }
 }

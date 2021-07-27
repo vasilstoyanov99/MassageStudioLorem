@@ -247,7 +247,7 @@
             return this.View(masseurModel);
         }
 
-        public IActionResult MasseurDetails(
+        public IActionResult AvailableMasseurDetails(
             string masseurId)
         {
             var masseur = this._data
