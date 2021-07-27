@@ -69,7 +69,8 @@
                     (nameof(masseurModel.Gender), GenderIdError);
             }
 
-            if (!this.ModelState.IsValid || this.ModelState.ErrorCount > 0)
+            if (!this.ModelState.IsValid ||
+                this.ModelState.ErrorCount > 0)
             {
                 masseurModel.Categories = this.GetCategories;
 
@@ -102,6 +103,7 @@
             if (!this._data.Masseurs.Any())
             {
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
+
                 return this.View(new AllMasseursQueryViewModel()
                 {
                     Masseurs = null
