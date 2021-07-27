@@ -136,7 +136,7 @@
             });
         }
 
-        public IActionResult Sorted([FromQuery] SortedMasseursListViewModel query)
+        public IActionResult AvailableMasseurs([FromQuery] SortedMasseursListViewModel query)
         {
             var massage = this._data
                 .Massages
@@ -247,7 +247,7 @@
             return this.View(masseurModel);
         }
 
-        public IActionResult DetailsWithOnlyMasseurId(
+        public IActionResult MasseurDetails(
             string masseurId)
         {
             var masseur = this._data

@@ -94,7 +94,7 @@
             return this.View(massageViewModel);
         }
 
-        public IActionResult Sorted([FromQuery] SortedMassagesQueryModel query)
+        public IActionResult AvailableMassages([FromQuery] SortedMassagesQueryModel query)
         {
             var category = this._data
                 .Categories

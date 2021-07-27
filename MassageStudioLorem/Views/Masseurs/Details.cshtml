@@ -40,7 +40,7 @@
                         <div class="actions">
                             @if (Model.MassageId == null)
                             {
-                                <a asp-controller="Categories" asp-action="Sorted" asp-route-categoryId="@Model.CategoryId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
+                                <a asp-controller="Categories" asp-action="AvailableMassages" asp-route-categoryId="@Model.CategoryId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
                             }
                             else
                             {
