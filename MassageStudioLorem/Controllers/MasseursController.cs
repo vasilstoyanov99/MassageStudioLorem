@@ -176,6 +176,7 @@
             {
                 Id = masseur.UserId,
                 Description = masseur.Description,
+                PhoneNumber = this.GetMasseurPhoneNumber(queryModel.MasseurId),
                 FirstAndLastName = masseur.FirstName + " " + masseur.LastName,
                 ProfileImageUrl = masseur.ProfileImageUrl,
                 RatersCount = masseur.RatersCount,
@@ -271,6 +272,7 @@
             {
                 Id = masseur.UserId,
                 Description = masseur.Description,
+                PhoneNumber = this.GetMasseurPhoneNumber(masseurId),
                 FirstAndLastName = masseur.FirstName + " " + masseur.LastName,
                 ProfileImageUrl = masseur.ProfileImageUrl,
                 RatersCount = masseur.RatersCount,
@@ -290,5 +292,8 @@
                     Name = c.Name
                 })
                 .ToList();
+
+        private string GetMasseurPhoneNumber(string masseurId) =>
+        this._data.Users.FirstOrDefault(u => u.Id == masseurId)?.PhoneNumber;
     }
 }

@@ -10,6 +10,8 @@
 
         public string Description { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         public string MassageId { get; set; }
 
         public string CategoryId { get; set; }
