@@ -1,73 +1,84 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using MassageStudioLorem.Services.Masseurs
+@using MassageStudioLorem.Infrastructure
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-    
+@inject IMasseurService MasseurService
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
-    @this.RenderSection("Styles", required: false)
+    @RenderSection("Styles", false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Massage Studio Lorem</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Massage Studio Lorem</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        @*//TODO: Check if I should delete the empty asp-area!*@
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
                         <li class="nav-item">
-                            @*//TODO: Check if I should delete the empty asp-area!*@
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="All">Categories</a>
                         </li>
-                        @if (SignInManager.IsSignedIn(User))
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Masseurs" asp-action="All">Masseurs</a>
+                        </li>
+                        if (!MasseurService
+                            .IsUserMasseur
+                            (User.GetId()))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="All">Categories</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Masseurs" asp-action="All">Masseurs</a>
-                            </li>
-                        }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.UtcNow.Year - Massage Studio Lorem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            <div class="float-sm-right">
-                 <span class="fas fa-map-marker-alt fa-lg text-dark"></span>
-                <span class="text-dark big">5408 Lorem Rd</span>
-                <span class="fas fa-phone fa-lg text-dark"></span>
-                <span class="text-dark big">(605) 475-6961</span>
-                <span class="fas fa-envelope fa-lg text-dark"></span>
-                <span class="text-dark big text-truncate">massagestudiolorem@lorem.com</span>
+                                <a class="nav-link text-dark" asp-controller="Masseurs" asp-action="BecomeMasseur" title="Become A Masseur">Become A Masseur</a>
+                            </li>}
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                </ul>
+                <partial name="_LoginPartial"/>
             </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; @DateTime.UtcNow.Year - Massage Studio Lorem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="float-sm-right">
+            <span class="fas fa-map-marker-alt fa-lg text-dark"></span>
+            <span class="text-dark big">5408 Lorem Rd</span>
+            <span class="fas fa-phone fa-lg text-dark"></span>
+            <span class="text-dark big">(605) 475-6961</span>
+            <span class="fas fa-envelope fa-lg text-dark"></span>
+            <span class="text-dark big text-truncate">massagestudiolorem@lorem.com</span>
+        </div>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>
