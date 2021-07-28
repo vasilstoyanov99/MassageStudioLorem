@@ -24,12 +24,14 @@
         [Authorize]
         public IActionResult BecomeMasseur()
         {
-            if (this._data.Masseurs.Any(x => x.UserId == this.User.GetId()))
+            if (this._data.Masseurs.Any(x => x.UserId
+                                             == this.User.GetId()))
             {
                 return this.RedirectToAction("Index", "Home");
             }
 
-            return this.View(new BecomeMasseurFormModel() {Categories = this.GetCategories});
+            return this.View(new BecomeMasseurFormModel()
+                {Categories = this.GetCategories});
         }
 
         [Authorize]
