@@ -18,13 +18,9 @@
 
         public string Id { get; set; }
 
-        [Required] [MaxLength(NameMaxLength)] public string FirstName { get; set; }
-
-        //[Required] 
-        //[MaxLength(NameMaxLength)]
-        //public string MiddleName { get; set; }
-
-        [Required] [MaxLength(NameMaxLength)] public string LastName { get; set; }
+        [Required] 
+        [MaxLength(FullNameMaxLength)] 
+        public string FullName { get; set; }
 
         //public DateTime DateOfBirth { get; set; }
 

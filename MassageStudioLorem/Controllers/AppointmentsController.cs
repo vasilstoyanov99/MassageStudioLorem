@@ -44,7 +44,7 @@
             return this.View(new AppointmentFormModel()
             {
                 MassageName = massage.Name,
-                MasseurFirstAndLastName = masseur.FirstName + " " + masseur.LastName,
+                MasseurFullName = masseur.FullName,
                 MassageId = query.MassageId,
                 MasseurId = query.MasseurId
             });

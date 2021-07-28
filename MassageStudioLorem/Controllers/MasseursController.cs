@@ -74,8 +74,7 @@
 
             var masseur = new Masseur()
             {
-                FirstName = htmlSanitizer.Sanitize(masseurModel.FirstName),
-                LastName = htmlSanitizer.Sanitize(masseurModel.LastName),
+                FullName = htmlSanitizer.Sanitize(masseurModel.FullName),
                 ProfileImageUrl = htmlSanitizer
                     .Sanitize(masseurModel.ProfileImageUrl),
                 Description = htmlSanitizer.Sanitize(masseurModel.Description),
@@ -116,7 +115,7 @@
                 {
                     Id = m.UserId,
                     ProfileImageUrl = m.ProfileImageUrl,
-                    FirstAndLastName = m.FirstName + " " + m.LastName,
+                    FullName = m.FullName,
                     RatersCount = m.RatersCount,
                     CategoryId = m.CategoryId,
                     Rating = 2 // TODO: Get Rating from the DB!
@@ -171,7 +170,7 @@
                 MassageId = queryModel.MassageId,
                 Description = masseur.Description,
                 PhoneNumber = this.GetMasseurPhoneNumber(queryModel.MasseurId),
-                FirstAndLastName = masseur.FirstName + " " + masseur.LastName,
+                FullName = masseur.FullName,
                 ProfileImageUrl = masseur.ProfileImageUrl,
                 RatersCount = masseur.RatersCount,
                 Rating = 2
@@ -230,7 +229,7 @@
                 {
                     Id = m.UserId,
                     ProfileImageUrl = m.ProfileImageUrl,
-                    FirstAndLastName = m.FirstName + " " + m.LastName,
+                    FirstAndLastName = m.FullName,
                     RatersCount = m.RatersCount,
                     Rating = 2,
                 })
@@ -264,7 +263,7 @@
                 Id = masseur.UserId,
                 Description = masseur.Description,
                 PhoneNumber = this.GetMasseurPhoneNumber(masseurId),
-                FirstAndLastName = masseur.FirstName + " " + masseur.LastName,
+                FullName = masseur.FullName,
                 ProfileImageUrl = masseur.ProfileImageUrl,
                 RatersCount = masseur.RatersCount,
                 CategoryId = masseur.CategoryId,

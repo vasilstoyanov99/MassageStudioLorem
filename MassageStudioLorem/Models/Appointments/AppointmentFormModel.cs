@@ -15,7 +15,7 @@
 
         public string MassageName { get; set; }
 
-        public string MasseurFirstAndLastName { get; set; }
+        public string MasseurFullName { get; set; }
 
         [Required]
         [ValidateDateString(ErrorMessage = GlobalConstants.ErrorMessages.Date)]

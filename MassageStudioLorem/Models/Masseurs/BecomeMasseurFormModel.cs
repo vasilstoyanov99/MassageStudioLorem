@@ -10,18 +10,11 @@
     public class BecomeMasseurFormModel
     {
         [Required]
-        [StringLength(NameMaxLength,
+        [StringLength(FullNameMaxLength,
             ErrorMessage = NameError,
-            MinimumLength = NameMinLength)]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [StringLength(NameMaxLength,
-            ErrorMessage = NameError,
-            MinimumLength = NameMinLength)]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+            MinimumLength = FullNameMinLength)]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
 
         [Required]
         [RegularExpression(UrlRegex, 
