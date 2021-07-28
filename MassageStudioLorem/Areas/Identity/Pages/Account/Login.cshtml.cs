@@ -5,10 +5,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.Extensions.Logging;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Threading.Tasks;
     using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -18,13 +15,9 @@
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public LoginModel(SignInManager<IdentityUser> signInManager)
-        {
-            this._signInManager = signInManager;
-        }
+            => this._signInManager = signInManager;
 
         [BindProperty] public InputModel Input { get; set; }
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -53,8 +46,6 @@
             // Clear the existing external cookie to ensure a clean login process
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             this.ReturnUrl = returnUrl;
         }
 
@@ -62,8 +53,6 @@
             (string returnUrl = null)
         {
             returnUrl ??= this.Url.Content("~/");
-
-            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (this.ModelState.IsValid)
             {

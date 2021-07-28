@@ -44,29 +44,6 @@
             </form>
         </section>
     </div>
-
-    @{
-        if (Model.ExternalLogins.Any())
-        {
-            <div class="col-md-6">
-                <section>
-                    <h4>Use another service to log in.</h4>
-                    <hr/>
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                </section>
-            </div>
-        }
-    }
-
 </div>
 
 @section Scripts {

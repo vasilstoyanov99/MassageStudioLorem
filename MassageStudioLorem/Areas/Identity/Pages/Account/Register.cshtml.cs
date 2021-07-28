@@ -1,10 +1,8 @@
 ﻿namespace MassageStudioLorem.Areas.Identity.Pages.Account
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -32,8 +30,6 @@
         [BindProperty] public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
         {
@@ -67,11 +63,7 @@
             public string PhoneNumber { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
-        {
-            this.ReturnUrl = returnUrl;
-            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        }
+        public void OnGet(string returnUrl = null) => this.ReturnUrl = returnUrl;
 
         public async Task<IActionResult> OnPostAsync
             (string returnUrl = null)
@@ -84,7 +76,6 @@
                 .FirstOrDefault();
 
             returnUrl ??= this.Url.Content("~/");
-            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (this.ModelState.IsValid)
             {
