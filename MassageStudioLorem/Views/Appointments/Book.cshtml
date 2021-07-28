@@ -34,9 +34,6 @@
         </div>
 
         <div class="col-lg-6">
-            @*<div>
-                    @await Component.InvokeAsync("SalonServiceDetails", new { Model.SalonId, Model.ServiceId })
-                </div>*@
             <form method="post" enctype="multipart/form-data">
                 <input asp-for="@Model.MasseurId" value="@Model.MasseurId" class="form-control" hidden>
                 <input asp-for="@Model.MassageId" value="@Model.MassageId" class="form-control" hidden>
