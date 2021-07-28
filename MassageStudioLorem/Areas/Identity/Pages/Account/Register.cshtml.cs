@@ -52,7 +52,7 @@
 
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Confirm Password")]
             [Compare("Password",
                 ErrorMessage = PasswordConformation)]
             public string ConfirmPassword { get; set; }
