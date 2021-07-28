@@ -16,14 +16,10 @@
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager,
-            ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+        public LoginModel(SignInManager<IdentityUser> signInManager)
         {
             this._signInManager = signInManager;
-            this._logger = logger;
         }
 
         [BindProperty] public InputModel Input { get; set; }
@@ -76,7 +72,6 @@
 
                 if (result.Succeeded)
                 {
-                    this._logger.LogInformation("User logged in.");
                     return this.LocalRedirect(returnUrl);
                 }
 
@@ -87,7 +82,6 @@
 
                 if (result.IsLockedOut)
                 {
-                    this._logger.LogWarning("User account locked out.");
                     return this.RedirectToPage("./Lockout");
                 }
 

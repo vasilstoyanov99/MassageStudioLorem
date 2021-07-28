@@ -3,17 +3,12 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using System.Text;
-    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.AspNetCore.WebUtilities;
-    using Microsoft.Extensions.Logging;
     using Data;
     using static Global.GlobalConstants.ErrorMessages;
 
@@ -22,21 +17,15 @@
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
         private readonly LoremDbContext _data;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
             LoremDbContext data)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
-            this._logger = logger;
-            this._emailSender = emailSender;
             this._data = data;
         }
 
@@ -115,31 +104,9 @@
 
                     if (result.Succeeded)
                     {
-                        this._logger.LogInformation
-                            ("User created a new account with password.");
-
-                        string code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders
-                            .Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                        string callbackUrl = this.Url.Page(
-                            "/Account/ConfirmEmail",
-                            null,
-                            new {area = "Identity", userId = user.Id, code, returnUrl},
-                            this.Request.Scheme);
-
-                        await this._emailSender.SendEmailAsync(this.Input.Email,
-                            "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                        if (this._userManager.Options.SignIn.RequireConfirmedAccount)
-                        {
-                            return this.RedirectToPage("RegisterConfirmation",
-                                new {email = this.Input.Email, returnUrl});
-                        }
-
                         await this._signInManager.SignInAsync(user,
                             false);
+
                         return this.LocalRedirect(returnUrl);
                     }
                 }
