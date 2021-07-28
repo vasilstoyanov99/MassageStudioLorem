@@ -165,6 +165,8 @@
             var masseurDetails = new MasseurDetailsViewModel()
             {
                 Id = masseur.UserId,
+                CategoryId = queryModel.CategoryId,
+                MassageId = queryModel.MassageId,
                 Description = masseur.Description,
                 PhoneNumber = this.GetMasseurPhoneNumber(queryModel.MasseurId),
                 FirstAndLastName = masseur.FirstName + " " + masseur.LastName,
