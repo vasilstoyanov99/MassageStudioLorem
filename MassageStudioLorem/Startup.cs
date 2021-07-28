@@ -7,8 +7,8 @@ namespace MassageStudioLorem
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.EntityFrameworkCore;
-    using MassageStudioLorem.Data;
-    using MassageStudioLorem.Infrastructure;
+    using Data;
+    using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Services.Masseurs;
 
