@@ -12,15 +12,11 @@
 
     public class MassagesController : Controller
     {
-        private readonly LoremDbContext _data;
         private readonly IMassagesService _massagesService;
 
         public MassagesController
-            (LoremDbContext data, IMassagesService massagesService)
-        {
-            this._data = data;
+            (IMassagesService massagesService) =>
             this._massagesService = massagesService;
-        }
 
         [Authorize]
         public IActionResult All
