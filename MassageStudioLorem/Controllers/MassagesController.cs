@@ -27,10 +27,8 @@
                     (queryModel.Id, queryModel.Name, queryModel.CurrentPage);
 
             if (allCategoriesWithMassagesModel == null)
-            {
                 this.ModelState.AddModelError
                     (String.Empty, NoMassagesAndCategoriesFound);
-            }
 
             return this.View(allCategoriesWithMassagesModel);
         }
@@ -57,14 +55,8 @@
 
             if (availableMassagesModel == null || 
                 !availableMassagesModel.Massages.Any())
-            {
                 this.ModelState
                     .AddModelError(String.Empty, SomethingWentWrong);
-
-                return this.View
-                    (new AvailableMassagesQueryServiceModel()
-                    { Massages = null });
-            }
 
             return this.View(availableMassagesModel);
         }
@@ -78,10 +70,8 @@
                     (queryModel.MassageId, queryModel.MasseurId);
 
             if (massageDetailsModel == null)
-            {
                 this.ModelState
                     .AddModelError(String.Empty, SomethingWentWrong);
-            }
 
             return this.View("Details", massageDetailsModel);
         }

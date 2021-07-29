@@ -86,11 +86,7 @@
             var allMasseursModel = this._masseursService.GetAllMasseurs(query.CurrentPage);
 
             if (allMasseursModel.Masseurs == null)
-            {
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
-
-                return this.View(allMasseursModel);
-            }
 
             return this.View(allMasseursModel);
         }
@@ -102,10 +98,8 @@
             var masseurDetails = this._masseursService
                 .GetMasseurDetails(queryModel);
 
-            if (masseurDetails == null)
-            {
+            if (masseurDetails == null) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
-            }
 
             return this.View(masseurDetails);
         }
