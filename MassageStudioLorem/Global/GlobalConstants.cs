@@ -88,9 +88,7 @@
 
             public const int CategoriesPerPage = 1;
 
-            public const int MasseursPerPage = 3;
-
-            public const int MassagesPerPage = 3;
+            public const int ThreeCardsPerPage = 3;
         }
 
         public static class Recommendations

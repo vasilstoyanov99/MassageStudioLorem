@@ -17,6 +17,6 @@
         public int TotalCategories { get; set; }
 
         public IEnumerable<MassageListingServiceModel> Massages
-        { get; set; }
+        { get; init; }
     }
 }

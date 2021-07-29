@@ -11,6 +11,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.GlobalConstants.Paging;
 
@@ -109,8 +110,8 @@
 
             var allMasseursModel = this._data
                 .Masseurs
-                .Skip((query.CurrentPage - 1) * MasseursPerPage)
-                .Take(MasseursPerPage)
+                .Skip((query.CurrentPage - 1) * ThreeCardsPerPage)
+                .Take(ThreeCardsPerPage)
                 .Select(m => new MasseurDetailsViewModel()
                 {
                     Id = m.UserId,
@@ -127,7 +128,7 @@
                 Masseurs = allMasseursModel,
                 CurrentPage = query.CurrentPage,
                 MaxPage =
-                    Math.Ceiling(totalMasseurs * 1.00 / MasseursPerPage * 1.00)
+                    Math.Ceiling(totalMasseurs * 1.00 / ThreeCardsPerPage * 1.00)
             });
         }
 
@@ -141,7 +142,7 @@
 
             if (String.IsNullOrEmpty(queryModel.MassageId) || massage == null)
             {
-                return this.RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Massages");
             }
 
             var category = this._data
@@ -150,7 +151,7 @@
 
             if (String.IsNullOrEmpty(queryModel.CategoryId) || category == null)
             {
-                return this.RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Massages");
             }
 
             var masseur = this._data
@@ -189,7 +190,7 @@
 
             if (String.IsNullOrEmpty(queryModel.MassageId) || massage == null)
             {
-                return this.RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Massages");
             }
 
             var category = this._data
@@ -198,7 +199,7 @@
 
             if (String.IsNullOrEmpty(queryModel.CategoryId) || category == null)
             {
-                return this.RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Massages");
             }
 
             if (!this._data.Masseurs
@@ -222,8 +223,8 @@
 
             var availableMasseursModel = this._data
                 .Masseurs
-                .Skip((queryModel.CurrentPage - 1) * MasseursPerPage)
-                .Take(MasseursPerPage)
+                .Skip((queryModel.CurrentPage - 1) * ThreeCardsPerPage)
+                .Take(ThreeCardsPerPage)
                 .Where(c => c.CategoryId == queryModel.CategoryId)
                 .Select(m => new AvailableMasseurListingViewModel()
                 {
@@ -242,7 +243,7 @@
                 CategoryId = queryModel.CategoryId,
                 CurrentPage = queryModel.CurrentPage,
                 MaxPage =
-                    Math.Ceiling(totalMasseurs * 1.00 / MasseursPerPage * 1.00)
+                    Math.Ceiling(totalMasseurs * 1.00 / ThreeCardsPerPage * 1.00)
             });
         }
 
