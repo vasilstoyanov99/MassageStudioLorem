@@ -4,35 +4,40 @@
     ViewBag.Title = "Details";
 }
 
-<div id="main-content" class="blog-page">
-    <div class="container">
-        <div class="row clearfix">
-            <div class="col-lg-8 col-md-12 offset-md-2">
-                <div class="card single_post">
-                    <div class="body">
-                        <div class="img-post">
-                            <img class="d-block img-fluid" src="@Model.ImageUrl" alt="@Model.Name picture">
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <div id="main-content" class="blog-page">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-lg-8 col-md-12 offset-md-2">
+                    <div class="card single_post">
+                        <div class="body">
+                            <div class="img-post">
+                                <img class="d-block img-fluid" src="@Model.ImageUrl" alt="@Model.Name picture">
+                            </div>
+                            <h3 class="text-center" style="padding: 10px">
+                                @Model.Name
+                            </h3>
+                            <h5 style="text-align: center">@Model.LongDescription</h5>
+                            <h5 class="text-left" style="margin-top: 50px">Price: @Model.Price.ToString("F2")</h5>
                         </div>
-                        <h3 class="text-center" style="padding: 10px">
-                            @Model.Name
-                        </h3>
-                        <h5 style="text-align: center">@Model.LongDescription</h5>
-                        <h5 class="text-left" style="margin-top: 50px">Price: @Model.Price.ToString("F2")</h5>
-                    </div>
-                    <div class="footer text-center">
-                        <div class="actions">
-                            @if (Model.MasseurId == null)
-                            {
-                                <a asp-controller="Masseurs" asp-action="AvailableMasseurs" asp-route-categoryId="@Model.CategoryId" asp-route-massageId="@Model.Id" class="btn btn-outline-primary">Book</a>
-                            }
-                            else
-                            {
-                                <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
-                            }
+                        <div class="footer text-center">
+                            <div class="actions">
+                                @if (Model.MasseurId == null)
+                                {
+                                    <a asp-controller="Masseurs" asp-action="AvailableMasseurs" asp-route-categoryId="@Model.CategoryId" asp-route-massageId="@Model.Id" class="btn btn-outline-primary">Book</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}

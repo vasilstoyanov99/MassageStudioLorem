@@ -68,9 +68,9 @@
 
             public const string NoMasseursFound = "No masseurs are found!";
 
-            public const string NoMassagesFoundUnderCategory = "No massages are found under this category!";
-
             public const string NoMassagesAndCategoriesFound = "No massages and categories are found!";
+
+            public const string SomethingWentWrong = "Ups... something went wrong! ¯\\_(ツ)_/¯";
         }
 
         public static class DateTimeFormats

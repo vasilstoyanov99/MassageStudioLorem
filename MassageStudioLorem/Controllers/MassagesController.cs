@@ -46,10 +46,8 @@
             var massageDetailsModel = this._massagesService
                 .GetMassageDetails(queryModel.MassageId, queryModel.CategoryId);
 
-            if (massageDetailsModel == null)
-            {
-                return this.RedirectToAction(nameof(this.All));
-            }
+            if (massageDetailsModel == null) 
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(massageDetailsModel);
         }
@@ -61,13 +59,14 @@
             var availableMassagesModel = this._massagesService.GetAvailableMassages
             (queryModel.MasseurId, queryModel.CategoryId, queryModel.CurrentPage);
 
-            if (!availableMassagesModel.Massages.Any())
+            if (availableMassagesModel == null || 
+                !availableMassagesModel.Massages.Any())
             {
                 this.ModelState
-                    .AddModelError(String.Empty, NoMassagesFoundUnderCategory);
+                    .AddModelError(String.Empty, SomethingWentWrong);
 
                 return this.View
-                    (new AvailableMassagesQueryServiceModel() {Massages = null});
+                    (new AvailableMassagesQueryServiceModel() { Massages = null });
             }
 
             return this.View(availableMassagesModel);
@@ -83,7 +82,8 @@
 
             if (massageDetailsModel == null)
             {
-                return this.RedirectToAction(nameof(this.All));
+                this.ModelState
+                    .AddModelError(String.Empty, SomethingWentWrong);
             }
 
             return this.View("Details", massageDetailsModel);

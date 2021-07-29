@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Models.Masseurs
 {
     using Data.Enums;
+    using Services.Masseurs.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -32,7 +33,7 @@
 
         public Gender Gender { get; set; }
 
-        public IEnumerable<MassageCategoryViewModel> Categories
+        public IEnumerable<MassageCategoryServiceModel> Categories
         { get; set; }
 
         //public ICollection<int> SelectedCategoriesIds { get; set; }
