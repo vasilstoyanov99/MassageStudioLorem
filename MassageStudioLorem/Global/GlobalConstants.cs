@@ -48,8 +48,6 @@
 
             public const string InvalidUrl
                 = "The provided URL is invalid!";
-                    
-            //TODO: Find a way to make this not hard-coded!
 
             public const string MasseurDescription
                 = "The provided description must be between {1} and {2} characters long!";
@@ -71,6 +69,8 @@
             public const string NoMasseursFound = "No masseurs are found!";
 
             public const string NoMassagesFoundUnderCategory = "No massages are found under this category!";
+
+            public const string NoMassagesAndCategoriesFound = "No massages and categories are found!";
         }
 
         public static class DateTimeFormats

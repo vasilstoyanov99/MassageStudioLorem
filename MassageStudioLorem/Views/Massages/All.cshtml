@@ -13,24 +13,29 @@
     </div>
 </div>
 
-<div class="card-deck">
-    @foreach (var massage in Model.Massages)
-    {
-        <div class="row">
-            <div class="col-md-4 offset-md-5">
-                <div class="card mb-3" style="width: 16rem">
-                    <img class="card-img-top" src="@massage.ImageUrl" alt="@massage.ShortDescription">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-center">@massage.Name</h5>
-                        <p class="card-text">@massage.ShortDescription</p>
-                        <a asp-controller="Massages" asp-action="Details" asp-route-categoryId="@Model.Id" asp-route-massageId="@massage.Id" class="btn btn-outline-primary">View More</a>
-                        <a asp-controller="Masseurs" asp-action="AvailableMasseurs" asp-route-categoryId="@Model.Id" asp-route-massageId="@massage.Id" class="btn btn-outline-primary">Book</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@if (Model.Massages != null)
+{
+    <div class="card-deck">
+        @foreach (var massage in Model.Massages)
+        {
+            <div class="row">
+                <div class="col-md-4 offset-md-5">
+                    <div class="card mb-3" style="width: 16rem">
+                        <img class="card-img-top" src="@massage.ImageUrl" alt="@massage.ShortDescription">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-center">@massage.Name</h5>
+                            <p class="card-text">@massage.ShortDescription</p>
+                            <a asp-controller="Massages" asp-action="Details" asp-route-categoryId="@Model.Id" asp-route-massageId="@massage.Id" class="btn btn-outline-primary">View More</a>
+                            <a asp-controller="Masseurs" asp-action="AvailableMasseurs" asp-route-categoryId="@Model.Id" asp-route-massageId="@massage.Id" class="btn btn-outline-primary">Book</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
 
 @{
     var previousPage = Model.CurrentPage - 1;

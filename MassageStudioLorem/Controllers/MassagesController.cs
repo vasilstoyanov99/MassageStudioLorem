@@ -21,13 +21,23 @@
             this._data = data;
             this._massagesService = massagesService;
         }
-        
+
         [Authorize]
         public IActionResult All
-            ([FromQuery] AllCategoriesQueryServiceModel queryModel) =>
-            this.View(this._massagesService
+            ([FromQuery] AllCategoriesQueryServiceModel queryModel)
+        {
+            var allCategoriesWithMassagesModel = this._massagesService
                 .GetAllCategoriesWithMassages
-                    (queryModel.Id, queryModel.Name, queryModel.CurrentPage));
+                    (queryModel.Id, queryModel.Name, queryModel.CurrentPage);
+
+            if (allCategoriesWithMassagesModel == null)
+            {
+                this.ModelState.AddModelError
+                    (String.Empty, NoMassagesAndCategoriesFound);
+            }
+
+            return this.View(allCategoriesWithMassagesModel);
+        }
 
         [Authorize]
         public IActionResult Details

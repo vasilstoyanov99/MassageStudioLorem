@@ -12,8 +12,14 @@
     public class MassagesService : IMassagesService
     {
         private readonly LoremDbContext _data;
+        private readonly CommonService _commonService;
 
-        public MassagesService(LoremDbContext data) => this._data = data;
+        public MassagesService(LoremDbContext data,
+            CommonService commonService)
+        {
+            this._data = data;
+            this._commonService = commonService;
+        }
 
         public AllCategoriesQueryServiceModel GetAllCategoriesWithMassages
             (string id, string name, int currentPage)
@@ -22,7 +28,10 @@
 
             var totalCategories = categoriesQuery.Count();
 
-            if (currentPage > totalCategories || currentPage < 1)
+            if (totalCategories == 0)
+                return null;
+
+                if (currentPage > totalCategories || currentPage < 1)
                 currentPage = CurrentPageStart;
 
             var allCategoriesModel = this.GetAllCategoriesWithMassagesModel(categoriesQuery
@@ -39,14 +48,14 @@
         public MassageDetailsServiceModel GetMassageDetails
             (string massageId, string categoryId)
         {
-            var massage = this.GetMassageFromDB(massageId);
+            var massage = this._commonService.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage, massageId))
+            if (this._commonService.CheckIfNull(massage, massageId))
                 return null;
 
-            var category = this.GetCategoryFromDB(categoryId);
+            var category = this._commonService.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(category, categoryId))
+            if (this._commonService.CheckIfNull(category, categoryId))
                 return null;
 
             return this.GetMassageDetailsModel(massage);
@@ -55,14 +64,14 @@
         public AvailableMassagesQueryServiceModel GetAvailableMassages
             (string masseurId, string categoryId, int currentPage)
         {
-            var masseur = this.GetMasseurFromDB(masseurId);
+            var masseur = _commonService.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur, masseurId))
+            if (this._commonService.CheckIfNull(masseur, masseurId))
                 return null;
 
             var category = this.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(category, categoryId))
+            if (this._commonService.CheckIfNull(category, categoryId))
                 return null;
 
             var massagesQuery = this._data.Massages.AsQueryable();
@@ -89,12 +98,12 @@
         {
             var massage = this.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage, massageId))
+            if (this._commonService.CheckIfNull(massage, massageId))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur, masseurId))
+            if (this._commonService.CheckIfNull(masseur, masseurId))
                 return null;
 
             return this.GetAvailableMassagesDetailsModel(massage, masseurId);
@@ -156,27 +165,5 @@
                 Price = massage.Price,
                 Name = massage.Name
             };
-
-        private double GetMaxPage(int count)
-            => Math.Ceiling
-                (count * 1.00 / ThreeCardsPerPage * 1.00);
-
-        private Masseur GetMasseurFromDB(string masseurId) =>
-            this._data
-                .Masseurs
-                .FirstOrDefault(m => m.UserId == masseurId);
-
-        private Massage GetMassageFromDB(string massageId) =>
-            this._data
-                .Massages
-                .FirstOrDefault(m => m.Id == massageId);
-
-        private Category GetCategoryFromDB(string categoryId) =>
-            this._data
-                .Categories
-                .FirstOrDefault(c => c.Id == categoryId);
-
-        private bool CheckIfNull(object massage, string id)
-            => String.IsNullOrEmpty(id) || massage == null;
     }
 }
