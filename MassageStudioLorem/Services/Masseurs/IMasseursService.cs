@@ -1,6 +1,6 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs
 {
-    public interface IMasseurService
+    public interface IMasseursService
     {
         bool IsUserMasseur(string userId);
     }

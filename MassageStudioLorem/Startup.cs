@@ -10,6 +10,7 @@ namespace MassageStudioLorem
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
+    using Services.Massages;
     using Services.Masseurs;
 
     public class Startup
@@ -49,7 +50,8 @@ namespace MassageStudioLorem
                     .Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
-            services.AddTransient<IMasseurService, MasseurService>();
+            services.AddTransient<IMasseursService, MasseursService>();
+            services.AddTransient<IMassagesService, MassagesService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

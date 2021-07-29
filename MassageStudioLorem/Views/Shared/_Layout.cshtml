@@ -4,7 +4,7 @@
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-@inject IMasseurService MasseurService
+@inject IMasseursService MasseurService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +35,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="All">Categories</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="All">Categories</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Masseurs" asp-action="All">Masseurs</a>

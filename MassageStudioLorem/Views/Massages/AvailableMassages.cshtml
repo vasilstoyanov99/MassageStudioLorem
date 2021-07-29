@@ -27,7 +27,7 @@
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@massage.Name</h5>
                             <p class="card-text">@massage.ShortDescription</p>
-                            <a asp-controller="Categories" asp-action="AvailableMassageDetails" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">View More</a>
+                            <a asp-controller="Massages" asp-action="AvailableMassageDetails" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">View More</a>
                             <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
 <div class="row mb-5">
     <div class="col-md-6">
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-           asp-controller="Categories"
+           asp-controller="Massages"
            asp-action="AvailableMassages"
            asp-route-currentPage="@(Model.CurrentPage - 1)">
             Previous
@@ -63,7 +63,7 @@
 
     <div class="col-md-6">
         <a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="margin-top: 10px"
-           asp-controller="Categories"
+           asp-controller="Massages"
            asp-action="AvailableMassages"
            asp-route-currentPage="@(Model.CurrentPage + 1)">
             Next

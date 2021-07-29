@@ -10,52 +10,26 @@
     using static Global.GlobalConstants.Paging;
     using Models.Categories;
     using Models.Massages;
+    using Services.Massages;
+    using Services.Massages.Models;
 
-    public class CategoriesController : Controller
+    public class MassagesController : Controller
     {
         private readonly LoremDbContext _data;
+        private readonly IMassagesService _categoriesService;
 
-        public CategoriesController(LoremDbContext data) =>
-            this._data = data;
-
-        [Authorize]
-        public IActionResult All([FromQuery] AllCategoriesQueryViewModel queryModel)
+        public MassagesController
+            (LoremDbContext data, IMassagesService categoriesService)
         {
-            var totalCategories = this._data.Categories.Count();
-
-            if (queryModel.CurrentPage > totalCategories
-                || queryModel.CurrentPage < 1)
-            {
-                return this.RedirectToAction(nameof(this.All));
-            }
-
-            var allCategoriesModel =
-                this._data
-                    .Categories
-                    .Skip((queryModel.CurrentPage - 1) * CategoriesPerPage)
-                    .Take(CategoriesPerPage)
-                    .Include(c => c.Massages)
-                    .Select(c => new AllCategoriesQueryViewModel()
-                    {
-                        Id = c.Id,
-                        Name = c.Name,
-                        CurrentPage = queryModel.CurrentPage,
-                        Massages = c.Massages
-                            .Select(m => new MassageListingViewModel()
-                            {
-                                Id = m.Id,
-                                ImageUrl = m.ImageUrl,
-                                ShortDescription = m.ShortDescription,
-                                Name = m.Name
-                            })
-                            .ToList()
-                    })
-                    .ToList();
-
-            allCategoriesModel[0].TotalCategories = totalCategories;
-
-            return this.View(allCategoriesModel[0]);
+            this._data = data;
+            this._categoriesService = categoriesService;
         }
+        
+        [Authorize]
+        public IActionResult All
+            ([FromQuery] AllCategoriesQueryServiceModel queryModel) =>
+            this.View(_categoriesService
+                .All(queryModel.Id, queryModel.Name, queryModel.CurrentPage));
 
         [Authorize]
         public IActionResult Details

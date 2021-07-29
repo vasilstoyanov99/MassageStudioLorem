@@ -1,4 +1,4 @@
-﻿@model AllCategoriesQueryViewModel
+﻿@model MassageStudioLorem.Services.Massages.Models.AllCategoriesQueryServiceModel
 
 @{
     ViewBag.Title = "All Categories";
@@ -23,7 +23,7 @@
                     <div class="card-body text-center">
                         <h5 class="card-title text-center">@massage.Name</h5>
                         <p class="card-text">@massage.ShortDescription</p>
-                        <a asp-controller="Categories" asp-action="Details" asp-route-categoryId="@Model.Id" asp-route-massageId="@massage.Id" class="btn btn-outline-primary">View More</a>
+                        <a asp-controller="Massages" asp-action="Details" asp-route-categoryId="@Model.Id" asp-route-massageId="@massage.Id" class="btn btn-outline-primary">View More</a>
                         <a asp-controller="Masseurs" asp-action="AvailableMasseurs" asp-route-categoryId="@Model.Id" asp-route-massageId="@massage.Id" class="btn btn-outline-primary">Book</a>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
 <div class="row mb-5">
     <div class="col-md-6">
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-           asp-controller="Categories"
+           asp-controller="Massages"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage - 1)">
             Previous
@@ -60,7 +60,7 @@
 
     <div class="col-md-6">
         <a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="margin-top: 10px"
-           asp-controller="Categories"
+           asp-controller="Massages"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)">
             Next
