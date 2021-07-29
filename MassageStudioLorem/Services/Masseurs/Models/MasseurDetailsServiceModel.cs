@@ -1,6 +1,6 @@
-﻿namespace MassageStudioLorem.Models.Masseurs
+﻿namespace MassageStudioLorem.Services.Masseurs.Models
 {
-    public class MasseurDetailsViewModel
+    public class MasseurDetailsServiceModel
     {
         public string Id { get; set; }
 

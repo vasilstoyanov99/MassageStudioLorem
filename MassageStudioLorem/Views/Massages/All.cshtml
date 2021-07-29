@@ -15,7 +15,7 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-@if (Model.Massages != null)
+@if (Model != null)
 {
     <div class="card-deck">
         @foreach (var massage in Model.Massages)

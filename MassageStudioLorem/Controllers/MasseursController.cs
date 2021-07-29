@@ -8,6 +8,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Masseurs;
+    using Services;
+    using Services.Masseurs;
+    using Services.Masseurs.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -17,22 +20,33 @@
 
     public class MasseursController : Controller
     {
-        private readonly LoremDbContext _data;
+        private readonly IMasseursService _masseursService;
+        private readonly ICommonService _commonService;
+        private readonly string _userId;
 
-        public MasseursController(LoremDbContext data) =>
-            this._data = data;
+        public MasseursController(IMasseursService masseursService,
+            CommonService commonService)
+        {
+            this._masseursService = masseursService;
+            this._commonService = commonService;
+            this._userId = this.User.GetId();
+        }
 
         [Authorize]
         public IActionResult BecomeMasseur()
         {
-            if (this._data.Masseurs.Any(x => x.UserId
-                                             == this.User.GetId()))
+            if (!this._masseursService.IsUserMasseur(this._userId))
+                return this.Unauthorized();
+
+            var becomeMasseurModel = new BecomeMasseurFormModel()
+                {Categories = this._masseursService.GetCategories()};
+
+            if (becomeMasseurModel.Categories == null)
             {
-                return this.RedirectToAction("Index", "Home");
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
             }
 
-            return this.View(new BecomeMasseurFormModel()
-                {Categories = this.GetCategories});
+            return this.View(becomeMasseurModel);
         }
 
         [Authorize]
@@ -40,247 +54,99 @@
         public IActionResult BecomeMasseur
             (BecomeMasseurFormModel masseurModel)
         {
-            //TODO: Check if I should redirect to home!
-
-            if (this._data.Masseurs.Any(x => x.UserId == this.User.GetId()))
-            {
+            if (this._masseursService.IsUserMasseur(this._userId))
                 this.ModelState.AddModelError(String.Empty, AlreadyMasseur);
-            }
 
-            if (!this._data.Categories.Any
-                (c => c.Id == masseurModel.CategoryId))
-            {
+            if (this._commonService.GetCategoryFromDB
+                (masseurModel.CategoryId) == null)
                 this.ModelState.AddModelError
-                    (nameof(masseurModel.CategoryId), CategoryIdError);
-            }
-
-            //TODO: I'm not sure if this is necessary!
+                    (String.Empty, CategoryIdError);
 
             if (!Enum.TryParse(typeof(Gender),
                 masseurModel.Gender.ToString(), true, out _))
-            {
                 this.ModelState.AddModelError
                     (nameof(masseurModel.Gender), GenderIdError);
-            }
 
-            if (!this.ModelState.IsValid ||
-                this.ModelState.ErrorCount > 0)
+            if (!this.ModelState.IsValid || this.ModelState.ErrorCount > 0)
             {
-                masseurModel.Categories = this.GetCategories;
+                masseurModel.Categories = this._masseursService.GetCategories();
 
                 return this.View(masseurModel);
             }
-
-            var htmlSanitizer = new HtmlSanitizer();
-
-            var masseur = new Masseur()
-            {
-                FullName = htmlSanitizer.Sanitize(masseurModel.FullName),
-                ProfileImageUrl = htmlSanitizer
-                    .Sanitize(masseurModel.ProfileImageUrl),
-                Description = htmlSanitizer.Sanitize(masseurModel.Description),
-                CategoryId = masseurModel.CategoryId,
-                Gender = masseurModel.Gender,
-                UserId = this.User.GetId()
-            };
-
-            this._data.Masseurs.Add(masseur);
-            this._data.SaveChanges();
+            
+            this._masseursService.RegisterNewMasseur(masseurModel, this._userId);
 
             return this.RedirectToAction("Index", "Home");
         }
 
         [Authorize]
-        public IActionResult All([FromQuery] AllMasseursQueryViewModel query)
+        public IActionResult All
+            ([FromQuery] AllMasseursQueryServiceModel query)
         {
-            if (!this._data.Masseurs.Any())
+            var allMasseursModel = this._masseursService.GetAllMasseurs(query.CurrentPage);
+
+            if (allMasseursModel.Masseurs == null)
             {
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
 
-                return this.View(new AllMasseursQueryViewModel() {Masseurs = null});
+                return this.View(allMasseursModel);
             }
 
-            var totalMasseurs = this._data.Masseurs.Count();
-
-            if (query.CurrentPage > totalMasseurs
-                || query.CurrentPage < 1)
-            {
-                return this.RedirectToAction(nameof(this.All));
-            }
-
-            var allMasseursModel = this._data
-                .Masseurs
-                .Skip((query.CurrentPage - 1) * ThreeCardsPerPage)
-                .Take(ThreeCardsPerPage)
-                .Select(m => new MasseurDetailsViewModel()
-                {
-                    Id = m.UserId,
-                    ProfileImageUrl = m.ProfileImageUrl,
-                    FullName = m.FullName,
-                    RatersCount = m.RatersCount,
-                    CategoryId = m.CategoryId,
-                    Rating = 2 // TODO: Get Rating from the DB!
-                })
-                .ToList();
-
-            return this.View(new AllMasseursQueryViewModel()
-            {
-                Masseurs = allMasseursModel,
-                CurrentPage = query.CurrentPage,
-                MaxPage =
-                    Math.Ceiling(totalMasseurs * 1.00 / ThreeCardsPerPage * 1.00)
-            });
+            return this.View(allMasseursModel);
         }
 
         [Authorize]
         public IActionResult Details
             ([FromQuery] MasseurDetailsQueryModel queryModel)
         {
-            var massage = this._data
-                .Massages
-                .FirstOrDefault(m => m.Id == queryModel.MassageId);
+            var masseurDetails = this._masseursService
+                .GetMasseurDetails(queryModel);
 
-            if (String.IsNullOrEmpty(queryModel.MassageId) || massage == null)
+            if (masseurDetails == null)
             {
-                return this.RedirectToAction("All", "Massages");
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
             }
-
-            var category = this._data
-                .Categories
-                .FirstOrDefault(c => c.Id == queryModel.CategoryId);
-
-            if (String.IsNullOrEmpty(queryModel.CategoryId) || category == null)
-            {
-                return this.RedirectToAction("All", "Massages");
-            }
-
-            var masseur = this._data
-                .Masseurs
-                .FirstOrDefault(m => m.UserId == queryModel.MasseurId);
-
-            if (String.IsNullOrEmpty(queryModel.MasseurId) || masseur == null)
-            {
-                // TODO: do it better
-                return this.RedirectToAction(nameof(this.All));
-            }
-
-            var masseurDetails = new MasseurDetailsViewModel()
-            {
-                Id = masseur.UserId,
-                CategoryId = queryModel.CategoryId,
-                MassageId = queryModel.MassageId,
-                Description = masseur.Description,
-                PhoneNumber = this.GetMasseurPhoneNumber(queryModel.MasseurId),
-                FullName = masseur.FullName,
-                ProfileImageUrl = masseur.ProfileImageUrl,
-                RatersCount = masseur.RatersCount,
-                Rating = 2
-            };
 
             return this.View(masseurDetails);
         }
 
         [Authorize]
         public IActionResult AvailableMasseurs
-            ([FromQuery] AvailableMasseursQueryViewModel queryModel)
+            ([FromQuery] AvailableMasseursQueryServiceModel queryModel)
         {
-            var massage = this._data
-                .Massages
-                .FirstOrDefault(m => m.Id == queryModel.MassageId);
 
-            if (String.IsNullOrEmpty(queryModel.MassageId) || massage == null)
+            var availableMasseursModel = this._masseursService.
+                GetAvailableMasseurs(queryModel);
+
+            if (availableMasseursModel == null)
             {
-                return this.RedirectToAction("All", "Massages");
+                this.ModelState.AddModelError
+                    (String.Empty, SomethingWentWrong);
+
+                return this.View((AvailableMasseursQueryServiceModel) null);
             }
 
-            var category = this._data
-                .Categories
-                .FirstOrDefault(c => c.Id == queryModel.CategoryId);
-
-            if (String.IsNullOrEmpty(queryModel.CategoryId) || category == null)
-            {
-                return this.RedirectToAction("All", "Massages");
-            }
-
-            if (!this._data.Masseurs
-                .Any(m => m.CategoryId == queryModel.CategoryId))
+            if (availableMasseursModel.Masseurs == null)
             {
                 this.ModelState
                     .AddModelError(String.Empty, NoMasseursFoundUnderCategory);
 
-                return this.View(new AvailableMasseursQueryViewModel() {Masseurs = null});
+                return this.View(availableMasseursModel);
             }
 
-            var totalMasseurs = this._data
-                .Masseurs
-                .Where(m => m.CategoryId == queryModel.CategoryId).Count();
-
-            if (queryModel.CurrentPage > totalMasseurs
-                || queryModel.CurrentPage < 1)
-            {
-                return this.RedirectToAction(nameof(this.All));
-            }
-
-            var availableMasseursModel = this._data
-                .Masseurs
-                .Skip((queryModel.CurrentPage - 1) * ThreeCardsPerPage)
-                .Take(ThreeCardsPerPage)
-                .Where(c => c.CategoryId == queryModel.CategoryId)
-                .Select(m => new AvailableMasseurListingViewModel()
-                {
-                    Id = m.UserId,
-                    ProfileImageUrl = m.ProfileImageUrl,
-                    FirstAndLastName = m.FullName,
-                    RatersCount = m.RatersCount,
-                    Rating = 2,
-                })
-                .ToList();
-
-            return this.View(new AvailableMasseursQueryViewModel()
-            {
-                Masseurs = availableMasseursModel,
-                MassageId = queryModel.MassageId,
-                CategoryId = queryModel.CategoryId,
-                CurrentPage = queryModel.CurrentPage,
-                MaxPage =
-                    Math.Ceiling(totalMasseurs * 1.00 / ThreeCardsPerPage * 1.00)
-            });
+            return this.View(availableMasseursModel);
         }
 
         [Authorize]
         public IActionResult AvailableMasseurDetails(string masseurId)
         {
-            var masseur = this._data
-                .Masseurs
-                .FirstOrDefault(m => m.UserId == masseurId);
+            var masseurDetailsModel = this._masseursService
+                .GetAvailableMasseurDetails(masseurId);
 
-            if (String.IsNullOrEmpty(masseurId) || masseur == null)
-            {
-                return this.RedirectToAction(nameof(this.All));
-            }
-
-            var masseurDetailsModel = new MasseurDetailsViewModel()
-            {
-                Id = masseur.UserId,
-                Description = masseur.Description,
-                PhoneNumber = this.GetMasseurPhoneNumber(masseurId),
-                FullName = masseur.FullName,
-                ProfileImageUrl = masseur.ProfileImageUrl,
-                RatersCount = masseur.RatersCount,
-                CategoryId = masseur.CategoryId,
-                Rating = 2
-            };
+            if (masseurDetailsModel == null)
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View("Details", masseurDetailsModel);
         }
-
-        private IEnumerable<MassageCategoryViewModel> GetCategories
-            => this._data
-                .Categories
-                .Select(c => new MassageCategoryViewModel() {Id = c.Id, Name = c.Name})
-                .ToList();
-
-        private string GetMasseurPhoneNumber(string masseurId) =>
-            this._data.Users.FirstOrDefault(u => u.Id == masseurId)?.PhoneNumber;
     }
 }

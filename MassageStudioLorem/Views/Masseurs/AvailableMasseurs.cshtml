@@ -1,4 +1,4 @@
-﻿@model MassageStudioLorem.Models.Masseurs.AvailableMasseursQueryViewModel
+﻿@model AvailableMasseursQueryServiceModel
 
 
 @{
@@ -16,7 +16,7 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-@if (Model.Masseurs != null)
+@if (Model.Masseurs != null || Model != null)
 {
     <div class="card-deck">
         @foreach (var masseur in Model.Masseurs)

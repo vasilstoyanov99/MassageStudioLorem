@@ -62,7 +62,8 @@
                     .AddModelError(String.Empty, SomethingWentWrong);
 
                 return this.View
-                    (new AvailableMassagesQueryServiceModel() { Massages = null });
+                    (new AvailableMassagesQueryServiceModel()
+                    { Massages = null });
             }
 
             return this.View(availableMassagesModel);

@@ -6,7 +6,7 @@
     using System.Linq;
     using static Global.GlobalConstants.Paging;
 
-    public class CommonService
+    public class CommonService : ICommonService
     {
         private readonly LoremDbContext _data;
 
@@ -15,7 +15,7 @@
         public bool CheckIfNull(object massage, string id)
             => String.IsNullOrEmpty(id) || massage == null;
 
-        private double GetMaxPage(int count)
+        public double GetMaxPage(int count)
             => Math.Ceiling
                 (count * 1.00 / ThreeCardsPerPage * 1.00);
 

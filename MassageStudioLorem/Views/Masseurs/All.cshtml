@@ -1,4 +1,4 @@
-﻿@model AllMasseursQueryViewModel
+﻿@model AllMasseursQueryServiceModel
 
 @{
     ViewBag.Title = "All Masseurs";
@@ -15,7 +15,7 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-@if (Model.Masseurs != null)
+@if (Model.Masseurs != null || Model != null)
 {
     <div class="card-deck">
         @foreach (var masseur in Model.Masseurs)
