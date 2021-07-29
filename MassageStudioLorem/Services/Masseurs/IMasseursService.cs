@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs
 {
+    using Data.Models;
     using MassageStudioLorem.Models.Masseurs;
     using Models;
     using System.Collections.Generic;
@@ -24,5 +25,7 @@
 
         public MasseurDetailsServiceModel GetAvailableMasseurDetails
             (string masseurId);
+
+        Category GetCategoryFromDB(string categoryId);
     }
 }

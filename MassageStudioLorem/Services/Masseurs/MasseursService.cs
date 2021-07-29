@@ -15,13 +15,7 @@
     public class MasseursService : IMasseursService
     {
         private readonly LoremDbContext _data;
-        private readonly CommonService _commonService;
-
-        public MasseursService(LoremDbContext data, CommonService commonService)
-        {
-            this._data = data;
-            this._commonService = commonService;
-        }
+        public MasseursService(LoremDbContext data) => this._data = data;
 
         public bool IsUserMasseur(string userId) =>
             this._data.Masseurs.Any(m => m.UserId == userId);
@@ -63,38 +57,36 @@
 
             var totalMasseurs = masseursQuery.Count();
 
+            if (currentPage > totalMasseurs || currentPage < 1)
+                currentPage = CurrentPageStart;
+
             var allMasseursModel = new AllMasseursQueryServiceModel()
             {
                 CurrentPage = currentPage,
-                MaxPage = this._commonService.GetMaxPage(totalMasseurs),
+                MaxPage = this.GetMaxPage(totalMasseurs),
                 Masseurs = GetAllMasseursModels(masseursQuery
                     .Skip((currentPage - 1) * ThreeCardsPerPage)
                     .Take(ThreeCardsPerPage))
             };
-
-            this.CheckAndFixCurrentPage(allMasseursModel, totalMasseurs);
 
             return allMasseursModel;
         }
 
         public MasseurDetailsServiceModel GetMasseurDetails(MasseurDetailsQueryModel queryModel)
         {
-            var massage = this._commonService
-                .GetMassageFromDB(queryModel.MassageId);
+            var massage = this.GetMassageFromDB(queryModel.MassageId);
 
-            if (this._commonService.CheckIfNull(massage, queryModel.MassageId))
+            if (this.CheckIfNull(massage, queryModel.MassageId))
                 return null;
 
-            var category = this._commonService
-                .GetCategoryFromDB(queryModel.CategoryId);
+            var category = this.GetCategoryFromDB(queryModel.CategoryId);
 
-            if (this._commonService.CheckIfNull(category, queryModel.CategoryId))
+            if (this.CheckIfNull(category, queryModel.CategoryId))
                 return null;
 
-            var masseur = this._commonService
-                .GetMasseurFromDB(queryModel.MasseurId);
+            var masseur = this.GetMasseurFromDB(queryModel.MasseurId);
 
-            if (this._commonService.CheckIfNull(masseur, queryModel.MasseurId))
+            if (this.CheckIfNull(masseur, queryModel.MasseurId))
                 return null;
 
             return GetMasseurDetailsModel(masseur, queryModel);
@@ -102,16 +94,14 @@
 
         public AvailableMasseursQueryServiceModel GetAvailableMasseurs(AvailableMasseursQueryServiceModel queryModel)
         {
-            var massage = this._commonService
-                .GetMassageFromDB(queryModel.MassageId);
+            var massage = this.GetMassageFromDB(queryModel.MassageId);
 
-            if (this._commonService.CheckIfNull(massage, queryModel.MassageId))
+            if (this.CheckIfNull(massage, queryModel.MassageId))
                 return null;
 
-            var category = this._commonService
-                .GetCategoryFromDB(queryModel.CategoryId);
+            var category = this.GetCategoryFromDB(queryModel.CategoryId);
 
-            if (this._commonService.CheckIfNull(category, queryModel.CategoryId))
+            if (this.CheckIfNull(category, queryModel.CategoryId))
                 return null;
 
             var masseursQuery = this._data.Masseurs.AsQueryable();
@@ -125,12 +115,14 @@
             var totalMasseurs = masseursQuery
                 .Count(m => m.CategoryId == queryModel.CategoryId);
 
-            this.CheckAndFixCurrentPage(queryModel, totalMasseurs);
+            if (queryModel.CurrentPage > totalMasseurs || 
+                queryModel.CurrentPage < 1)
+                queryModel.CurrentPage = CurrentPageStart;
 
             var availableMasseursModel = new AvailableMasseursQueryServiceModel()
             {
                 CurrentPage = queryModel.CurrentPage,
-                MaxPage = this._commonService.GetMaxPage(totalMasseurs),
+                MaxPage = this.GetMaxPage(totalMasseurs),
                 MassageId = queryModel.MassageId,
                 CategoryId = queryModel.CategoryId,
                 Masseurs = this.GetAvailableMasseursModels(masseursQuery
@@ -145,10 +137,9 @@
         public MasseurDetailsServiceModel GetAvailableMasseurDetails
             (string masseurId)
         {
-            var masseur = this._commonService
-                .GetMasseurFromDB(masseurId);
+            var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this._commonService.CheckIfNull(masseur, masseurId))
+            if (this.CheckIfNull(masseur, masseurId))
                 return null;
 
             return GetMasseurDetailsModel(masseur);
@@ -213,11 +204,26 @@
         private string GetMasseurPhoneNumber(string masseurId) =>
             this._data.Users.FirstOrDefault(u => u.Id == masseurId)?.PhoneNumber;
 
-        private void CheckAndFixCurrentPage
-            (object queryModel, int count)
-        {
-            if (queryModel.CurrentPage > count || queryModel.CurrentPage < 1)
-                queryModel.CurrentPage = CurrentPageStart;
-        }
+        private bool CheckIfNull(object massage, string id)
+            => String.IsNullOrEmpty(id) || massage == null;
+
+        private double GetMaxPage(int count)
+            => Math.Ceiling
+                (count * 1.00 / ThreeCardsPerPage * 1.00);
+
+        private Masseur GetMasseurFromDB(string masseurId) =>
+            this._data
+                .Masseurs
+                .FirstOrDefault(m => m.UserId == masseurId);
+
+        private Massage GetMassageFromDB(string massageId) =>
+            this._data
+                .Massages
+                .FirstOrDefault(m => m.Id == massageId);
+
+        public Category GetCategoryFromDB(string categoryId) =>
+            this._data
+                .Categories
+                .FirstOrDefault(c => c.Id == categoryId);
     }
 }

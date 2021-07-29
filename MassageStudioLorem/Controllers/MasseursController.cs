@@ -1,41 +1,31 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Data;
     using Data.Enums;
-    using Data.Models;
-    using Ganss.XSS;
     using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Masseurs;
-    using Services;
     using Services.Masseurs;
     using Services.Masseurs.Models;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     using static Global.GlobalConstants.ErrorMessages;
-    using static Global.GlobalConstants.Paging;
 
     public class MasseursController : Controller
     {
         private readonly IMasseursService _masseursService;
-        private readonly ICommonService _commonService;
-        private readonly string _userId;
+        private string _userId;
 
-        public MasseursController(IMasseursService masseursService,
-            CommonService commonService)
+        public MasseursController(IMasseursService masseursService)
         {
             this._masseursService = masseursService;
-            this._commonService = commonService;
-            this._userId = this.User.GetId();
         }
 
         [Authorize]
         public IActionResult BecomeMasseur()
         {
-            if (!this._masseursService.IsUserMasseur(this._userId))
+            var userId = User.GetId();
+
+            if (this._masseursService.IsUserMasseur(userId))
                 return this.Unauthorized();
 
             var becomeMasseurModel = new BecomeMasseurFormModel()
@@ -54,10 +44,12 @@
         public IActionResult BecomeMasseur
             (BecomeMasseurFormModel masseurModel)
         {
-            if (this._masseursService.IsUserMasseur(this._userId))
+            var userId = this.User.GetId();
+
+            if (this._masseursService.IsUserMasseur(userId))
                 this.ModelState.AddModelError(String.Empty, AlreadyMasseur);
 
-            if (this._commonService.GetCategoryFromDB
+            if (this._masseursService.GetCategoryFromDB
                 (masseurModel.CategoryId) == null)
                 this.ModelState.AddModelError
                     (String.Empty, CategoryIdError);
@@ -74,7 +66,7 @@
                 return this.View(masseurModel);
             }
             
-            this._masseursService.RegisterNewMasseur(masseurModel, this._userId);
+            this._masseursService.RegisterNewMasseur(masseurModel, userId);
 
             return this.RedirectToAction("Index", "Home");
         }
