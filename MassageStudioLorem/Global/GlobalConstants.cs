@@ -53,10 +53,16 @@
                 = "The provided description must be between {1} and {2} characters long!";
 
             public const string PasswordLength
-                = "The {0} must be at least {2} and at max {1} characters long.";
+                = "The provided {0} must be at least {2} and {1} characters long.";
 
             public const string PasswordConformation
-                = "The password and confirmation password do not match.";
+                = "The provided password and confirmation password do not match.";
+
+            public const string PhoneNumberRegex
+                = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
+
+            public const string InvalidPhoneNumber
+                = "The provided Phone Number is not valid or contains unnecessary white spaces!";
 
             public const string CategoryIdError = "Category does not exist.";
 

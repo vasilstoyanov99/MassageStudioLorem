@@ -34,7 +34,7 @@
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "The provided e-mail is not valid!")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -58,7 +58,8 @@
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [Phone]
+            [RegularExpression
+                (PhoneNumberRegex, ErrorMessage = InvalidPhoneNumber)]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
         }
@@ -106,7 +107,7 @@
                     this.ModelState.AddModelError(string.Empty, "Please enter a different phone number!");
                 }
 
-                if (result != null)
+                if (result == null)
                 {
                     foreach (IdentityError error in result.Errors)
                     {

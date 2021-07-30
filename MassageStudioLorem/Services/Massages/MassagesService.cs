@@ -194,7 +194,7 @@
             (string massageId, string masseurId)
         {
             var massage = this.GetMassageFromDB(massageId);
-
+            
             if (this.CheckIfNull(massage, massageId))
                 return null;
 
