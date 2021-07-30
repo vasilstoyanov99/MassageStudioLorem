@@ -64,7 +64,7 @@
             {
                 CurrentPage = currentPage,
                 MaxPage = this.GetMaxPage(totalMasseurs),
-                Masseurs = GetAllMasseursModels(masseursQuery
+                Masseurs = this.GetAllMasseursModels(masseursQuery
                     .Skip((currentPage - 1) * ThreeCardsPerPage)
                     .Take(ThreeCardsPerPage))
             };
@@ -74,38 +74,17 @@
 
         public MasseurDetailsServiceModel GetMasseurDetails(MasseurDetailsQueryModel queryModel)
         {
-            var massage = this.GetMassageFromDB(queryModel.MassageId);
+            var masseur = this.ReturnMasseurIfMasseurDetailsQueryDataIsValid
+                (queryModel);
 
-            if (this.CheckIfNull(massage, queryModel.MassageId))
-                return null;
-
-            var category = this.GetCategoryFromDB(queryModel.CategoryId);
-
-            if (this.CheckIfNull(category, queryModel.CategoryId))
-                return null;
-
-            var masseur = this.GetMasseurFromDB(queryModel.MasseurId);
-
-            if (this.CheckIfNull(masseur, queryModel.MasseurId))
-                return null;
-
-            if (!this._data.Massages.Any(m => m.CategoryId == categoryId) ||
-                !this._data.Masseurs.Any(m => m.CategoryId == categoryId))
-                return false;
-
-            return GetMasseurDetailsModel(masseur, queryModel);
+            return this.GetMasseurDetailsModel(masseur, queryModel);
         }
 
-        public AvailableMasseursQueryServiceModel GetAvailableMasseurs(AvailableMasseursQueryServiceModel queryModel)
+        public AvailableMasseursQueryServiceModel GetAvailableMasseurs
+            (AvailableMasseursQueryServiceModel queryModel)
         {
-            var massage = this.GetMassageFromDB(queryModel.MassageId);
-
-            if (this.CheckIfNull(massage, queryModel.MassageId))
-                return null;
-
-            var category = this.GetCategoryFromDB(queryModel.CategoryId);
-
-            if (this.CheckIfNull(category, queryModel.CategoryId))
+            if (!this.IsAvailableMasseursQueryDataValid
+                (queryModel.CategoryId, queryModel.MassageId))
                 return null;
 
             var masseursQuery = this._data.Masseurs.AsQueryable();
@@ -146,7 +125,7 @@
             if (this.CheckIfNull(masseur, masseurId))
                 return null;
 
-            return GetMasseurDetailsModel(masseur);
+            return this.GetMasseurDetailsModel(masseur);
         }
 
         private IEnumerable<MasseurDetailsServiceModel>
@@ -229,5 +208,48 @@
             this._data
                 .Categories
                 .FirstOrDefault(c => c.Id == categoryId);
+
+        private Masseur ReturnMasseurIfMasseurDetailsQueryDataIsValid
+            (MasseurDetailsQueryModel queryModel)
+        {
+            var massage = this.GetMassageFromDB(queryModel.MassageId);
+
+            if (this.CheckIfNull(massage, queryModel.MassageId))
+                return null;
+
+            var category = this.GetCategoryFromDB(queryModel.CategoryId);
+
+            if (this.CheckIfNull(category, queryModel.CategoryId))
+                return null;
+
+            var masseur = this.GetMasseurFromDB(queryModel.MasseurId);
+
+            if (this.CheckIfNull(masseur, queryModel.MasseurId))
+                return null;
+
+            if (!this._data.Massages.Any
+                    (m => m.CategoryId == queryModel.CategoryId) ||
+                !this._data.Masseurs.Any
+                    (m => m.CategoryId == queryModel.CategoryId))
+                return null;
+
+            return masseur;
+        }
+
+        private bool IsAvailableMasseursQueryDataValid
+            (string categoryId, string massageId)
+        {
+            var massage = this.GetMassageFromDB(massageId);
+
+            if (this.CheckIfNull(massage, massageId))
+                return false;
+
+            var category = this.GetCategoryFromDB(categoryId);
+
+            if (this.CheckIfNull(category, categoryId))
+                return false;
+
+            return true;
+        }
     }
 }
