@@ -57,7 +57,7 @@
         public AvailableMassagesQueryServiceModel GetAvailableMassages
             (string masseurId, string categoryId, int currentPage)
         {
-            if (!IsAvailableMassagesQueryDataValid(masseurId, categoryId))
+            if (!this.IsAvailableMassagesQueryDataValid(masseurId, categoryId))
                 return null;
 
             var massagesQuery = this._data.Massages.AsQueryable();

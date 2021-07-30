@@ -13,7 +13,6 @@
     public class MasseursController : Controller
     {
         private readonly IMasseursService _masseursService;
-        private string _userId;
 
         public MasseursController(IMasseursService masseursService)
         {
@@ -23,7 +22,7 @@
         [Authorize]
         public IActionResult BecomeMasseur()
         {
-            var userId = User.GetId();
+            var userId = this.User.GetId();
 
             if (this._masseursService.IsUserMasseur(userId))
                 return this.Unauthorized();
@@ -57,7 +56,7 @@
             if (!Enum.TryParse(typeof(Gender),
                 masseurModel.Gender.ToString(), true, out _))
                 this.ModelState.AddModelError
-                    (nameof(masseurModel.Gender), GenderIdError);
+                    (String.Empty, GenderIdError);
 
             if (!this.ModelState.IsValid || this.ModelState.ErrorCount > 0)
             {
@@ -75,7 +74,8 @@
         public IActionResult All
             ([FromQuery] AllMasseursQueryServiceModel query)
         {
-            var allMasseursModel = this._masseursService.GetAllMasseurs(query.CurrentPage);
+            var allMasseursModel = this._masseursService
+                .GetAllMasseurs(query.CurrentPage);
 
             if (allMasseursModel.Masseurs == null)
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);

@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
-    using MassageStudioLorem.Data;
+    using Data;
     using System.Linq;
 
     public static class ApplicationBuilderExtensions

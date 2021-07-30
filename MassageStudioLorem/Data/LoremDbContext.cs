@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using MassageStudioLorem.Data.Models;
+    using Models;
     using Microsoft.AspNetCore.Identity;
 
     public class LoremDbContext : IdentityDbContext
@@ -26,11 +26,7 @@
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<MasseurAvailableHours> MasseursAvailableHours
-        {
-            get;
-            set;
-        }
+        public DbSet<MasseurAvailableHours> MasseursAvailableHours { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

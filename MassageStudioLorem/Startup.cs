@@ -17,7 +17,7 @@ namespace MassageStudioLorem
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -39,8 +39,7 @@ namespace MassageStudioLorem
                 .AddEntityFrameworkStores<LoremDbContext>();
 
             services.AddDbContext<LoremDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
