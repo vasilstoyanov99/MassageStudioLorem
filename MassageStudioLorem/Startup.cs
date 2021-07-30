@@ -78,19 +78,6 @@ namespace MassageStudioLorem
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapDefaultControllerRoute();
-                    endpoints.MapControllerRoute
-                    (
-                        "Details",
-                        "{controller}/{action}/{massageId?}/{categoryId?}",
-                        new {controller = "Categories", action = "Details"}
-                    );
-                    //TODO: Fix routes
-                    endpoints.MapControllerRoute
-                    (
-                        "All",
-                        "{controller}/{action}/{massageId?}/{categoryId?}",
-                        new {controller = "Masseurs", action = "All"}
-                    );
                     endpoints.MapRazorPages();
                 });
         }

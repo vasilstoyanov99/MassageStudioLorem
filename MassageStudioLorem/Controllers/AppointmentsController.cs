@@ -28,7 +28,7 @@
 
             if (String.IsNullOrEmpty(query.MassageId) || massage == null)
             {
-                return this.RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Massages");
             }
 
             var masseur = this._data
@@ -38,7 +38,7 @@
             if (String.IsNullOrEmpty(query.MasseurId) || masseur == null)
             {
                 // TODO: do it better
-                return this.RedirectToAction("All", "Categories");
+                return this.RedirectToAction("All", "Massages");
             }
 
             return this.View(new AppointmentFormModel()
@@ -54,7 +54,6 @@
         [HttpPost]
         public IActionResult Book([FromQuery] AppointmentFormModel query)
         {
-            ;
             return this.View();
         }
     }

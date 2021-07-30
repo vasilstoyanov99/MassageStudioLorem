@@ -100,7 +100,6 @@
         public IActionResult AvailableMasseurs
             ([FromQuery] AvailableMasseursQueryServiceModel queryModel)
         {
-
             var availableMasseursModel = this._masseursService.
                 GetAvailableMasseurs(queryModel);
 

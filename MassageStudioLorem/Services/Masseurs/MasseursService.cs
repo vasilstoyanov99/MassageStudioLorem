@@ -89,6 +89,10 @@
             if (this.CheckIfNull(masseur, queryModel.MasseurId))
                 return null;
 
+            if (!this._data.Massages.Any(m => m.CategoryId == categoryId) ||
+                !this._data.Masseurs.Any(m => m.CategoryId == categoryId))
+                return false;
+
             return GetMasseurDetailsModel(masseur, queryModel);
         }
 

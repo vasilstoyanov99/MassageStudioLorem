@@ -57,23 +57,16 @@
         public AvailableMassagesQueryServiceModel GetAvailableMassages
             (string masseurId, string categoryId, int currentPage)
         {
-            var masseur = this.GetMasseurFromDB(masseurId);
-
-            if (this.CheckIfNull(masseur, masseurId))
-                return null;
-
-            var category = this.GetCategoryFromDB(categoryId);
-
-            if (this.CheckIfNull(category, categoryId))
-                return null;
-
-            if (!this._data.Masseurs.Any(m => m.CategoryId == categoryId))
+            if (!IsAvailableMassagesQueryDataValid(masseurId, categoryId))
                 return null;
 
             var massagesQuery = this._data.Massages.AsQueryable();
 
-            var totalMassages = massagesQuery?
-                .Count(m => m.CategoryId == categoryId) ?? 0;
+            var totalMassages = massagesQuery
+                .Count(m => m.CategoryId == categoryId);
+
+            if (currentPage > totalMassages || currentPage < 1)
+                currentPage = CurrentPageStart;
 
             return new AvailableMassagesQueryServiceModel()
             {
@@ -93,14 +86,10 @@
         public MassageDetailsServiceModel GetAvailableMassageDetails
             (string massageId, string masseurId)
         {
-            var massage = this.GetMassageFromDB(massageId);
+            var massage = this.ReturnMassageIfAvailableMassageQueryDataIsValid
+                (massageId, masseurId);
 
-            if (this.CheckIfNull(massage, massageId))
-                return null;
-
-            var masseur = this.GetMasseurFromDB(masseurId);
-
-            if (this.CheckIfNull(masseur, masseurId))
+            if (massage == null)
                 return null;
 
             return this.GetAvailableMassagesDetailsModel(massage, masseurId);
@@ -180,5 +169,44 @@
             this._data
                 .Categories
                 .FirstOrDefault(c => c.Id == categoryId);
+
+        private bool IsAvailableMassagesQueryDataValid
+            (string masseurId, string categoryId)
+        {
+            var masseur = this.GetMasseurFromDB(masseurId);
+
+            if (this.CheckIfNull(masseur, masseurId))
+                return false;
+
+            var category = this.GetCategoryFromDB(categoryId);
+
+            if (this.CheckIfNull(category, categoryId))
+                return false;
+
+            if (masseur.CategoryId != categoryId ||
+                !this._data.Massages.Any(m => m.CategoryId == categoryId))
+                return false;
+
+            return true;
+        }
+
+        private Massage ReturnMassageIfAvailableMassageQueryDataIsValid
+            (string massageId, string masseurId)
+        {
+            var massage = this.GetMassageFromDB(massageId);
+
+            if (this.CheckIfNull(massage, massageId))
+                return null;
+
+            var masseur = this.GetMasseurFromDB(masseurId);
+
+            if (this.CheckIfNull(masseur, masseurId))
+                return null;
+
+            if (masseur.CategoryId != massage.CategoryId)
+                return null;
+
+            return massage;
+        }
     }
 }
