@@ -10,6 +10,7 @@ namespace MassageStudioLorem
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
+    using Services.Appointments;
     using Services.Massages;
     using Services.Masseurs;
 
@@ -51,6 +52,7 @@ namespace MassageStudioLorem
 
             services.AddTransient<IMasseursService, MasseursService>();
             services.AddTransient<IMassagesService, MassagesService>();
+            services.AddTransient<IAppointmentsService, AppointmentsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -5,53 +5,36 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Appointments;
+    using Services.Appointments;
     using System;
     using System.Linq;
 
+    using static Global.GlobalConstants.ErrorMessages;
+
     public class AppointmentsController : Controller
     {
-        private readonly LoremDbContext _data;
+        private readonly IAppointmentsService _appointmentsService;
 
-        public AppointmentsController(LoremDbContext data) => this._data = data;
+        public AppointmentsController(IAppointmentsService appointmentsService)
+            => this._appointmentsService = appointmentsService;
 
         [Authorize]
         public IActionResult Book([FromQuery] AppointmentIdsQueryModel query)
         {
-            if (DefaultTimeSchedule.TimeSchedule == null)
-            {
-                DefaultTimeSchedule.SeedTimeTable();
-            }
+            var appointmentFormModel =
+                this._appointmentsService
+                    .GetTheMasseurSchedule(query.MasseurId, query.MassageId);
 
-            var massage = this._data
-                .Massages
-                .FirstOrDefault(m => m.Id == query.MassageId);
+            if (appointmentFormModel == null) 
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
-            if (String.IsNullOrEmpty(query.MassageId) || massage == null)
-            {
-                return this.RedirectToAction("All", "Massages");
-            }
-
-            var masseur = this._data
-                .Masseurs
-                .FirstOrDefault(m => m.UserId == query.MasseurId);
-
-            if (String.IsNullOrEmpty(query.MasseurId) || masseur == null)
-            {
-                // TODO: do it better
-                return this.RedirectToAction("All", "Massages");
-            }
-
-            return this.View(new AppointmentFormModel()
-            {
-                MassageName = massage.Name,
-                MasseurFullName = masseur.FullName,
-                MassageId = query.MassageId,
-                MasseurId = query.MasseurId
-            });
+            return this.View(appointmentFormModel);
         }
 
         [Authorize]
         [HttpPost]
+
+        //Use IsModelStateValid!
         public IActionResult Book([FromQuery] AppointmentFormModel query)
         {
             return this.View();
