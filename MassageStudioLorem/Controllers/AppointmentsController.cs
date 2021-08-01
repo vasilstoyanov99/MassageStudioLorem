@@ -1,7 +1,9 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
     using Data;
+    using Data.Models;
     using Global;
+    using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Appointments;
@@ -63,6 +65,11 @@
 
                 return this.View(query);
             }
+
+            var clientId = this.User.GetId();
+
+            this._appointmentsService.AddNewAppointment
+                (clientId, masseurId, massageId, date, hour);
 
             return this.View();
         }

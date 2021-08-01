@@ -2,6 +2,7 @@
 {
     using Data;
     using Data.Models;
+    using Microsoft.EntityFrameworkCore;
     using Models;
     using System;
     using System.Linq;
@@ -49,16 +50,18 @@
         public string CheckIfMasseurUnavailableAndGetErrorMessage
             (DateTime date, string hour, string masseurId)
         {
-            var appointmentsQuery = this._data.Appointments.AsQueryable();
+            var masseursQuery = this._data.Masseurs
+                .Include(m => m.WorkSchedule).AsQueryable();
 
-            var isUnavailable = appointmentsQuery
-                    .Any(a => a.MasseurId == masseurId && 
-                              a.Date == date && a.Hour == hour);
+            var isUnavailable = masseursQuery.
+                    Any(m => m.UserId == masseurId && m.WorkSchedule.Any(ws => ws.Date == date && ws.Hour == hour));
 
             if (isUnavailable)
             {
-                var hoursBookedInTheDay = appointmentsQuery
-                    .Count(x => x.MasseurId == masseurId && x.Date == date);
+                var hoursBookedInTheDay = masseursQuery
+                    .FirstOrDefault(m => m.UserId == masseurId)
+                    .WorkSchedule
+                    .Count(ws => ws.Date == date && ws.Hour == hour);
 
                 if (hoursBookedInTheDay == DefaultHoursPerDay)
                 {
@@ -67,10 +70,33 @@
                 }
 
                 return this.GetAvailableHours
-                    (date, hour, masseurId, appointmentsQuery);
+                    (date, hour, masseurId, masseursQuery);
             }
 
             return null;
+        }
+
+        public void AddNewAppointment
+            (string clientId, string masseurId, string massageId,
+             DateTime date, string hour)
+        {
+            var appointment = new Appointment()
+            {
+                ClientId = clientId,
+                MasseurId = masseurId,
+                MassageId = massageId,
+                Date = date,
+                Hour = hour,
+                IsMasseurRatedByTheUser = false
+            };
+
+            this._data.Appointments.Add(appointment);
+            var masseur = GetMasseurFromDB(masseurId);
+            masseur.WorkSchedule.Add(appointment);
+            var client = this._data.Clients
+                .FirstOrDefault(c => c.UserId == clientId);
+            client.Appointments.Add(appointment);
+            this._data.SaveChanges();
         }
 
         private bool CheckIfNull(object massage, string id)
@@ -99,12 +125,12 @@
 
         private string GetAvailableHours
             (DateTime date, string hour, string masseurId,
-            IQueryable<Appointment> appointments)
+            IQueryable<Masseur> masseursQuery)
         {
-            var bookedHours = appointments.
-                Where(x => x.MasseurId == masseurId &&
-                            x.Date == date)
-                .Select(x => new { x.Hour })
+            var bookedHours = masseursQuery
+                .FirstOrDefault(m => m.UserId == masseurId)
+                .WorkSchedule.Where(ws => ws.Date == date)
+                .Select(s => new {s.Hour})
                 .ToList();
 
             if (HourScheduleAsString == null)

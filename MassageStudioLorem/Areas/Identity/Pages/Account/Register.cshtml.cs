@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Data;
+    using Data.Models;
     using static Global.GlobalConstants.ErrorMessages;
 
     [AllowAnonymous]
@@ -96,6 +97,10 @@
 
                     if (result.Succeeded)
                     {
+                        await this._data.Clients
+                            .AddAsync(new Client() {UserId = user.Id});
+                        await this._data.SaveChangesAsync();
+
                         await this._signInManager.SignInAsync(user,
                             false);
 

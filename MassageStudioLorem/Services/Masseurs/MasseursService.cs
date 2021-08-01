@@ -44,6 +44,9 @@
             };
 
             this._data.Masseurs.Add(masseur);
+            var client = this._data.Clients
+                .FirstOrDefault(c => c.UserId == userId);
+            this._data.Clients.Remove(client);
             this._data.SaveChanges();
         }
 
