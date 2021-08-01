@@ -37,6 +37,8 @@
         [Authorize]
         [HttpPost]
 
+        //TODO: Move the code to methods
+
         public IActionResult Book(AppointmentServiceModel query)
         {
             string massageId = query.MassageId;
