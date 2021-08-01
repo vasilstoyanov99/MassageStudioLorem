@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Models.Appointments;
     using Services.Appointments;
+    using Services.Appointments.Models;
     using System;
     using System.Linq;
 
@@ -34,9 +35,35 @@
         [Authorize]
         [HttpPost]
 
-        //Use IsModelStateValid!
-        public IActionResult Book([FromQuery] AppointmentFormModel query)
+        public IActionResult Book(AppointmentServiceModel query)
         {
+            string massageId = query.MassageId;
+            string masseurId = query.MasseurId;
+
+            if (!this.ModelState.IsValid)
+                return this.RedirectToAction("Book", new
+                    {massageId, masseurId});
+
+            var date = this._appointmentsService.ParseDate(query.Date);
+            var hour = query.Hour.Trim();
+
+            if(date == DateTime.MaxValue)
+                return this.RedirectToAction
+                    ("Book", new { massageId, masseurId });
+
+            var availableHoursMessage =
+                this._appointmentsService.
+                    CheckIfMasseurUnavailableAndGetErrorMessage
+                        (date, hour, masseurId);
+
+            if (availableHoursMessage != null)
+            {
+                this.ModelState.AddModelError
+                    (String.Empty, availableHoursMessage);
+
+                return this.View(query);
+            }
+
             return this.View();
         }
     }

@@ -5,6 +5,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
     using Data;
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     public static class ApplicationBuilderExtensions
@@ -85,9 +87,9 @@
 
                     data.Categories.Add(category);
                 }
-            }
 
-            data.SaveChanges();
+                data.SaveChanges();
+            }
         }
     }
 }

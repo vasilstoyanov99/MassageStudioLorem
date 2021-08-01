@@ -5,12 +5,13 @@
 
     using CustomValidationAttributes;
     using Global;
+    using static Global.DefaultHourSchedule;
 
     public class AppointmentFormModel
     {
         public AppointmentFormModel()
         {
-            this.WorkHours = DefaultTimeSchedule.TimeSchedule;
+            this.WorkHours = HourScheduleAsString;
         }
 
         public string MassageName { get; set; }

@@ -2,11 +2,13 @@
 {
     using Data;
     using Data.Models;
-    using Global;
-    using MassageStudioLorem.Models.Appointments;
     using Models;
     using System;
     using System.Linq;
+    using System.Text;
+    using static Global.GlobalConstants.DataValidations;
+    using static Global.GlobalConstants.ErrorMessages;
+    using static Global.DefaultHourSchedule;
 
     public class AppointmentsService : IAppointmentsService
     {
@@ -17,20 +19,58 @@
         public AppointmentServiceModel GetTheMasseurSchedule
             (string masseurId, string massageId)
         {
-            if (DefaultTimeSchedule.TimeSchedule == null) DefaultTimeSchedule.SeedTimeTable();
+            if (HourScheduleAsString == null)
+                SeedHourScheduleAsString();
 
             var massage = this.GetMassageFromDB(massageId);
 
-            if (CheckIfNull(massage, massageId))
+            if (this.CheckIfNull(massage, massageId))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (CheckIfNull(masseur, masseurId))
+            if (this.CheckIfNull(masseur, masseurId))
                 return null;
 
-            return GetAppointmentModel
+            return this.GetAppointmentModel
                 (masseurId, massageId, massage.Name, masseur.FullName);
+        }
+
+        public DateTime ParseDate(string dateAsString)
+        {
+            //TODO: Decided if this if is need
+
+            if (!DateTime.TryParse(dateAsString, out DateTime date))
+                return DateTime.MaxValue;
+
+            return date;
+        }
+
+        public string CheckIfMasseurUnavailableAndGetErrorMessage
+            (DateTime date, string hour, string masseurId)
+        {
+            var appointmentsQuery = this._data.Appointments.AsQueryable();
+
+            var isUnavailable = appointmentsQuery
+                    .Any(a => a.MasseurId == masseurId && 
+                              a.Date == date && a.Hour == hour);
+
+            if (isUnavailable)
+            {
+                var hoursBookedInTheDay = appointmentsQuery
+                    .Count(x => x.MasseurId == masseurId && x.Date == date);
+
+                if (hoursBookedInTheDay == DefaultHoursPerDay)
+                {
+                    return String.Format(MasseurBookedForTheDay,
+                        date.ToString("dd-mm-yyyy"));
+                }
+
+                return this.GetAvailableHours
+                    (date, hour, masseurId, appointmentsQuery);
+            }
+
+            return null;
         }
 
         private bool CheckIfNull(object massage, string id)
@@ -56,5 +96,33 @@
                 MassageId = massageId,
                 MasseurId = masseurId
             };
+
+        private string GetAvailableHours
+            (DateTime date, string hour, string masseurId,
+            IQueryable<Appointment> appointments)
+        {
+            var bookedHours = appointments.
+                Where(x => x.MasseurId == masseurId &&
+                            x.Date == date)
+                .Select(x => new { x.Hour })
+                .ToList();
+
+            if (HourScheduleAsString == null)
+                SeedHourScheduleAsString();
+
+            var defaultHourSchedule = HourScheduleAsString;
+
+            foreach (var booked in bookedHours)
+            {
+                if (defaultHourSchedule.Contains(booked.Hour))
+                {
+                    defaultHourSchedule.Remove(booked.Hour);
+                }
+            }
+
+            return
+                String.Format(AvailableHoursForDate, hour, date,
+                    String.Join(' ', defaultHourSchedule));
+        }
     }
 }

@@ -32,6 +32,8 @@
 
             public const int MasseurDescriptionMinLength = 20;
 
+            public const int DefaultHoursPerDay = 8;
+
             public const string UrlRegex = @"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$";
         }
 
@@ -77,6 +79,10 @@
             public const string NoMassagesAndCategoriesFound = "No massages and categories are found!";
 
             public const string SomethingWentWrong = "Ups... something went wrong! ¯\\_(ツ)_/¯";
+
+            public const string AvailableHoursForDate = "The {0} hour is already booked for {1}! Available hours are: {2}";
+
+            public const string MasseurBookedForTheDay = "There are no available hours for date: {0}";
         }
 
         public static class DateTimeFormats

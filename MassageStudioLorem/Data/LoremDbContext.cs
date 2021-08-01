@@ -26,8 +26,6 @@
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<MasseurAvailableHours> MasseursAvailableHours { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder

@@ -2,32 +2,25 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
-
-    using Global;
+    using static Global.DefaultHourSchedule;
 
     public class ValidateHourStringAttribute : RequiredAttribute
     {
         public override bool IsValid(object value)
         {
-            var timeString = value as string;
+            var hourAsString = value as string;
 
-            if (string.IsNullOrEmpty(timeString))
-            {
+            if (string.IsNullOrEmpty(hourAsString))
                 return false;
-            }
 
-            bool parsed = DateTime.TryParseExact(
-                timeString,
-                GlobalConstants.DateTimeFormats.TimeFormat,
-                CultureInfo.InvariantCulture,
-                style: DateTimeStyles.AssumeUniversal,
-                result: out _);
-
-            if (!parsed)
-            {
+            if (!DateTime.TryParse(hourAsString, out DateTime _))
                 return false;
-            }
+
+            if (HourScheduleAsString == null)
+                SeedHourScheduleAsString();
+
+            if (!HourScheduleAsString.Contains(hourAsString.Trim()))
+                return false;
 
             return true;
         }

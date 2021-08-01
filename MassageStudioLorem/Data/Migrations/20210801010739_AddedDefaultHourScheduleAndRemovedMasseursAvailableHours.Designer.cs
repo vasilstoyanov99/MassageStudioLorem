@@ -4,14 +4,16 @@ using MassageStudioLorem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    partial class LoremDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210801010739_AddedDefaultHourScheduleAndRemovedMasseursAvailableHours")]
+    partial class AddedDefaultHourScheduleAndRemovedMasseursAvailableHours
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +33,8 @@ namespace MassageStudioLorem.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Hour")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
 
                     b.Property<bool?>("IsMasseurRatedByTheUser")
                         .HasColumnType("bit");
@@ -114,6 +116,19 @@ namespace MassageStudioLorem.Data.Migrations
                     b.HasIndex("MasseurId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.DefaultHourSchedule", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DefaultHoursSchedule");
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Massage", b =>

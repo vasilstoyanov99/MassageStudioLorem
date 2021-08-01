@@ -8,7 +8,7 @@
     public class AppointmentServiceModel
     {
         public AppointmentServiceModel()
-            => this.WorkHours = DefaultTimeSchedule.TimeSchedule;
+            => this.WorkHours = DefaultHourSchedule.HourScheduleAsString;
 
         public string MassageName { get; set; }
 
@@ -22,8 +22,10 @@
         [ValidateHourString(ErrorMessage = GlobalConstants.ErrorMessages.Hour)]
         public string Hour { get; set; }
 
+        [Required]
         public string MasseurId { get; set; }
 
+        [Required]
         public string MassageId { get; set; }
 
         public IEnumerable<string> WorkHours { get; set; }

@@ -27,7 +27,9 @@
 
         //public Massage Massage { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime Date { get; set; }
+
+        public string Hour { get; set; }
 
         // The Salon can Confirm or Decline an appointment
         //TODO: Check if it's needed
