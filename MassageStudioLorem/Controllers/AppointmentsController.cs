@@ -53,6 +53,19 @@
                 return this.RedirectToAction
                     ("Book", new { massageId, masseurId });
 
+            var clientId = this.User.GetId();
+
+            var exceededBookedMassagesMessage = this._appointmentsService
+                .CheckIfClientBookedTooManyMassagesInTheSameDay(date, clientId);
+
+            if (exceededBookedMassagesMessage != null)
+            {
+                this.ModelState.AddModelError
+                    (String.Empty, exceededBookedMassagesMessage);
+
+                return this.View(null);
+            }
+
             var availableHoursMessage =
                 this._appointmentsService.
                     CheckIfMasseurUnavailableAndGetErrorMessage
@@ -65,8 +78,6 @@
 
                 return this.View(query);
             }
-
-            var clientId = this.User.GetId();
 
             this._appointmentsService.AddNewAppointment
                 (clientId, masseurId, massageId, date, hour);

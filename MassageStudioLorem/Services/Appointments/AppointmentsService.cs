@@ -5,6 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using static Global.GlobalConstants.DataValidations;
@@ -66,12 +67,26 @@
                 if (hoursBookedInTheDay == DefaultHoursPerDay)
                 {
                     return String.Format(MasseurBookedForTheDay,
-                        date.ToString("dd-mm-yyyy"));
+                        date.ToString("dd-MM-yy"));
                 }
 
                 return this.GetAvailableHours
                     (date, hour, masseurId, masseursQuery);
             }
+
+            return null;
+        }
+
+        public string CheckIfClientBookedTooManyMassagesInTheSameDay
+            (DateTime date, string userId)
+        {
+            var bookedMassages = this._data
+                .Appointments
+                .Count(a => a.ClientId == userId && a.Date == date);
+
+            if (bookedMassages == MaxAmountToBookMassages)
+                return String.Format(TooManyBookingsOfTheSameMassage,
+                    MaxAmountToBookMassages);
 
             return null;
         }
@@ -136,7 +151,7 @@
             if (HourScheduleAsString == null)
                 SeedHourScheduleAsString();
 
-            var defaultHourSchedule = HourScheduleAsString;
+            var defaultHourSchedule = new List<string>(HourScheduleAsString);
 
             foreach (var booked in bookedHours)
             {
@@ -147,7 +162,8 @@
             }
 
             return
-                String.Format(AvailableHoursForDate, hour, date,
+                String.Format(AvailableHoursForDate, hour,
+                    date.Date.ToString("dd-MM-yy"),
                     String.Join(' ', defaultHourSchedule));
         }
     }

@@ -59,8 +59,8 @@
             builder
                 .Entity<Appointment>()
                 .HasOne<Massage>()
-                .WithOne()
-                .HasForeignKey<Appointment>(x => x.MassageId)
+                .WithMany(m => m.Appointments)
+                .HasForeignKey(x => x.MassageId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

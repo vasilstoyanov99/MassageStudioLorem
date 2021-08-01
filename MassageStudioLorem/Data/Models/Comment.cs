@@ -6,10 +6,7 @@
 
     public class Comment
     {
-        public Comment()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        public Comment() => this.Id = Guid.NewGuid().ToString();
 
         public string Id { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Appointment
@@ -21,8 +22,6 @@
         public string MasseurId { get; set; }
 
         //public Masseur Masseur { get; set; }
-
-        [Required] 
         public string MassageId { get; set; }
 
         //public Massage Massage { get; set; }

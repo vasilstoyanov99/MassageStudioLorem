@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using static Global.GlobalConstants.DataValidations;
 
@@ -9,6 +10,7 @@
         public Massage()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Appointments = new List<Appointment>();
         }
 
         public string Id { get; set; }
@@ -32,5 +34,7 @@
         [Required]
         [RegularExpression(UrlRegex)]
         public string ImageUrl { get; init; }
+
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }
