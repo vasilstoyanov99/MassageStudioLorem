@@ -5,17 +5,26 @@
     using Data.Models;
     using Ganss.XSS;
     using MassageStudioLorem.Models.Masseurs;
+    using Microsoft.AspNetCore.Identity;
     using Models;
     using System;
     using System.Collections.Generic;
-
+    using System.Threading.Tasks;
     using static Global.GlobalConstants.Paging;
+    using static Areas.Masseur.MasseurConstants;
 
 
     public class MasseursService : IMasseursService
     {
         private readonly LoremDbContext _data;
-        public MasseursService(LoremDbContext data) => this._data = data;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public MasseursService(LoremDbContext data,
+            UserManager<IdentityUser> userManager)
+        {
+            this._data = data;
+            this._userManager = userManager;
+        }
 
         public bool IsUserMasseur(string userId) =>
             this._data.Masseurs.Any(m => m.UserId == userId);
@@ -42,6 +51,10 @@
                 Gender = masseurModel.Gender,
                 UserId = userId
             };
+
+            var user = this._data.Users.FirstOrDefault(u => u.Id == userId);
+
+            AssignUserToMasseurRole(user);
 
             this._data.Masseurs.Add(masseur);
             var client = this._data.Clients
@@ -253,6 +266,17 @@
                 return false;
 
             return true;
+        }
+
+        private void AssignUserToMasseurRole(IdentityUser user)
+        {
+            Task
+                .Run(async () =>
+                {
+                    await this._userManager.AddToRoleAsync(user, MasseurRoleName);
+                })
+                .GetAwaiter()
+                .GetResult();
         }
     }
 }

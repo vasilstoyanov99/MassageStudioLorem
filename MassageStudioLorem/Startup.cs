@@ -37,6 +37,7 @@ namespace MassageStudioLorem
                         options.Password.RequireUppercase = false;
                         options.User.RequireUniqueEmail = true;
                     })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LoremDbContext>();
 
             services.AddDbContext<LoremDbContext>(options =>
@@ -78,6 +79,7 @@ namespace MassageStudioLorem
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
+                    endpoints.MapDefaultAreaRoute();
                     endpoints.MapDefaultControllerRoute();
                     endpoints.MapRazorPages();
                 });

@@ -2,6 +2,7 @@
 {
     public static class GlobalConstants
     {
+        //TODO: Check for unused consts
         public static class DataValidations
         {
             public const int FullNameMaxLength = 100;

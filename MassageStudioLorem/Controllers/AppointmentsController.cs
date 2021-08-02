@@ -24,14 +24,14 @@
         [Authorize]
         public IActionResult Book([FromQuery] AppointmentIdsQueryModel query)
         {
-            var appointmentFormModel =
+            var appointmentModel =
                 this._appointmentsService
                     .GetTheMasseurSchedule(query.MasseurId, query.MassageId);
 
-            if (appointmentFormModel == null) 
+            if (appointmentModel == null) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
-            return this.View(appointmentFormModel);
+            return this.View(appointmentModel);
         }
 
         [Authorize]
