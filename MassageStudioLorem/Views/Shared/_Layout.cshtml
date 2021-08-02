@@ -28,16 +28,13 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        @*//TODO: Check if I should delete the empty asp-area!*@
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
                     @*//TODO: Use User.IsInRole!*@
                     @if (SignInManager.IsSignedIn(User) && !MasseurService.IsUserMasseur(User.GetId()))
                     {
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="All">Categories</a>
-                </li>
+                    <li class="nav-item">
+                        @*//TODO: Check if I should delete the empty asp-area!*@
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="All">Categories</a>
+                    </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Masseurs" asp-action="All">Masseurs</a>
                                 </li> if (!MasseurService
@@ -49,9 +46,6 @@
                                 </li>
 }
                         }
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
                 </ul>
                 <partial name="_LoginPartial"/>
             </div>
@@ -66,7 +60,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; @DateTime.UtcNow.Year - Massage Studio Lorem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; @DateTime.UtcNow.Year - Massage Studio Lorem
         <div class="float-sm-right">
             <span class="fas fa-map-marker-alt fa-lg text-dark"></span>
             <span class="text-dark big">5408 Lorem Rd</span>
