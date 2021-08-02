@@ -18,7 +18,7 @@
 
         public AppointmentsService(LoremDbContext data) => this._data = data;
 
-        public AppointmentServiceModel GetTheMasseurSchedule
+        public BookAppointmentServiceModel GetTheMasseurSchedule
             (string masseurId, string massageId)
         {
             if (HourScheduleAsString == null)
@@ -127,7 +127,7 @@
                 .Massages
                 .FirstOrDefault(m => m.Id == massageId);
 
-        private AppointmentServiceModel GetAppointmentModel
+        private BookAppointmentServiceModel GetAppointmentModel
             (string masseurId, string massageId, 
             string massageName, string masseurFullName)
             => new()

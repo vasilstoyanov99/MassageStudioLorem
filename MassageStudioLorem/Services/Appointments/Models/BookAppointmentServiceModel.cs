@@ -5,9 +5,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class AppointmentServiceModel
+    public class BookAppointmentServiceModel
     {
-        public AppointmentServiceModel()
+        public BookAppointmentServiceModel()
             => this.WorkHours = DefaultHourSchedule.HourScheduleAsString;
 
         public string MassageName { get; set; }

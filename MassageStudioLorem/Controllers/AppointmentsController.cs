@@ -39,7 +39,7 @@
 
         //TODO: Move the code to methods
 
-        public IActionResult Book(AppointmentServiceModel query)
+        public IActionResult Book(BookAppointmentServiceModel query)
         {
             string massageId = query.MassageId;
             string masseurId = query.MasseurId;

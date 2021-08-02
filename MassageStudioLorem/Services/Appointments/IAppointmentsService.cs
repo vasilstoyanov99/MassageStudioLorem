@@ -5,7 +5,7 @@
 
     public interface IAppointmentsService
     {
-        AppointmentServiceModel GetTheMasseurSchedule
+        BookAppointmentServiceModel GetTheMasseurSchedule
             (string masseurId, string massageId);
 
         DateTime ParseDate(string dateAsString);
