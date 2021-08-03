@@ -95,6 +95,29 @@
 
                 data.SaveChanges();
             }
+
+
+            //var appointment = new Appointment()
+            //{
+            //    Date = DateTime.MinValue.AddHours(1),
+            //    Hour = "11:00",
+            //    BookedOn = DateTime.MinValue,
+            //    ClientId = "950917a3-137b-4c73-8074-79b4aa0b3e47",
+            //    MassageId = "717a0aa5-0fd0-459e-b5db-b4caa1c60cc5",
+            //    MasseurId = "3dc04e08-d563-418d-82eb-a0f0c349cddd",
+            //    MasseurFullName = "Test Past Time",
+            //    MasseurPhoneNumber = "0886650805",
+            //    MassageName = "Test Past Time",
+            //    IsUserReviewedMasseur = false
+            //};
+
+            //data.Appointments.Add(appointment);
+            //var masseur = m
+            //masseur.WorkSchedule.Add(appointment);
+            //var client = this._data.Clients
+            //    .FirstOrDefault(c => c.UserId == userId);
+            //client.Appointments.Add(appointment);
+            //data.SaveChanges();
         }
 
         private static void SeedRoles(IServiceProvider services)

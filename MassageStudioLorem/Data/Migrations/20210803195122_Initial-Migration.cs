@@ -249,6 +249,7 @@ namespace MassageStudioLorem.Data.Migrations
                     MassageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Hour = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BookedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsUserReviewedMasseur = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>

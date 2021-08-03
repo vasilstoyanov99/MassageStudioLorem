@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    [Migration("20210803094009_Initial-Migration")]
-    partial class InitialMigration
+    [Migration("20210803234059_RemovedBookedOnColumnInAppointment")]
+    partial class RemovedBookedOnColumnInAppointment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

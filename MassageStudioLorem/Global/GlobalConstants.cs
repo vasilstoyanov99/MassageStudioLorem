@@ -88,6 +88,8 @@
             public const string MasseurBookedForTheDay = "There are no available hours for date: {0}";
 
             public const string TooManyBookingsOfTheSameMassage = "You have exceeded the maximum amount of booked massages ({0}) for one day!";
+
+            public const string CannotBookInThePast = "You cannot book an appointment in the past!";
         }
 
         public static class DateTimeFormats

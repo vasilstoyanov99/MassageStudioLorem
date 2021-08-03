@@ -3,7 +3,7 @@
 
 @{ ViewBag.Title = "My Appointments"; }
 
-@if (Model.Appointments == null)
+@if (Model.UpcomingAppointments == null || Model.PastAppointments == null)
 {
     <div class="text-center" style="font-weight: bold">
         Nothing booked yet! Would you like to treat yourself with a massage?
@@ -12,9 +12,9 @@
         <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin-top: 20px">Book a massage</a>
     </div>
 }
-else
+@if(Model.UpcomingAppointments != null)
 {
-    <h2>Upcoming(@Model.Appointments.Count())</h2>
+    <h2>Upcoming(@Model.UpcomingAppointments.Count())</h2>
 
     <table class="table table-bordered table-striped text-center">
         <thead class="thead-light">
@@ -27,7 +27,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var appointment in this.Model.Appointments)
+        @foreach (var appointment in this.Model.UpcomingAppointments)
         {
             <tr>
                 <th scope="row">@appointment.Date.ToString(DateTimeFormat)  @appointment.Hour</th>
@@ -36,7 +36,43 @@ else
                 <td><span class="fas fa-phone fa-lg text-dark"></span> @appointment.MasseurPhoneNumber</td>
                 <td>
                     <a class="btn btn-outline-danger btn-sm"
-                        asp-controller="Appointments" asp-action="CancelAppointment" asp-route-appointmentId="@appointment.Id">
+                       asp-controller="Appointments" asp-action="CancelAppointment" asp-route-appointmentId="@appointment.Id">
+                        Cancel
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <hr class="bg-dark m-4" style="height: 6px;"/>
+}
+
+@if(Model.PastAppointments != null)
+{
+    <h2>Past(@Model.PastAppointments.Count())</h2>
+
+    <table class="table table-bordered table-striped text-center">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Date and Hour</th>
+            <th scope="col">Massage</th>
+            <th scope="col">Masseur</th>
+            <th scope="col">Masseur Phone Number</th>
+            <th scope="col">Cancellation</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var appointment in this.Model.PastAppointments)
+        {
+            <tr>
+                <th scope="row">@appointment.Date.ToString(DateTimeFormat)  @appointment.Hour</th>
+                <td>@appointment.MassageName</td>
+                <td>@appointment.MasseurFullName</td>
+                <td><span class="fas fa-phone fa-lg text-dark"></span> @appointment.MasseurPhoneNumber</td>
+                <td>
+                    <a class="btn btn-outline-danger btn-sm"
+                       asp-controller="Appointments" asp-action="CancelAppointment" asp-route-appointmentId="@appointment.Id">
                         Cancel
                     </a>
                 </td>
@@ -45,9 +81,6 @@ else
         </tbody>
     </table>
 }
-
-
-<hr class="bg-dark m-4" style="height: 6px;"/>
 
 @*<div>
         @await Component.InvokeAsync("PastAppointments")

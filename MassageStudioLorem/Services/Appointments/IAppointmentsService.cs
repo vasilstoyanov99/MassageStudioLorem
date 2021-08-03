@@ -17,12 +17,17 @@
         string CheckIfClientBookedTooManyMassagesInTheSameDay
             (DateTime date, string userId);
 
+        bool CheckIfClientTryingToBookAPastTime(DateTime date, string hour);
+
         void AddNewAppointment
         (string userId, string masseurId, string massageId,
             DateTime date, string hour);
 
-        IEnumerable<AppointmentServiceModel> GetUpcomingAppointments
+        IEnumerable<UpcomingAppointmentServiceModel> GetUpcomingAppointments
             (string userId);
+
+        IEnumerable<PastAppointmentServiceModel> GetPastAppointments
+            (string clientId);
 
         CancelAppointmentServiceModel GetAppointment(string appointmentId);
 

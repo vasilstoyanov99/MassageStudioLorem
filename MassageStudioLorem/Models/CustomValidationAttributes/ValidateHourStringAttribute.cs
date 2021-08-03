@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Models.CustomValidationAttributes
 {
+    using Microsoft.AspNetCore.Mvc.Formatters;
     using System;
     using System.ComponentModel.DataAnnotations;
     using static Global.DefaultHourSchedule;
@@ -13,7 +14,7 @@
             if (string.IsNullOrEmpty(hourAsString))
                 return false;
 
-            if (!DateTime.TryParse(hourAsString, out DateTime _))
+            if (!DateTime.TryParse(hourAsString, out DateTime dateTime))
                 return false;
 
             if (HourScheduleAsString == null)

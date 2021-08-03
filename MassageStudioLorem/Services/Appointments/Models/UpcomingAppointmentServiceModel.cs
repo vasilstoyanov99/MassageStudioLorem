@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class AppointmentServiceModel
+    public class UpcomingAppointmentServiceModel
     {
         public string Id { get; set; }
 
@@ -15,7 +15,5 @@
         public string MasseurPhoneNumber { get; set; }
 
         public string MassageName { get; set; }
-
-        public bool? IsUserReviewedMasseur { get; set; }
     }
 }

@@ -24,13 +24,19 @@
 
         public IActionResult Index()
         {
-            var clientId = this.User.GetId();
+            var userId = this.User.GetId();
 
             var upcomingAppointmentsModels = 
-                this._appointmentsService.GetUpcomingAppointments(clientId);
+                this._appointmentsService.GetUpcomingAppointments(userId);
+
+            var pastAppointments = this._appointmentsService
+                .GetPastAppointments(userId);
 
             return this.View(new AppointmentsListViewModel()
-                { Appointments = upcomingAppointmentsModels });
+            {
+                UpcomingAppointments = upcomingAppointmentsModels,
+                PastAppointments = pastAppointments
+            });
         }
 
         public IActionResult CancelAppointment(string appointmentId)
@@ -98,6 +104,14 @@
             {
                 this.ModelState.AddModelError
                     (String.Empty, exceededBookedMassagesMessage);
+
+                return this.View(null);
+            }
+
+            if (this._appointmentsService.CheckIfClientTryingToBookAPastTime
+                (date, hour))
+            {
+                this.ModelState.AddModelError(String.Empty, CannotBookInThePast);
 
                 return this.View(null);
             }

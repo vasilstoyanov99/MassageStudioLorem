@@ -6,6 +6,7 @@
     using Models;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
     using static Global.GlobalConstants.DataValidations;
@@ -65,10 +66,8 @@
                     .Count(ws => ws.Date == date && ws.Hour == hour);
 
                 if (hoursBookedInTheDay == DefaultHoursPerDay)
-                {
                     return String.Format(MasseurBookedForTheDay,
                         date.ToString("dd-MM-yy"));
-                }
 
                 return this.GetAvailableHours
                     (date, hour, masseurId, masseursQuery);
@@ -93,6 +92,19 @@
             return null;
         }
 
+        public bool CheckIfClientTryingToBookAPastTime
+            (DateTime date, string hour)
+        {
+            var dateTimeNow = this.GetDateTimeNow();
+            DateTime.TryParse(hour, out DateTime dateTimeHour);
+
+            if (date.Date < dateTimeNow &&
+                dateTimeHour.Hour < dateTimeNow.Hour)
+                return true;
+
+            return false;
+        }
+
         public void AddNewAppointment
             (string userId, string masseurId, string massageId,
              DateTime date, string hour)
@@ -100,10 +112,11 @@
             var dataFromDb = this.GetMasseurNameAndNumber(masseurId, massageId);
 
             var clientId = this.GetClientId(userId);
+            var hourAsInt = DateTime.Parse(hour).Hour;
 
             var appointment = new Appointment()
             {
-                Date = date,
+                Date = date.AddHours(hourAsInt),
                 Hour = hour,
                 ClientId = clientId,
                 MassageId = massageId,
@@ -115,15 +128,15 @@
             };
 
             this._data.Appointments.Add(appointment);
-            var masseur = this.GetMasseurFromDB(masseurId);
-            masseur.WorkSchedule.Add(appointment);
-            var client = this._data.Clients
-                .FirstOrDefault(c => c.UserId == userId);
-            client.Appointments.Add(appointment);
+            //var masseur = this.GetMasseurFromDB(masseurId);
+            //masseur.WorkSchedule.Add(appointment);
+            //var client = this._data.Clients
+            //    .FirstOrDefault(c => c.UserId == userId);
+            //client.Appointments.Add(appointment);
             this._data.SaveChanges();
         }
 
-        public IEnumerable<AppointmentServiceModel> 
+        public IEnumerable<UpcomingAppointmentServiceModel> 
             GetUpcomingAppointments(string userId)
         {
             var clientId = this.GetClientId(userId);
@@ -131,9 +144,36 @@
             if (!this._data.Appointments.Any(a => a.ClientId == clientId))
                 return null;
 
-            var appointmentsModels = this._data.Appointments
-                .Where(a => a.ClientId == clientId && a.Date > DateTime.UtcNow)
-                .Select(a => new AppointmentServiceModel()
+            var dateTimeNow = GetDateTimeNow();
+
+            var upcomingAppointmentsModels = this._data.Appointments
+                .Where(a => a.ClientId == clientId &&
+                            a.Date > dateTimeNow)
+                .Select(a => new UpcomingAppointmentServiceModel()
+                {
+                    Id = a.Id,
+                    Date = a.Date,
+                    Hour = a.Hour,
+                    MassageName = a.MassageName,
+                    MasseurFullName = a.MasseurFullName,
+                    MasseurPhoneNumber = a.MasseurPhoneNumber
+                })
+                .OrderBy(a => a.Date)
+                .ToList();
+
+            return upcomingAppointmentsModels;
+        }
+
+        public IEnumerable<PastAppointmentServiceModel> GetPastAppointments
+            (string userId)
+        {
+            var dateTimeNow = GetDateTimeNow();
+            var clientId = this.GetClientId(userId);
+            
+            var pastAppointmentsModels = this._data.Appointments
+                .Where(a => a.ClientId == clientId && 
+                            a.Date < dateTimeNow)
+                .Select(a => new PastAppointmentServiceModel()
                 {
                     Id = a.Id,
                     Date = a.Date,
@@ -141,13 +181,12 @@
                     MassageName = a.MassageName,
                     MasseurFullName = a.MasseurFullName,
                     MasseurPhoneNumber = a.MasseurPhoneNumber,
-                    IsUserReviewedMasseur = a.IsUserReviewedMasseur,
-                    //TODO: Add masseurPhoneNumber
+                    IsUserReviewedMasseur = a.IsUserReviewedMasseur
                 })
-                .OrderBy(a => a.Date)
+                .OrderByDescending(a => a.Date)
                 .ToList();
 
-            return appointmentsModels;
+            return pastAppointmentsModels;
         }
 
         public CancelAppointmentServiceModel GetAppointment(string appointmentId)
@@ -262,5 +301,7 @@
 
             return (masseurData.FullName, masseurPhoneNumber, massageName);
         }
+
+        private DateTime GetDateTimeNow() => DateTime.UtcNow;
     }
 }

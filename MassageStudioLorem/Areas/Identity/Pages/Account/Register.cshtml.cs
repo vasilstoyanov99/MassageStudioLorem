@@ -106,19 +106,17 @@
 
                         return this.LocalRedirect(returnUrl);
                     }
-                }
-                else
-                {
-                    this.ModelState.AddModelError(string.Empty, "Please enter a different phone number!");
-                }
 
-                if (result == null)
-                {
                     foreach (IdentityError error in result.Errors)
                     {
                         this.ModelState.AddModelError(string.Empty,
                             error.Description);
                     }
+                }
+                else
+                {
+                    this.ModelState.AddModelError(string.Empty, "Please enter a different phone number!");
+                    return this.Page();
                 }
             }
 
