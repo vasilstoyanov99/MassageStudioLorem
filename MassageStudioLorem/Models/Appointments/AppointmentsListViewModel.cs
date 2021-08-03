@@ -5,6 +5,6 @@
 
     public class AppointmentsListViewModel
     {
-        public ICollection<AppointmentServiceModel> Appointments { get; set; }
+        public IEnumerable<AppointmentServiceModel> Appointments { get; set; }
     }
 }

@@ -33,10 +33,10 @@ else
                 <th scope="row">@appointment.Date.ToString(DateTimeFormat)  @appointment.Hour</th>
                 <td>@appointment.MassageName</td>
                 <td>@appointment.MasseurFullName</td>
-                <td><span class="fas fa-phone fa-lg text-dark"></span> 08880508 @*@appointment.MasseurPhoneNumber*@</td>
+                <td><span class="fas fa-phone fa-lg text-dark"></span> @appointment.MasseurPhoneNumber</td>
                 <td>
                     <a class="btn btn-outline-danger btn-sm"
-                       asp-area="" asp-controller="Appointments" asp-action="Index" asp-route-id="@appointment.Id">
+                        asp-controller="Appointments" asp-action="CancelAppointment" asp-route-appointmentId="@appointment.Id">
                         Cancel
                     </a>
                 </td>

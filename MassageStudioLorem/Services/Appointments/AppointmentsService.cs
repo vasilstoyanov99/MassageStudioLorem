@@ -21,17 +21,17 @@
         public BookAppointmentServiceModel GetTheMasseurSchedule
             (string masseurId, string massageId)
         {
-            if (HourScheduleAsString == null)
+            if (this.CheckIfNull(HourScheduleAsString))
                 SeedHourScheduleAsString();
 
             var massage = this.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage, massageId))
+            if (this.CheckIfNull(massage))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur, masseurId))
+            if (this.CheckIfNull(masseur))
                 return null;
 
             return this.GetAppointmentModel
@@ -97,7 +97,7 @@
             (string userId, string masseurId, string massageId,
              DateTime date, string hour)
         {
-            var dataFromDb = GetMasseurNameAndNumber(masseurId, massageId);
+            var dataFromDb = this.GetMasseurNameAndNumber(masseurId, massageId);
 
             var clientId = this.GetClientId(userId);
 
@@ -123,10 +123,10 @@
             this._data.SaveChanges();
         }
 
-        public ICollection<AppointmentServiceModel> 
+        public IEnumerable<AppointmentServiceModel> 
             GetUpcomingAppointments(string userId)
         {
-            var clientId = GetClientId(userId);
+            var clientId = this.GetClientId(userId);
 
             if (!this._data.Appointments.Any(a => a.ClientId == clientId))
                 return null;
@@ -150,8 +150,40 @@
             return appointmentsModels;
         }
 
-        private bool CheckIfNull(object massage, string id)
-            => String.IsNullOrEmpty(id) || massage == null;
+        public CancelAppointmentServiceModel GetAppointment(string appointmentId)
+        {
+            var appointment = this.GetAppointmentFromDB(appointmentId);
+
+            if (CheckIfNull(appointment))
+                return null;
+
+            var cancelAppointmentModel = new CancelAppointmentServiceModel()
+            {
+                Id = appointment.Id,
+                Date = appointment.Date,
+                Hour = appointment.Hour,
+                MassageName = appointment.MassageName,
+                MasseurFullName = appointment.MasseurFullName
+            };
+
+            return cancelAppointmentModel;
+        }
+
+        public bool IsAppointmentDeletedSuccessful
+            (string appointmentId)
+        {
+            var appointment = this.GetAppointmentFromDB(appointmentId);
+
+            if (this.CheckIfNull(appointment))
+                return false;
+
+            this._data.Appointments.Remove(appointment);
+            this._data.SaveChanges();
+            return true;
+        }
+
+        private bool CheckIfNull(object obj)
+            => obj == null;
 
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
@@ -162,6 +194,11 @@
             this._data
                 .Massages
                 .FirstOrDefault(m => m.Id == massageId);
+
+        private Appointment GetAppointmentFromDB(string appointmentId) =>
+            this._data
+                .Appointments
+                .FirstOrDefault(a => a.Id == appointmentId);
 
         private BookAppointmentServiceModel GetAppointmentModel
             (string masseurId, string massageId, 
@@ -184,7 +221,7 @@
                 .Select(s => new {s.Hour})
                 .ToList();
 
-            if (HourScheduleAsString == null)
+            if (this.CheckIfNull(HourScheduleAsString))
                 SeedHourScheduleAsString();
 
             var defaultHourSchedule = new List<string>(HourScheduleAsString);

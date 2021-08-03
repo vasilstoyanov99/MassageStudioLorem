@@ -138,7 +138,7 @@
         {
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur, masseurId))
+            if (this.CheckIfNull(masseur))
                 return null;
 
             return this.GetAvailableMasseurDetailsModel(masseur);
@@ -204,8 +204,8 @@
         private string GetMasseurPhoneNumber(string userId) =>
             this._data.Users.FirstOrDefault(u => u.Id == userId)?.PhoneNumber;
 
-        private bool CheckIfNull(object massage, string id)
-            => String.IsNullOrEmpty(id) || massage == null;
+        private bool CheckIfNull(object obj)
+            => obj == null;
 
         private double GetMaxPage(int count)
             => Math.Ceiling
@@ -231,17 +231,17 @@
         {
             var massage = this.GetMassageFromDB(queryModel.MassageId);
 
-            if (this.CheckIfNull(massage, queryModel.MassageId))
+            if (this.CheckIfNull(massage))
                 return null;
 
             var category = this.GetCategoryFromDB(queryModel.CategoryId);
 
-            if (this.CheckIfNull(category, queryModel.CategoryId))
+            if (this.CheckIfNull(category))
                 return null;
 
             var masseur = this.GetMasseurFromDB(queryModel.MasseurId);
 
-            if (this.CheckIfNull(masseur, queryModel.MasseurId))
+            if (this.CheckIfNull(masseur))
                 return null;
 
             if (!this._data.Massages.Any
@@ -258,12 +258,12 @@
         {
             var massage = this.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage, massageId))
+            if (this.CheckIfNull(massage))
                 return false;
 
             var category = this.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(category, categoryId))
+            if (this.CheckIfNull(category))
                 return false;
 
             return true;

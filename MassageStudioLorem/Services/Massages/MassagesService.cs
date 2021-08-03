@@ -43,12 +43,12 @@
         {
             var massage = this.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage, massageId))
+            if (this.CheckIfNull(massage))
                 return null;
 
             var category = this.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(category, categoryId))
+            if (this.CheckIfNull(category))
                 return null;
 
             return this.GetMassageDetailsModel(massage);
@@ -89,7 +89,7 @@
             var massage = this.ReturnMassageIfAvailableMassageQueryDataIsValid
                 (massageId, masseurId);
 
-            if (massage == null)
+            if (CheckIfNull(massage))
                 return null;
 
             return this.GetAvailableMassagesDetailsModel(massage, masseurId);
@@ -152,8 +152,8 @@
                 Name = massage.Name
             };
 
-        private bool CheckIfNull(object massage, string id)
-            => String.IsNullOrEmpty(id) || massage == null;
+        private bool CheckIfNull(object obj)
+            => obj == null;
 
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
@@ -175,12 +175,12 @@
         {
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur, masseurId))
+            if (this.CheckIfNull(masseur))
                 return false;
 
             var category = this.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(category, categoryId))
+            if (this.CheckIfNull(category))
                 return false;
 
             if (masseur.CategoryId != categoryId ||
@@ -195,12 +195,12 @@
         {
             var massage = this.GetMassageFromDB(massageId);
             
-            if (this.CheckIfNull(massage, massageId))
+            if (this.CheckIfNull(massage))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur, masseurId))
+            if (this.CheckIfNull(masseur))
                 return null;
 
             if (masseur.CategoryId != massage.CategoryId)

@@ -21,7 +21,11 @@
         (string userId, string masseurId, string massageId,
             DateTime date, string hour);
 
-        ICollection<AppointmentServiceModel> GetUpcomingAppointments
+        IEnumerable<AppointmentServiceModel> GetUpcomingAppointments
             (string userId);
+
+        CancelAppointmentServiceModel GetAppointment(string appointmentId);
+
+        bool IsAppointmentDeletedSuccessful(string appointmentId);
     }
 }

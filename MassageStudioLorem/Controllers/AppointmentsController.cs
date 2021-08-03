@@ -14,6 +14,7 @@
 
     using static Global.GlobalConstants.ErrorMessages;
 
+    [Authorize]
     public class AppointmentsController : Controller
     {
         private readonly IAppointmentsService _appointmentsService;
@@ -32,7 +33,31 @@
                 { Appointments = upcomingAppointmentsModels });
         }
 
-        [Authorize]
+        public IActionResult CancelAppointment(string appointmentId)
+        {
+            var cancelAppointmentModel = this._appointmentsService
+                .GetAppointment(appointmentId);
+
+            if (cancelAppointmentModel == null)
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+
+            return this.View(cancelAppointmentModel);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteAppointment(string appointmentId)
+        {
+            if (!this._appointmentsService
+                .IsAppointmentDeletedSuccessful(appointmentId))
+            {
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+                return this.View("CancelAppointment", null);
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
+        
         public IActionResult Book([FromQuery] AppointmentIdsQueryModel query)
         {
             var appointmentModel =
@@ -45,13 +70,12 @@
             return this.View(appointmentModel);
         }
 
-        [Authorize]
         [HttpPost]
-
-        //TODO: Move the code to methods
 
         public IActionResult Book(BookAppointmentServiceModel query)
         {
+            //TODO: Move the code to methods
+
             var massageId = query.MassageId;
             var masseurId = query.MasseurId;
             var userId = this.User.GetId();
@@ -94,7 +118,7 @@
             this._appointmentsService.AddNewAppointment
                 (userId, masseurId, massageId, date, hour);
 
-            return this.View();
+            return this.RedirectToAction("Index");
         }
     }
 }

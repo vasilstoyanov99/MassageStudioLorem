@@ -1,0 +1,46 @@
+﻿@model CancelAppointmentServiceModel
+@using static MassageStudioLorem.Global.GlobalConstants.DateTimeFormats
+@{
+    this.ViewData["Title"] = "Cancel Appointment";
+}
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <h3 class="offset-md-3"><strong>Are you sure you want to cancel this appointment?</strong></h3>
+    <form class="col-6 mt-5 text-center offset-md-3" style="font-weight: bold">
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Date and Hour</label>
+            <div class="col-sm-7">
+                <div class="form-control">@Model.Date.ToString(DateTimeFormat)  @Model.Hour</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Massage</label>
+            <div class="col-sm-7">
+                <div class="form-control">@Model.MassageName</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Masseur</label>
+            <div class="col-sm-7">
+                <div class="form-control">@Model.MasseurFullName</div>
+            </div>
+        </div>
+    </form>
+
+    <div class="offset-md-4" style="margin-top: 30px">
+        <div class="row ml-5">
+            <form method="post">
+                <button type="submit" class="btn btn-outline-danger"
+                        asp-controller="Appointments" asp-action="DeleteAppointment" asp-route-appointmentId="@Model.Id">
+                    Yes, Cancel It!
+                </button>
+            </form>
+            <div class="ml-5">
+                <a class="btn btn-outline-success" asp-controller="Appointments" asp-action="Index">No, Go Back</a>
+            </div>
+        </div>
+    </div>
+}
