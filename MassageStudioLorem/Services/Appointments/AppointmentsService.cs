@@ -55,12 +55,12 @@
                 .Include(m => m.WorkSchedule).AsQueryable();
 
             var isUnavailable = masseursQuery.
-                    Any(m => m.UserId == masseurId && m.WorkSchedule.Any(ws => ws.Date == date && ws.Hour == hour));
+                    Any(m => m.Id == masseurId && m.WorkSchedule.Any(ws => ws.Date == date && ws.Hour == hour));
 
             if (isUnavailable)
             {
                 var hoursBookedInTheDay = masseursQuery
-                    .FirstOrDefault(m => m.UserId == masseurId)
+                    .FirstOrDefault(m => m.Id == masseurId)
                     .WorkSchedule
                     .Count(ws => ws.Date == date && ws.Hour == hour);
 
@@ -80,9 +80,11 @@
         public string CheckIfClientBookedTooManyMassagesInTheSameDay
             (DateTime date, string userId)
         {
+            var clientId = this.GetClientId(userId);
+
             var bookedMassages = this._data
                 .Appointments
-                .Count(a => a.ClientId == userId && a.Date == date);
+                .Count(a => a.ClientId == clientId && a.Date == date);
 
             if (bookedMassages == MaxAmountToBookMassages)
                 return String.Format(TooManyBookingsOfTheSameMassage,
@@ -92,26 +94,60 @@
         }
 
         public void AddNewAppointment
-            (string clientId, string masseurId, string massageId,
+            (string userId, string masseurId, string massageId,
              DateTime date, string hour)
         {
+            var dataFromDb = GetMasseurNameAndNumber(masseurId, massageId);
+
+            var clientId = this.GetClientId(userId);
+
             var appointment = new Appointment()
             {
-                ClientId = clientId,
-                MasseurId = masseurId,
-                MassageId = massageId,
                 Date = date,
                 Hour = hour,
-                IsMasseurRatedByTheUser = false
+                ClientId = clientId,
+                MassageId = massageId,
+                MasseurId = masseurId,
+                MasseurFullName = dataFromDb.masseurFullName,
+                MasseurPhoneNumber = dataFromDb.masseurPhoneNumber,
+                MassageName = dataFromDb.massageName,
+                IsUserReviewedMasseur = false
             };
 
             this._data.Appointments.Add(appointment);
-            var masseur = GetMasseurFromDB(masseurId);
+            var masseur = this.GetMasseurFromDB(masseurId);
             masseur.WorkSchedule.Add(appointment);
             var client = this._data.Clients
-                .FirstOrDefault(c => c.UserId == clientId);
+                .FirstOrDefault(c => c.UserId == userId);
             client.Appointments.Add(appointment);
             this._data.SaveChanges();
+        }
+
+        public ICollection<AppointmentServiceModel> 
+            GetUpcomingAppointments(string userId)
+        {
+            var clientId = GetClientId(userId);
+
+            if (!this._data.Appointments.Any(a => a.ClientId == clientId))
+                return null;
+
+            var appointmentsModels = this._data.Appointments
+                .Where(a => a.ClientId == clientId && a.Date > DateTime.UtcNow)
+                .Select(a => new AppointmentServiceModel()
+                {
+                    Id = a.Id,
+                    Date = a.Date,
+                    Hour = a.Hour,
+                    MassageName = a.MassageName,
+                    MasseurFullName = a.MasseurFullName,
+                    MasseurPhoneNumber = a.MasseurPhoneNumber,
+                    IsUserReviewedMasseur = a.IsUserReviewedMasseur,
+                    //TODO: Add masseurPhoneNumber
+                })
+                .OrderBy(a => a.Date)
+                .ToList();
+
+            return appointmentsModels;
         }
 
         private bool CheckIfNull(object massage, string id)
@@ -120,7 +156,7 @@
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
                 .Masseurs
-                .FirstOrDefault(m => m.UserId == masseurId);
+                .FirstOrDefault(m => m.Id == masseurId);
 
         private Massage GetMassageFromDB(string massageId) =>
             this._data
@@ -143,7 +179,7 @@
             IQueryable<Masseur> masseursQuery)
         {
             var bookedHours = masseursQuery
-                .FirstOrDefault(m => m.UserId == masseurId)
+                .FirstOrDefault(m => m.Id == masseurId)
                 .WorkSchedule.Where(ws => ws.Date == date)
                 .Select(s => new {s.Hour})
                 .ToList();
@@ -165,6 +201,29 @@
                 String.Format(AvailableHoursForDate, hour,
                     date.Date.ToString("dd-MM-yy"),
                     String.Join(' ', defaultHourSchedule));
+        }
+
+        private string GetClientId(string userId) =>
+            this._data.Clients.FirstOrDefault(c => c.UserId == userId).Id;
+
+        private (string masseurFullName, 
+                 string masseurPhoneNumber,
+                 string massageName) 
+            GetMasseurNameAndNumber(string masseurId, string massageId)
+        {
+            var masseurData = this._data.Masseurs
+                .Where(m => m.Id == masseurId)
+                .Select(m => new {m.FullName, m.UserId})
+                .FirstOrDefault();
+
+            var masseurPhoneNumber = 
+                this._data.Users
+                    .FirstOrDefault(u => u.Id == masseurData.UserId)?.PhoneNumber;
+
+            var massageName = this._data.Massages
+                .FirstOrDefault(m => m.Id == massageId)?.Name;
+
+            return (masseurData.FullName, masseurPhoneNumber, massageName);
         }
     }
 }

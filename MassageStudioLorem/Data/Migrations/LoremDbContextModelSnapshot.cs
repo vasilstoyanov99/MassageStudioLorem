@@ -32,17 +32,31 @@ namespace MassageStudioLorem.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Hour")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsMasseurRatedByTheUser")
+                    b.Property<bool?>("IsUserReviewedMasseur")
                         .HasColumnType("bit");
 
                     b.Property<string>("MassageId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MassageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MasseurFullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MasseurId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MasseurPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -409,7 +423,8 @@ namespace MassageStudioLorem.Data.Migrations
                     b.HasOne("MassageStudioLorem.Data.Models.Massage", null)
                         .WithMany("Appointments")
                         .HasForeignKey("MassageId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("MassageStudioLorem.Data.Models.Masseur", null)
                         .WithMany("WorkSchedule")

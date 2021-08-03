@@ -6,10 +6,7 @@
 
     public class Appointment
     {
-        public Appointment()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
+        public Appointment() => this.Id = Guid.NewGuid().ToString();
 
         public string Id { get; set; }
 
@@ -21,13 +18,21 @@
         [Required] 
         public string MasseurId { get; set; }
 
-        //public Masseur Masseur { get; set; }
+        [Required]
+        public string MasseurFullName { get; set; }
+
+        [Required]
+        public string MasseurPhoneNumber { get; set; }
+
+        [Required]
         public string MassageId { get; set; }
 
-        //public Massage Massage { get; set; }
+        [Required]
+        public string MassageName { get; set; }
 
         public DateTime Date { get; set; }
 
+        [Required]
         public string Hour { get; set; }
 
         // The Salon can Confirm or Decline an appointment
@@ -36,6 +41,6 @@
 
         // For every past (and confirmed) appointment the User can Rate the Salon
         // But rating can be given only once for each appointment
-        public bool? IsMasseurRatedByTheUser { get; set; }
+        public bool? IsUserReviewedMasseur { get; set; }
     }
 }

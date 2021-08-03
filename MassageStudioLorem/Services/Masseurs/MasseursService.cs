@@ -88,7 +88,7 @@
             return allMasseursModel;
         }
 
-        public MasseurDetailsServiceModel GetMasseurDetails(MasseurDetailsQueryModel queryModel)
+        public AvailableMasseurDetailsServiceModel GetMasseurDetails(MasseurDetailsQueryModel queryModel)
         {
             var masseur = this.ReturnMasseurIfMasseurDetailsQueryDataIsValid
                 (queryModel);
@@ -133,7 +133,7 @@
             return availableMasseursModel;
         }
 
-        public MasseurDetailsServiceModel GetAvailableMasseurDetails
+        public AvailableMasseurDetailsServiceModel GetAvailableMasseurDetails
             (string masseurId)
         {
             var masseur = this.GetMasseurFromDB(masseurId);
@@ -141,15 +141,15 @@
             if (this.CheckIfNull(masseur, masseurId))
                 return null;
 
-            return this.GetMasseurDetailsModel(masseur);
+            return this.GetAvailableMasseurDetailsModel(masseur);
         }
 
-        private IEnumerable<MasseurDetailsServiceModel>
+        private IEnumerable<AvailableMasseurDetailsServiceModel>
             GetAllMasseursModels(IQueryable<Masseur> masseursQuery)
             => masseursQuery
-                .Select(m => new MasseurDetailsServiceModel()
+                .Select(m => new AvailableMasseurDetailsServiceModel()
                 {
-                    Id = m.UserId,
+                    Id = m.Id,
                     ProfileImageUrl = m.ProfileImageUrl,
                     FullName = m.FullName,
                     RatersCount = m.RatersCount,
@@ -158,16 +158,16 @@
                 })
                 .ToList();
 
-        private MasseurDetailsServiceModel
+        private AvailableMasseurDetailsServiceModel
             GetMasseurDetailsModel(Masseur masseur,
                 MasseurDetailsQueryModel queryModel)
         => new()
         {
-            Id = masseur.UserId,
+            Id = masseur.Id,
             CategoryId = queryModel.CategoryId,
             MassageId = queryModel.MassageId,
             Description = masseur.Description,
-            PhoneNumber = this.GetMasseurPhoneNumber(queryModel.MasseurId),
+            PhoneNumber = this.GetMasseurPhoneNumber(masseur.UserId),
             FullName = masseur.FullName,
             ProfileImageUrl = masseur.ProfileImageUrl,
             RatersCount = masseur.RatersCount,
@@ -179,7 +179,7 @@
         => masseursQuery
             .Select(m => new AvailableMasseurListingServiceModel()
             {
-                Id = m.UserId,
+                Id = m.Id,
                 ProfileImageUrl = m.ProfileImageUrl,
                 FullName = m.FullName,
                 RatersCount = m.RatersCount,
@@ -187,10 +187,11 @@
             })
             .ToList();
 
-        private MasseurDetailsServiceModel GetMasseurDetailsModel(Masseur masseur)
+        private AvailableMasseurDetailsServiceModel
+            GetAvailableMasseurDetailsModel(Masseur masseur)
         => new()
         {
-            Id = masseur.UserId,
+            Id = masseur.Id,
             Description = masseur.Description,
             PhoneNumber = this.GetMasseurPhoneNumber(masseur.UserId),
             FullName = masseur.FullName,
@@ -200,8 +201,8 @@
             Rating = masseur.Rating
         };
 
-        private string GetMasseurPhoneNumber(string masseurId) =>
-            this._data.Users.FirstOrDefault(u => u.Id == masseurId)?.PhoneNumber;
+        private string GetMasseurPhoneNumber(string userId) =>
+            this._data.Users.FirstOrDefault(u => u.Id == userId)?.PhoneNumber;
 
         private bool CheckIfNull(object massage, string id)
             => String.IsNullOrEmpty(id) || massage == null;
@@ -213,7 +214,7 @@
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
                 .Masseurs
-                .FirstOrDefault(m => m.UserId == masseurId);
+                .FirstOrDefault(m => m.Id == masseurId);
 
         private Massage GetMassageFromDB(string massageId) =>
             this._data

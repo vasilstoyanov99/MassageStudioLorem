@@ -5,9 +5,13 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
     using Data;
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
+
+    using static Areas.Masseur.MasseurConstants;
 
     public static class ApplicationBuilderExtensions
     {
@@ -15,12 +19,13 @@
             this IApplicationBuilder app)
         {
             using var scopedServices = app.ApplicationServices.CreateScope();
-
+            var services = scopedServices.ServiceProvider;
             var data = scopedServices.ServiceProvider.GetService<LoremDbContext>();
 
             data.Database.Migrate();
 
             SeedData(data);
+            SeedRoles(services);
 
             return app;
         }
@@ -90,6 +95,40 @@
 
                 data.SaveChanges();
             }
+        }
+
+        private static void SeedRoles(IServiceProvider services)
+        {
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            Task
+                .Run(async () =>
+                {
+                    if (await roleManager.RoleExistsAsync(MasseurRoleName))
+                    {
+                        return;
+                    }
+
+                    var role = new IdentityRole { Name = MasseurRoleName };
+
+                    await roleManager.CreateAsync(role);
+
+                    //const string adminEmail = "admin@admin.com";
+                    //const string adminUsername = "LoremAdmin";
+                    //const string adminPassword = "123456";
+
+                    //var user = new User
+                    //{
+                    //    Email = adminEmail,
+                    //    UserName = adminUsername
+                    //};
+
+                    //await userManager.CreateAsync(user, adminPassword);
+
+                    //await userManager.AddToRoleAsync(user, role.Name);
+                })
+                .GetAwaiter()
+                .GetResult();
         }
     }
 }

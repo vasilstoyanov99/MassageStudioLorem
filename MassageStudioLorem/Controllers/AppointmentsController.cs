@@ -21,6 +21,17 @@
         public AppointmentsController(IAppointmentsService appointmentsService)
             => this._appointmentsService = appointmentsService;
 
+        public IActionResult Index()
+        {
+            var clientId = this.User.GetId();
+
+            var upcomingAppointmentsModels = 
+                this._appointmentsService.GetUpcomingAppointments(clientId);
+
+            return this.View(new AppointmentsListViewModel()
+                { Appointments = upcomingAppointmentsModels });
+        }
+
         [Authorize]
         public IActionResult Book([FromQuery] AppointmentIdsQueryModel query)
         {
@@ -41,8 +52,9 @@
 
         public IActionResult Book(BookAppointmentServiceModel query)
         {
-            string massageId = query.MassageId;
-            string masseurId = query.MasseurId;
+            var massageId = query.MassageId;
+            var masseurId = query.MasseurId;
+            var userId = this.User.GetId();
 
             if (!this.ModelState.IsValid)
                 return this.RedirectToAction("Book", new
@@ -55,10 +67,8 @@
                 return this.RedirectToAction
                     ("Book", new { massageId, masseurId });
 
-            var clientId = this.User.GetId();
-
             var exceededBookedMassagesMessage = this._appointmentsService
-                .CheckIfClientBookedTooManyMassagesInTheSameDay(date, clientId);
+                .CheckIfClientBookedTooManyMassagesInTheSameDay(date, userId);
 
             if (exceededBookedMassagesMessage != null)
             {
@@ -82,7 +92,7 @@
             }
 
             this._appointmentsService.AddNewAppointment
-                (clientId, masseurId, massageId, date, hour);
+                (userId, masseurId, massageId, date, hour);
 
             return this.View();
         }

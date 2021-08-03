@@ -158,7 +158,7 @@
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
                 .Masseurs
-                .FirstOrDefault(m => m.UserId == masseurId);
+                .FirstOrDefault(m => m.Id == masseurId);
 
         private Massage GetMassageFromDB(string massageId) =>
             this._data

@@ -2,6 +2,7 @@
 {
     using Models;
     using System;
+    using System.Collections.Generic;
 
     public interface IAppointmentsService
     {
@@ -17,7 +18,10 @@
             (DateTime date, string userId);
 
         void AddNewAppointment
-        (string clientId, string masseurId, string massageId,
+        (string userId, string masseurId, string massageId,
             DateTime date, string hour);
+
+        ICollection<AppointmentServiceModel> GetUpcomingAppointments
+            (string userId);
     }
 }

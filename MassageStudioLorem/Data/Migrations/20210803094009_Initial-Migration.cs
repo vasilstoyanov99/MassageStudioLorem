@@ -210,8 +210,7 @@ namespace MassageStudioLorem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
@@ -244,9 +243,13 @@ namespace MassageStudioLorem.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MasseurFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MasseurPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MassageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsMasseurRatedByTheUser = table.Column<bool>(type: "bit", nullable: true)
+                    MassageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Hour = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsUserReviewedMasseur = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -297,26 +300,6 @@ namespace MassageStudioLorem.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "MasseursAvailableHours",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Hour = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MasseursAvailableHours", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MasseursAvailableHours_Masseurs_MasseurId",
-                        column: x => x.MasseurId,
-                        principalTable: "Masseurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_ClientId",
                 table: "Appointments",
@@ -325,8 +308,7 @@ namespace MassageStudioLorem.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_MassageId",
                 table: "Appointments",
-                column: "MassageId",
-                unique: true);
+                column: "MassageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_MasseurId",
@@ -403,11 +385,6 @@ namespace MassageStudioLorem.Data.Migrations
                 table: "Masseurs",
                 column: "UserId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MasseursAvailableHours_MasseurId",
-                table: "MasseursAvailableHours",
-                column: "MasseurId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -432,9 +409,6 @@ namespace MassageStudioLorem.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "MasseursAvailableHours");
 
             migrationBuilder.DropTable(
                 name: "Massages");

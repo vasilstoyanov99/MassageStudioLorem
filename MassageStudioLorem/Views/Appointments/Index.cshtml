@@ -1,5 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model AppointmentsListViewModel
+@using static MassageStudioLorem.Global.GlobalConstants.DateTimeFormats
+
+@{ ViewBag.Title = "My Appointments"; }
+
+@if (Model.Appointments == null)
+{
+    <div class="text-center" style="font-weight: bold">
+        Nothing booked yet! Would you like to treat yourself with a massage?
+    </div>
+    <div class="text-center">
+        <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin-top: 20px">Book a massage</a>
+    </div>
 }
+else
+{
+    <h2>Upcoming(@Model.Appointments.Count())</h2>
+
+    <table class="table table-bordered table-striped text-center">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Date and Hour</th>
+            <th scope="col">Massage</th>
+            <th scope="col">Masseur</th>
+            <th scope="col">Masseur Phone Number</th>
+            <th scope="col">Cancellation</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var appointment in this.Model.Appointments)
+        {
+            <tr>
+                <th scope="row">@appointment.Date.ToString(DateTimeFormat)  @appointment.Hour</th>
+                <td>@appointment.MassageName</td>
+                <td>@appointment.MasseurFullName</td>
+                <td><span class="fas fa-phone fa-lg text-dark"></span> 08880508 @*@appointment.MasseurPhoneNumber*@</td>
+                <td>
+                    <a class="btn btn-outline-danger btn-sm"
+                       asp-area="" asp-controller="Appointments" asp-action="Index" asp-route-id="@appointment.Id">
+                        Cancel
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+<hr class="bg-dark m-4" style="height: 6px;"/>
+
+@*<div>
+        @await Component.InvokeAsync("PastAppointments")
+    </div>*@

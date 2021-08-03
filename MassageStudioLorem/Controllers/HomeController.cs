@@ -9,8 +9,6 @@
             return this.View();
         }
 
-        public IActionResult Privacy() => this.View();
-
         public IActionResult Error() => this.View();
     }
 }

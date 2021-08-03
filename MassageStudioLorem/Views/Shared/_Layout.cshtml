@@ -38,6 +38,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Masseurs" asp-action="All">Masseurs</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">My Appointments</a>
+                        </li>
                         if (!MasseurService
                             .IsUserMasseur
                             (User.GetId()))

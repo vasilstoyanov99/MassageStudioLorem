@@ -17,13 +17,13 @@
         public AllMasseursQueryServiceModel GetAllMasseurs
             (int currentPage);
 
-        public MasseurDetailsServiceModel GetMasseurDetails
+        public AvailableMasseurDetailsServiceModel GetMasseurDetails
             (MasseurDetailsQueryModel queryModel);
 
         public AvailableMasseursQueryServiceModel GetAvailableMasseurs
             (AvailableMasseursQueryServiceModel queryModel);
 
-        public MasseurDetailsServiceModel GetAvailableMasseurDetails
+        public AvailableMasseurDetailsServiceModel GetAvailableMasseurDetails
             (string masseurId);
 
         Category GetCategoryFromDB(string categoryId);

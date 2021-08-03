@@ -13,6 +13,6 @@
 
         public double MaxPage { get; set; }
 
-        public IEnumerable<MasseurDetailsServiceModel> Masseurs { get; set; }
+        public IEnumerable<AvailableMasseurDetailsServiceModel> Masseurs { get; set; }
     }
 }

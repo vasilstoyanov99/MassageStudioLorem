@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    [Migration("20210801010739_AddedDefaultHourScheduleAndRemovedMasseursAvailableHours")]
-    partial class AddedDefaultHourScheduleAndRemovedMasseursAvailableHours
+    [Migration("20210803094009_Initial-Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,26 +33,38 @@ namespace MassageStudioLorem.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Hour")
-                        .HasColumnType("int");
+                    b.Property<string>("Hour")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsMasseurRatedByTheUser")
+                    b.Property<bool?>("IsUserReviewedMasseur")
                         .HasColumnType("bit");
 
                     b.Property<string>("MassageId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("MassageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MasseurFullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MasseurId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MasseurPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("MassageId")
-                        .IsUnique();
+                    b.HasIndex("MassageId");
 
                     b.HasIndex("MasseurId");
 
@@ -116,19 +128,6 @@ namespace MassageStudioLorem.Data.Migrations
                     b.HasIndex("MasseurId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("MassageStudioLorem.Data.Models.DefaultHourSchedule", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Hour")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DefaultHoursSchedule");
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Massage", b =>
@@ -424,8 +423,8 @@ namespace MassageStudioLorem.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MassageStudioLorem.Data.Models.Massage", null)
-                        .WithOne()
-                        .HasForeignKey("MassageStudioLorem.Data.Models.Appointment", "MassageId")
+                        .WithMany("Appointments")
+                        .HasForeignKey("MassageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -547,6 +546,11 @@ namespace MassageStudioLorem.Data.Migrations
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Client", b =>
+                {
+                    b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.Massage", b =>
                 {
                     b.Navigation("Appointments");
                 });
