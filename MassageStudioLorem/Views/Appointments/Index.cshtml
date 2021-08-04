@@ -77,10 +77,10 @@
                 <td>
                     @if (appointment.IsUserReviewedMasseur == false)
                     {
-                    <a class="btn btn-outline-success btn-sm"
-                       asp-controller="Reviews" asp-action="ReviewMasseur" asp-route-masseurId="@appointment.MasseurId" asp-route-appointmentId="@appointment.Id" asp-route-clientId="@appointment.ClientId">
-                        Write A Review
-                    </a>
+                        <a class="btn btn-outline-success btn-sm"
+                           asp-controller="Reviews" asp-action="ReviewMasseur" asp-route-masseurId="@appointment.MasseurId" asp-route-appointmentId="@appointment.Id" asp-route-clientId="@appointment.ClientId">
+                            Write A Review
+                        </a>
                     }
                     else
                     {
