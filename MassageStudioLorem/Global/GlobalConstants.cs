@@ -117,5 +117,11 @@
             public const string ImageUrl =
                 "We recommend to upload it on imgur.com and then right click over the post -> Copy image address. The URL should end with .jpg / .png etc...";
         }
+
+        public static class Notifications
+        {
+            public const string UserWillBeSignedOut =
+                "If succesful you will be signed out and redirected to the home page from where you can log back in your account!";
+        }
     }
 }

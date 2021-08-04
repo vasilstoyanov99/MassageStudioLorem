@@ -76,9 +76,7 @@
             string phoneNumberFromBase = this._data
                 .Users
                 .Select(u => u.PhoneNumber)
-                .Where(pn =>
-                    pn.Trim() == this.Input.PhoneNumber.Trim())
-                .FirstOrDefault();
+                .FirstOrDefault(pn => pn.Trim() == this.Input.PhoneNumber.Trim());
 
             returnUrl ??= this.Url.Content("~/");
 

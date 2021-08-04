@@ -3,11 +3,13 @@
     using Data.Enums;
     using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Masseurs;
     using Services.Masseurs;
     using Services.Masseurs.Models;
     using System;
+    using System.Threading.Tasks;
     using static Global.GlobalConstants.ErrorMessages;
     using static Areas.Client.ClientConstants;
 
@@ -15,9 +17,14 @@
     public class MasseursController : Controller
     {
         private readonly IMasseursService _masseursService;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public MasseursController(IMasseursService masseursService)
-            => this._masseursService = masseursService;
+        public MasseursController(IMasseursService masseursService,
+            SignInManager<IdentityUser> signInManager)
+        {
+            this._masseursService = masseursService;
+            this._signInManager = signInManager;
+        }
 
         public IActionResult BecomeMasseur()
         {
@@ -64,6 +71,14 @@
             }
             
             this._masseursService.RegisterNewMasseur(masseurModel, userId);
+
+            Task
+                .Run(async () =>
+                {
+                    await this._signInManager.SignOutAsync();
+                })
+                .GetAwaiter()
+                .GetResult();
 
             return this.RedirectToAction("Index", "Home");
         }

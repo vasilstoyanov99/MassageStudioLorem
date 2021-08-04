@@ -56,7 +56,10 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
-                <input class="btn btn-outline-success mt-3 text-center offset-md-5" type="submit" value="Save"/>
+                <div class="text-muted text-center" style="padding: 5px">
+                    @GlobalConstants.Notifications.UserWillBeSignedOut
+                </div>
+                <input class="btn btn-outline-success mt-3 text-center offset-md-5" type="submit" value="Save" />
             </form>
         </div>
     </div>
