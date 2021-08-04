@@ -21,9 +21,9 @@
 
             public const int LongDescriptionMinLength = 100;
 
-            public const int CommentMaxLength = 500;
+            public const int ReviewMaxLength = 500;
 
-            public const int CommentMinLength = 50;
+            public const int ReviewMinLength = 50;
 
             public const int MassageMaxLength = 40;
 
@@ -90,6 +90,12 @@
             public const string TooManyBookingsOfTheSameMassage = "You have exceeded the maximum amount of booked massages ({0}) for one day!";
 
             public const string CannotBookInThePast = "You cannot book an appointment in the past!";
+
+            public const string ReviewLength
+                = "The provided review must be at least {2} and {1} characters long.";
+
+            public const string UserHasLeftAReview
+                = "You had already left a review!";
         }
 
         public static class DateTimeFormats

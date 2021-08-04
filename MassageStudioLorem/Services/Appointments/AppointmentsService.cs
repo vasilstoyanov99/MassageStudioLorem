@@ -178,9 +178,11 @@
                     Id = a.Id,
                     Date = a.Date,
                     Hour = a.Hour,
+                    MasseurId = a.MasseurId,
                     MassageName = a.MassageName,
                     MasseurFullName = a.MasseurFullName,
                     MasseurPhoneNumber = a.MasseurPhoneNumber,
+                    ClientId = clientId,
                     IsUserReviewedMasseur = a.IsUserReviewedMasseur
                 })
                 .OrderByDescending(a => a.Date)
@@ -280,7 +282,7 @@
         }
 
         private string GetClientId(string userId) =>
-            this._data.Clients.FirstOrDefault(c => c.UserId == userId).Id;
+            this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
 
         private (string masseurFullName, 
                  string masseurPhoneNumber,
@@ -302,6 +304,6 @@
             return (masseurData.FullName, masseurPhoneNumber, massageName);
         }
 
-        private DateTime GetDateTimeNow() => DateTime.UtcNow;
+        private DateTime GetDateTimeNow() => DateTime.Now;
     }
 }

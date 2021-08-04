@@ -4,14 +4,16 @@ using MassageStudioLorem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    partial class LoremDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210804072600_RenamedCommentTableToReview")]
+    partial class RenamedCommentTableToReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +60,6 @@ namespace MassageStudioLorem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReviewId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
@@ -68,10 +67,6 @@ namespace MassageStudioLorem.Data.Migrations
                     b.HasIndex("MassageId");
 
                     b.HasIndex("MasseurId");
-
-                    b.HasIndex("ReviewId")
-                        .IsUnique()
-                        .HasFilter("[ReviewId] IS NOT NULL");
 
                     b.ToTable("Appointments");
                 });
@@ -434,11 +429,6 @@ namespace MassageStudioLorem.Data.Migrations
                         .HasForeignKey("MasseurId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("MassageStudioLorem.Data.Models.Review", null)
-                        .WithOne()
-                        .HasForeignKey("MassageStudioLorem.Data.Models.Appointment", "ReviewId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Client", b =>

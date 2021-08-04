@@ -190,6 +190,8 @@
             return true;
         }
 
+        //TODO: Check if the order is correct!
+
         private Massage ReturnMassageIfAvailableMassageQueryDataIsValid
             (string massageId, string masseurId)
         {

@@ -13,6 +13,7 @@ namespace MassageStudioLorem
     using Services.Appointments;
     using Services.Massages;
     using Services.Masseurs;
+    using Services.Reviews;
 
     public class Startup
     {
@@ -54,6 +55,7 @@ namespace MassageStudioLorem
             services.AddTransient<IMasseursService, MasseursService>();
             services.AddTransient<IMassagesService, MassagesService>();
             services.AddTransient<IAppointmentsService, AppointmentsService>();
+            services.AddTransient<IReviewsService, ReviewsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

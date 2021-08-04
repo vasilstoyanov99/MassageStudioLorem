@@ -12,7 +12,7 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.WorkSchedule = new HashSet<Appointment>();
-            this.Comments = new HashSet<Comment>();
+            this.Reviews = new HashSet<Review>();
         }
 
         public string Id { get; set; }
@@ -38,14 +38,14 @@
 
         public int RatersCount { get; set; }
 
-        [Required] public string UserId { get; set; }
+        [Required] 
+        public string UserId { get; set; }
 
-        [Required] public string CategoryId { get; set; }
-
-        public Category Category { get; set; }
+        [Required]
+        public string CategoryId { get; set; }
 
         public ICollection<Appointment> WorkSchedule { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }

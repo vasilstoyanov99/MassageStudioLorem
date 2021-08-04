@@ -19,7 +19,8 @@
         // TODO: Check if this is needed
         //public string ProfileImagePath { get; set; }
 
-        [Required] public string UserId { get; set; }
+        [Required] 
+        public string UserId { get; set; }
 
         public ICollection<Appointment> Appointments { get; set; }
     }

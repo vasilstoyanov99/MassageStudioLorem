@@ -41,6 +41,6 @@
 
         // For every past (and confirmed) appointment the User can Rate the Salon
         // But rating can be given only once for each appointment
-        public bool? IsUserReviewedMasseur { get; set; }
+        public bool IsUserReviewedMasseur { get; set; }
     }
 }

@@ -63,7 +63,6 @@
             return this.RedirectToAction("Index");
         }
 
-        
         public IActionResult Book([FromQuery] AppointmentIdsQueryModel query)
         {
             var appointmentModel =
@@ -77,7 +76,6 @@
         }
 
         [HttpPost]
-
         public IActionResult Book(BookAppointmentServiceModel query)
         {
             //TODO: Move the code to methods
@@ -134,5 +132,9 @@
 
             return this.RedirectToAction("Index");
         }
+
+        //TODO: Check if it needs to be used!
+        //private bool CheckIfNull(object obj)
+        //    => obj == null;
     }
 }

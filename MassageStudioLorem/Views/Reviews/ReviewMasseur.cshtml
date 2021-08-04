@@ -1,0 +1,36 @@
+﻿@model ReviewMasseurFormServiceModel
+@{
+    ViewBag.Title = "My Appointments";
+}
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <form class="col-6 mt-5 text-center offset-md-3" style="font-weight: bold">
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Masseur</label>
+            <div class="col-sm-7">
+                <div class="form-control">@Model.MasseurFullName</div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <form method="post">
+                <div class="form-group">
+                    <input asp-for="Content" rows="4" class="form-control" placeholder="Tell us about your expirience">
+                    <span asp-validation-for="Content" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-outline-success mt-3 text-center offset-md-5" type="submit" value="Send"/>
+            </form>
+        </div>
+    </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+}
+
+

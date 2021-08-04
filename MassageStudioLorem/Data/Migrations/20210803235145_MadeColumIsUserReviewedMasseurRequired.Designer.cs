@@ -4,14 +4,16 @@ using MassageStudioLorem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    partial class LoremDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210803235145_MadeColumIsUserReviewedMasseurRequired")]
+    partial class MadeColumnIsUserReviewedMasseurRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +60,6 @@ namespace MassageStudioLorem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReviewId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
@@ -68,10 +67,6 @@ namespace MassageStudioLorem.Data.Migrations
                     b.HasIndex("MassageId");
 
                     b.HasIndex("MasseurId");
-
-                    b.HasIndex("ReviewId")
-                        .IsUnique()
-                        .HasFilter("[ReviewId] IS NOT NULL");
 
                     b.ToTable("Appointments");
                 });
@@ -106,6 +101,33 @@ namespace MassageStudioLorem.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.Comment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("MasseurId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("MasseurId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Massage", b =>
@@ -153,7 +175,7 @@ namespace MassageStudioLorem.Data.Migrations
 
                     b.Property<string>("CategoryId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -184,35 +206,12 @@ namespace MassageStudioLorem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Masseurs");
-                });
-
-            modelBuilder.Entity("MassageStudioLorem.Data.Models.Review", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("MasseurId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MasseurId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -434,11 +433,6 @@ namespace MassageStudioLorem.Data.Migrations
                         .HasForeignKey("MasseurId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("MassageStudioLorem.Data.Models.Review", null)
-                        .WithOne()
-                        .HasForeignKey("MassageStudioLorem.Data.Models.Appointment", "ReviewId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Client", b =>
@@ -448,6 +442,25 @@ namespace MassageStudioLorem.Data.Migrations
                         .HasForeignKey("MassageStudioLorem.Data.Models.Client", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MassageStudioLorem.Data.Models.Comment", b =>
+                {
+                    b.HasOne("MassageStudioLorem.Data.Models.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MassageStudioLorem.Data.Models.Masseur", "Masseur")
+                        .WithMany("Comments")
+                        .HasForeignKey("MasseurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Masseur");
                 });
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Massage", b =>
@@ -461,20 +474,19 @@ namespace MassageStudioLorem.Data.Migrations
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Masseur", b =>
                 {
+                    b.HasOne("MassageStudioLorem.Data.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithOne()
                         .HasForeignKey("MassageStudioLorem.Data.Models.Masseur", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("MassageStudioLorem.Data.Models.Review", b =>
-                {
-                    b.HasOne("MassageStudioLorem.Data.Models.Masseur", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("MasseurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -545,7 +557,7 @@ namespace MassageStudioLorem.Data.Migrations
 
             modelBuilder.Entity("MassageStudioLorem.Data.Models.Masseur", b =>
                 {
-                    b.Navigation("Reviews");
+                    b.Navigation("Comments");
 
                     b.Navigation("WorkSchedule");
                 });

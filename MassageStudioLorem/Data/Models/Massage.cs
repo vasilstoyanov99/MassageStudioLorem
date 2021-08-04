@@ -23,13 +23,15 @@
         [MaxLength(LongDescriptionMaxLength)]
         public string LongDescription { get; set; }
 
-        [Required] public string CategoryId { get; set; }
+        [Required]
+        public string CategoryId { get; set; }
 
         [Required]
         [MaxLength(MassageMaxLength)]
         public string Name { get; set; }
 
-        [Required] public double Price { get; set; }
+        [Required] 
+        public double Price { get; set; }
 
         [Required]
         [RegularExpression(UrlRegex)]
