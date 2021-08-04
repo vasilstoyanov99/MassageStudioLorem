@@ -50,7 +50,7 @@
     <hr class="bg-dark m-4" style="height: 6px;"/>
 }
 
-@if (Model.PastAppointments != null)
+@if (Model.PastAppointments?.Count() > 0)
 {
     <h2>Past(@Model.PastAppointments.Count())</h2>
 
