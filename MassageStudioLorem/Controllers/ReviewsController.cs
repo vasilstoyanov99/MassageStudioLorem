@@ -11,8 +11,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using static Global.GlobalConstants.ErrorMessages;
+    using static Areas.Client.ClientConstants;
 
-    [Authorize]
+    [Authorize(Roles = ClientRoleName)]
     public class ReviewsController : Controller
     {
         private readonly IReviewsService _reviewsService;

@@ -10,6 +10,8 @@
     using Data;
     using Data.Models;
     using static Global.GlobalConstants.ErrorMessages;
+    using static Client.ClientConstants;
+
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -28,7 +30,8 @@
             this._data = data;
         }
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty] 
+        public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -81,18 +84,16 @@
 
             if (this.ModelState.IsValid)
             {
-                IdentityResult result = null;
-
                 if (phoneNumberFromBase == null)
                 {
-                    IdentityUser user = new IdentityUser
+                    IdentityUser user = new()
                     {
                         Email = this.Input.Email,
                         UserName = this.Input.UserName,
                         PhoneNumber = this.Input.PhoneNumber
                     };
 
-                    result = await this._userManager
+                    IdentityResult result = await this._userManager
                         .CreateAsync(user, this.Input.Password);
 
                     if (result.Succeeded)
@@ -100,7 +101,7 @@
                         await this._data.Clients
                             .AddAsync(new Client() {UserId = user.Id});
                         await this._data.SaveChangesAsync();
-
+                        await this._userManager.AddToRoleAsync(user, ClientRoleName);
                         await this._signInManager.SignInAsync(user,
                             false);
 

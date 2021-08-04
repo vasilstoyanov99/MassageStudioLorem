@@ -9,17 +9,16 @@
     using Services.Masseurs.Models;
     using System;
     using static Global.GlobalConstants.ErrorMessages;
+    using static Areas.Client.ClientConstants;
 
+    [Authorize(Roles = ClientRoleName)]
     public class MasseursController : Controller
     {
         private readonly IMasseursService _masseursService;
 
         public MasseursController(IMasseursService masseursService)
-        {
-            this._masseursService = masseursService;
-        }
+            => this._masseursService = masseursService;
 
-        [Authorize]
         public IActionResult BecomeMasseur()
         {
             var userId = this.User.GetId();
@@ -38,7 +37,6 @@
             return this.View(becomeMasseurModel);
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult BecomeMasseur
             (BecomeMasseurFormModel masseurModel)
@@ -70,7 +68,6 @@
             return this.RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
         public IActionResult All
             ([FromQuery] AllMasseursQueryServiceModel query)
         {
@@ -83,7 +80,6 @@
             return this.View(allMasseursModel);
         }
 
-        [Authorize]
         public IActionResult Details
             ([FromQuery] MasseurDetailsQueryModel queryModel)
         {
@@ -96,7 +92,6 @@
             return this.View(masseurDetails);
         }
 
-        [Authorize]
         public IActionResult AvailableMasseurs
             ([FromQuery] AvailableMasseursQueryServiceModel queryModel)
         {
@@ -122,7 +117,6 @@
             return this.View(availableMasseursModel);
         }
 
-        [Authorize]
         public IActionResult AvailableMasseurDetails(string masseurId)
         {
             var masseurDetailsModel = this._masseursService

@@ -13,8 +13,9 @@
     using System.Linq;
 
     using static Global.GlobalConstants.ErrorMessages;
+    using static Areas.Client.ClientConstants;
 
-    [Authorize]
+    [Authorize(Roles = ClientRoleName)]
     public class AppointmentsController : Controller
     {
         private readonly IAppointmentsService _appointmentsService;

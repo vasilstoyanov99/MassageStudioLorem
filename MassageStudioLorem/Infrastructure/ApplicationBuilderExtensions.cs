@@ -12,6 +12,7 @@
     using System.Threading.Tasks;
 
     using static Areas.Masseur.MasseurConstants;
+    using static Areas.Client.ClientConstants;
 
     public static class ApplicationBuilderExtensions
     {
@@ -123,18 +124,24 @@
         private static void SeedRoles(IServiceProvider services)
         {
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
 
             Task
                 .Run(async () =>
                 {
                     if (await roleManager.RoleExistsAsync(MasseurRoleName))
-                    {
                         return;
-                    }
 
-                    var role = new IdentityRole { Name = MasseurRoleName };
+                    var masseurRole = new IdentityRole { Name = MasseurRoleName };
 
-                    await roleManager.CreateAsync(role);
+                    await roleManager.CreateAsync(masseurRole);
+
+                    if (await roleManager.RoleExistsAsync(ClientRoleName))
+                        return;
+
+                    var clientRole = new IdentityRole { Name = ClientRoleName };
+
+                    await roleManager.CreateAsync(clientRole);
 
                     //const string adminEmail = "admin@admin.com";
                     //const string adminUsername = "LoremAdmin";

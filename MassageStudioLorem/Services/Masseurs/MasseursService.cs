@@ -12,6 +12,7 @@
     using System.Threading.Tasks;
     using static Global.GlobalConstants.Paging;
     using static Areas.Masseur.MasseurConstants;
+    using static Areas.Client.ClientConstants;
 
 
     public class MasseursService : IMasseursService
@@ -88,7 +89,8 @@
             return allMasseursModel;
         }
 
-        public AvailableMasseurDetailsServiceModel GetMasseurDetails(MasseurDetailsQueryModel queryModel)
+        public AvailableMasseurDetailsServiceModel GetMasseurDetails
+            (MasseurDetailsQueryModel queryModel)
         {
             var masseur = this.ReturnMasseurIfMasseurDetailsQueryDataIsValid
                 (queryModel);
@@ -274,6 +276,7 @@
             Task
                 .Run(async () =>
                 {
+                    await this._userManager.RemoveFromRoleAsync(user, ClientRoleName);
                     await this._userManager.AddToRoleAsync(user, MasseurRoleName);
                 })
                 .GetAwaiter()

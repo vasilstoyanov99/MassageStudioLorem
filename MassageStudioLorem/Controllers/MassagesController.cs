@@ -8,7 +8,9 @@
     using Models.Massages;
     using Services.Massages;
     using Services.Massages.Models;
+    using static Areas.Client.ClientConstants;
 
+    [Authorize(Roles = ClientRoleName)]
     public class MassagesController : Controller
     {
         private readonly IMassagesService _massagesService;
@@ -17,7 +19,6 @@
             (IMassagesService massagesService) =>
             this._massagesService = massagesService;
 
-        [Authorize]
         public IActionResult All
             ([FromQuery] AllCategoriesQueryServiceModel queryModel)
         {
@@ -32,7 +33,6 @@
             return this.View(allCategoriesWithMassagesModel);
         }
 
-        [Authorize]
         public IActionResult Details
             ([FromQuery] MassageDetailsQueryModel queryModel)
         {
@@ -45,7 +45,6 @@
             return this.View(massageDetailsModel);
         }
 
-        [Authorize]
         public IActionResult AvailableMassages
             ([FromQuery] AvailableMassagesQueryServiceModel queryModel)
         {
@@ -60,7 +59,6 @@
             return this.View(availableMassagesModel);
         }
 
-        [Authorize]
         public IActionResult AvailableMassageDetails
             ([FromQuery] AvailableMassageDetailsQueryModel queryModel)
         {
