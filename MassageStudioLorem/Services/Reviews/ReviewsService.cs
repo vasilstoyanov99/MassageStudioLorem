@@ -2,6 +2,7 @@
 {
     using Data;
     using Data.Models;
+    using Ganss.XSS;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -69,11 +70,14 @@
 
         public void AddNewReview(ReviewMasseurFormServiceModel reviewModel)
         {
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedContent = sanitizer.Sanitize(reviewModel.Content);
+
             var review = new Review()
             {
                 ClientId = reviewModel.ClientId, 
                 MasseurId = reviewModel.MasseurId, 
-                Content = reviewModel.Content
+                Content = sanitizedContent
             };
 
             var appointment = GetAppointmentFromDB(reviewModel.AppointmentId);
