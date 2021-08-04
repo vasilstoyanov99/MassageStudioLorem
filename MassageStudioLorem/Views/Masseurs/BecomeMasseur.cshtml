@@ -5,13 +5,15 @@
     ViewBag.Title = "Become A Masseur";
 }
 
-@section Styles {
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
-}
 <div asp-validation-summary="All" class="text-danger"></div>
 
 @if (Model.Categories != null)
 {
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+}
+
     <div class="row">
         <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
             <h2 class="heading-margin text-center">@ViewBag.Title</h2>
@@ -54,7 +56,7 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
-                <input class="btn btn-outline-success mt-3 text-center offset-md-5" type="submit" value="Save" />
+                <input class="btn btn-outline-success mt-3 text-center offset-md-5" type="submit" value="Save"/>
             </form>
         </div>
     </div>
@@ -63,5 +65,5 @@
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
     <script src="/lib/jquery/dist/jquery.js"></script>
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }

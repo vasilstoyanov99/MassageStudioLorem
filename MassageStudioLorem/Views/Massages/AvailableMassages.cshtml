@@ -35,18 +35,13 @@
             </div>
         }
     </div>
-}
 
-@{
-    var previousPage = Model.CurrentPage - 1;
-
-    if (previousPage < 1)
+    if (Model.CurrentPage - 1 < 1)
     {
-        previousPage = 1;
+        Model.CurrentPage = 1;
     }
-}
 
-<div class="row mb-5">
+        <div class="row mb-5">
     <div class="col-md-6">
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="Massages"
@@ -70,3 +65,4 @@
         </a>
     </div>
 </div>
+}
