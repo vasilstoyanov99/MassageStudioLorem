@@ -23,7 +23,7 @@
 
             public const int ReviewMaxLength = 500;
 
-            public const int ReviewMinLength = 50;
+            public const int ReviewMinLength = 20;
 
             public const int MassageMaxLength = 40;
 
