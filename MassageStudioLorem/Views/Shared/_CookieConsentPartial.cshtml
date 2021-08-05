@@ -9,18 +9,21 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        @CookiesUsage <a asp-page="/Privacy">Learn More</a>.
-        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
-        </button>
-    </div>
-    <script>
-        (function () {
-            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
-            button.addEventListener("click", function (event) {
-                document.cookie = button.dataset.cookieString;
-            }, false);
-        })();
-    </script>
+    <cache expires-after="TimeSpan.FromHours(48)">
+        <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
+            @CookiesUsage <a asp-action="Privacy" asp-controller="Home">Learn More</a>
+            <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+                <span aria-hidden="true">Accept</span>
+            </button>
+        </div>
+
+        <script>
+            (function () {
+                var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+                button.addEventListener("click", function (event) {
+                    document.cookie = button.dataset.cookieString;
+                }, false);
+            })();
+        </script>
+    </cache>
 }
