@@ -1,4 +1,4 @@
-namespace MassageStudioLorem
+﻿namespace MassageStudioLorem
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -9,6 +9,7 @@ namespace MassageStudioLorem
     using Microsoft.EntityFrameworkCore;
     using Data;
     using Infrastructure;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Services.Appointments;
     using Services.Massages;
@@ -56,6 +57,12 @@ namespace MassageStudioLorem
             services.AddTransient<IMassagesService, MassagesService>();
             services.AddTransient<IAppointmentsService, AppointmentsService>();
             services.AddTransient<IReviewsService, ReviewsService>();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -79,6 +86,7 @@ namespace MassageStudioLorem
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
+                .UseCookiePolicy()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapDefaultAreaRoute();

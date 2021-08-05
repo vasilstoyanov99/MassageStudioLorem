@@ -1,5 +1,38 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model IEnumerable<MasseurUpcomingAppointmentServiceModel>
+@using static MassageStudioLorem.Global.GlobalConstants.DateTimeFormats
+
+@{ ViewBag.Title = "My Appointments"; }
+
+@if (Model == null)
+{
+    <div class="text-center" style="font-weight: bold">
+        Nothing booked yet!
+    </div>
+}
+
+@if (Model?.Count() > 0)
+{
+    <h2>Upcoming(@Model.Count())</h2>
+
+    <table class="table table-bordered table-striped text-center">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Date and Hour</th>
+            <th scope="col">Massage</th>
+            <th scope="col">Client Phone Number</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <th scope="row">@appointment.Date.ToString(DateTimeFormat) @appointment.Hour</th>
+                <td>@appointment.MassageName</td>
+                <td>
+                    <span class="fas fa-phone fa-lg text-dark"></span> @appointment.ClientPhoneNumber
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }

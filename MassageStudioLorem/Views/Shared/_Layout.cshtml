@@ -30,25 +30,36 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @*//TODO: Use User.IsInRole!*@
-                        @if (SignInManager.IsSignedIn(User) && !MasseurService.IsUserMasseur(User.GetId()))
+                        @if (SignInManager.IsSignedIn(User))
                         {
-            <li class="nav-item">
-                @*//TODO: Check if I should delete the empty asp-area!*@
-                <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="All">Categories</a>
-            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Masseurs" asp-action="All">Masseurs</a>
-                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">My Appointments</a>
-                                            </li> if (!MasseurService
-                                                                .IsUserMasseur
-                                                                (User.GetId()))
-                                                            {
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark" asp-controller="Masseurs" asp-action="BecomeMasseur" title="Become A Masseur">Become A Masseur</a>
-                                            </li>}
-                                                        }
+                            @if (!MasseurService.IsUserMasseur(User.GetId()))
+                            {
+                                <li class="nav-item">
+                                    @*//TODO: Check if I should delete the empty asp-area!*@
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="All">Categories</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Masseurs" asp-action="All">Masseurs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">My Appointments</a>
+                                </li> 
+                                if (!MasseurService.IsUserMasseur(User.GetId()))
+                                      {
+                                          <li class="nav-item">
+                                              <a class="nav-link text-dark" asp-controller="Masseurs" asp-action="BecomeMasseur" title="Become A Masseur">Become A Masseur</a>
+                                          </li>
+
+                                      }
+                            }
+                            //TODO: Check if it should be els!  
+                            @if (MasseurService.IsUserMasseur(User.GetId()))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Masseur" asp-controller="Appointments" asp-action="Index">My Work Schedule</a>
+                                </li>
+                            }
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
