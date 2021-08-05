@@ -11,6 +11,7 @@
     using System;
     using System.Threading.Tasks;
     using static Global.GlobalConstants.ErrorMessages;
+    using static Global.GlobalConstants.Notifications;
     using static Areas.Client.ClientConstants;
 
     [Authorize(Roles = ClientRoleName)]
@@ -79,6 +80,10 @@
                 })
                 .GetAwaiter()
                 .GetResult();
+
+
+            this.TempData[SuccessfullyBecomeMasseurKey] = 
+                SuccessfullyBecomeMasseur;
 
             return this.RedirectToAction("Index", "Home");
         }

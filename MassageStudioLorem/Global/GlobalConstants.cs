@@ -121,7 +121,13 @@
         public static class Notifications
         {
             public const string UserWillBeSignedOut =
-                "If succesful you will be signed out and redirected to the home page from where you can log back in your account!";
+                "If successful you will be signed out and redirected to the home page from where you can log back into your account!";
+
+            public const string SuccessfullyBecomeMasseur =
+                "Thank you for joining our team of masseurs! Please, log back into your account!";
+
+            public const string SuccessfullyBecomeMasseurKey =
+                "SBMK";
         }
     }
 }
