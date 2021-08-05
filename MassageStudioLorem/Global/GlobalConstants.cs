@@ -128,6 +128,8 @@
 
             public const string SuccessfullyBecomeMasseurKey =
                 "SBMK";
+
+            public const string CookiesUsage = "We use cookies to improve your experience.";
         }
     }
 }

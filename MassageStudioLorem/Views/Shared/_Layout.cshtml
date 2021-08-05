@@ -56,12 +56,12 @@
         </nav>
     </header>
     <div class="container">
+        <partial name="_CookieConsentPartial" />
         @if (TempData.ContainsKey(SuccessfullyBecomeMasseurKey))
         {
-            <div class="alert alert-success text-center" role="alert">
-                @TempData[SuccessfullyBecomeMasseurKey]
-            </div>
-        }
+    <div class="alert alert-success text-center" role="alert">
+        @TempData[SuccessfullyBecomeMasseurKey]
+    </div>}
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -69,7 +69,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.UtcNow.Year - Massage Studio Lorem
+            &copy; @DateTime.UtcNow.Year - Massage Studio Lorem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             <div class="float-sm-right">
                 <span class="fas fa-map-marker-alt fa-lg text-dark"></span>
                 <span class="text-dark big">5408 Lorem Rd</span>
