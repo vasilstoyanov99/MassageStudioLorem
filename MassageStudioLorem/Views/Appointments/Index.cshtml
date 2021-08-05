@@ -12,7 +12,7 @@
         <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin-top: 20px">Book a massage</a>
     </div>
 }
-@if (Model.UpcomingAppointments != null)
+@if (Model.UpcomingAppointments?.Count() > 0)
 {
     <h2>Upcoming(@Model.UpcomingAppointments.Count())</h2>
 
@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var appointment in this.Model.UpcomingAppointments)
+        @foreach (var appointment in Model.UpcomingAppointments)
         {
             <tr>
                 <th scope="row">@appointment.Date.ToString(DateTimeFormat) @appointment.Hour</th>
@@ -65,7 +65,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var appointment in this.Model.PastAppointments)
+        @foreach (var appointment in Model.PastAppointments)
         {
             <tr>
                 <th scope="row">@appointment.Date.ToString(DateTimeFormat) @appointment.Hour</th>
