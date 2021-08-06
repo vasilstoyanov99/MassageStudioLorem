@@ -2,7 +2,7 @@
 {
     public class MasseurConstants
     {
-        public const string AreaName = "Masseur";
+        public const string MasseurAreaName = "Masseur";
         public const string MasseurRoleName = "Masseur";
     }
 }

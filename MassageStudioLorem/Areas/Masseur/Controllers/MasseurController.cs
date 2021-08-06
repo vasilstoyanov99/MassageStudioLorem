@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using static MasseurConstants;
 
-    [Area(AreaName)]
+    [Area(MasseurAreaName)]
     [Authorize(Roles = MasseurRoleName)]
     public abstract class MasseurController : Controller
     {

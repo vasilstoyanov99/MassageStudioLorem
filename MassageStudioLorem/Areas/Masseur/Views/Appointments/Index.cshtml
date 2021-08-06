@@ -1,38 +1,37 @@
 ﻿@model IEnumerable<MasseurUpcomingAppointmentServiceModel>
-@using static MassageStudioLorem.Global.GlobalConstants.DateTimeFormats
 
 @{ ViewBag.Title = "My Appointments"; }
 
-@if (Model == null)
+@if (Model == null || Model?.Count() <= 0)
 {
-    <div class="text-center" style="font-weight: bold">
-        Nothing booked yet!
-    </div>
+<div class="text-center" style="font-weight: bold">
+    @NothingBookedYet
+</div>
 }
 
 @if (Model?.Count() > 0)
 {
-    <h2>Upcoming(@Model.Count())</h2>
+<h2>Upcoming(@Model.Count())</h2>
 
-    <table class="table table-bordered table-striped text-center">
-        <thead class="thead-light">
+                <table class="table table-bordered table-striped text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Date and Hour</th>
+                            <th scope="col">Massage</th>
+                            <th scope="col">Client</th>
+                            <th scope="col">Client Phone Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in Model)
+                        {
         <tr>
-            <th scope="col">Date and Hour</th>
-            <th scope="col">Massage</th>
-            <th scope="col">Client Phone Number</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var appointment in Model)
-        {
-            <tr>
-                <th scope="row">@appointment.Date.ToString(DateTimeFormat) @appointment.Hour</th>
-                <td>@appointment.MassageName</td>
-                <td>
-                    <span class="fas fa-phone fa-lg text-dark"></span> @appointment.ClientPhoneNumber
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+            <th scope="row">@appointment.Date.ToString(DateTimeFormat) @appointment.Hour</th>
+            <td>@appointment.MassageName</td>
+            <td>@appointment.ClientFirstName</td>
+            <td>
+                <span class="fas fa-phone fa-lg text-dark"></span> @appointment.ClientPhoneNumber
+            </td>
+        </tr>}
+                    </tbody>
+                </table>}
