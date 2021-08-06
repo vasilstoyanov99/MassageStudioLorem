@@ -12,6 +12,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Services.Appointments;
+    using Services.Home;
     using Services.Massages;
     using Services.Masseurs;
     using Services.Reviews;
@@ -29,9 +30,7 @@
         {
             services
                 .AddDefaultIdentity<IdentityUser>
-                    //    (IdentityOptionsProvider.GetIdentityOptions)
-                    //.AddRoles<ApplicationRole>
-                    (options =>
+                (options =>
                     {
                         options.Password.RequireDigit = false;
                         options.Password.RequireLowercase = false;
@@ -53,6 +52,7 @@
                     .Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
+            services.AddTransient<IHomeService, HomeService>();
             services.AddTransient<IMasseursService, MasseursService>();
             services.AddTransient<IMassagesService, MassagesService>();
             services.AddTransient<IAppointmentsService, AppointmentsService>();

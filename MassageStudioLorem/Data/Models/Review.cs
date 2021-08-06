@@ -17,7 +17,12 @@
         [Required] 
         public string ClientId { get; set; }
 
+        [Required]
+        public string ClientFirstName { get; set; }
+
         [Required] 
         public string MasseurId { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }

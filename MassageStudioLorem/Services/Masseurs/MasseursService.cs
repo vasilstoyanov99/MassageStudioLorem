@@ -55,7 +55,7 @@
 
             var user = this._data.Users.FirstOrDefault(u => u.Id == userId);
 
-            AssignUserToMasseurRole(user);
+            this.AssignUserToMasseurRole(user);
 
             this._data.Masseurs.Add(masseur);
             var client = this._data.Clients

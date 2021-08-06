@@ -89,7 +89,7 @@
             var massage = this.ReturnMassageIfAvailableMassageQueryDataIsValid
                 (massageId, masseurId);
 
-            if (CheckIfNull(massage))
+            if (this.CheckIfNull(massage))
                 return null;
 
             return this.GetAvailableMassagesDetailsModel(massage, masseurId);

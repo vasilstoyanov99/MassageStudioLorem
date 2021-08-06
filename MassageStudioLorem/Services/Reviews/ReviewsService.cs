@@ -17,7 +17,7 @@
 
         public bool CheckIfClientHasLeftAReview(string appointmentId)
         {
-            var appointment = GetAppointmentFromDB(appointmentId);
+            var appointment = this.GetAppointmentFromDB(appointmentId);
             return appointment.IsUserReviewedMasseur;
         }
 
@@ -27,12 +27,12 @@
             var masseurFullName = this._data.Masseurs
                 .FirstOrDefault(m => m.Id == masseurId)?.FullName;
 
-            if (CheckIfNull(masseurFullName))
+            if (this.CheckIfNull(masseurFullName))
                 return null;
 
             var clientId = this.GetClientId(userId);
 
-            if (CheckIfNull(clientId))
+            if (this.CheckIfNull(clientId))
                 return null;
 
             var reviewMasseurModel = new ReviewMasseurFormServiceModel()
@@ -51,18 +51,18 @@
             var masseur = this._data.Masseurs
                 .FirstOrDefault(m => m.Id == reviewModel.MasseurId);
 
-            if (CheckIfNull(masseur))
+            if (this.CheckIfNull(masseur))
                 return false;
 
-            var appointment = GetAppointmentFromDB(reviewModel.AppointmentId);
+            var appointment = this.GetAppointmentFromDB(reviewModel.AppointmentId);
 
-            if (CheckIfNull(appointment))
+            if (this.CheckIfNull(appointment))
                 return false;
 
             var client = this._data
                 .Clients.FirstOrDefault(c => c.Id == reviewModel.ClientId);
 
-            if (CheckIfNull(client))
+            if (this.CheckIfNull(client))
                 return false;
 
             return true;
@@ -72,15 +72,17 @@
         {
             var sanitizer = new HtmlSanitizer();
             var sanitizedContent = sanitizer.Sanitize(reviewModel.Content);
-
+            var clientFirstName = this.GetClientFirstName(reviewModel.ClientId);
             var review = new Review()
             {
                 ClientId = reviewModel.ClientId, 
+                ClientFirstName = clientFirstName,
                 MasseurId = reviewModel.MasseurId, 
-                Content = sanitizedContent
+                Content = sanitizedContent,
+                CreatedOn = DateTime.Now
             };
 
-            var appointment = GetAppointmentFromDB(reviewModel.AppointmentId);
+            var appointment = this.GetAppointmentFromDB(reviewModel.AppointmentId);
 
             appointment.IsUserReviewedMasseur = true;
 
@@ -88,11 +90,46 @@
             this._data.SaveChanges();
         }
 
+        public IEnumerable<MasseurReviewServiceModel> GetMasseurReviews
+            (string userId)
+        {
+            var masseurId = this._data.Masseurs
+                .FirstOrDefault(m => m.UserId == userId)?.Id;
+
+            var masseur = GetMasseurFromDB(masseurId);
+
+            if (CheckIfNull(masseur))
+                return null;
+
+            var reviews = this._data
+                .Reviews
+                .Where(r => r.MasseurId == masseurId)
+                .Select(r => new MasseurReviewServiceModel()
+                {
+                    ClientFirstName = r.ClientFirstName,
+                    Content = r.Content,
+                    CreatedOn = r.CreatedOn
+                })
+                .OrderBy(r => r.CreatedOn)
+                .ToList();
+
+            return reviews;
+        }
+
         private bool CheckIfNull(object obj)
             => obj == null;
 
         private string GetClientId(string userId) =>
             this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
+
+        private string GetClientFirstName(string clientId) =>
+            this._data.Clients
+                .FirstOrDefault(c => c.Id == clientId)?.FirstName;
+
+        private Masseur GetMasseurFromDB(string masseurId) =>
+            this._data
+                .Masseurs
+                .FirstOrDefault(m => m.Id == masseurId);
 
         private Appointment GetAppointmentFromDB(string appointmentId) =>
             this._data.Appointments.FirstOrDefault(a => a.Id == appointmentId);

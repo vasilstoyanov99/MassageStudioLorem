@@ -4,14 +4,16 @@ using MassageStudioLorem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    partial class LoremDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210806032631_AddedColumnFirstNameAndRemovedAppointmentsCollectionInClient")]
+    partial class AddedColumnFirstNameAndRemovedAppointmentsCollectionInClient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,10 +25,6 @@ namespace MassageStudioLorem.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClientFirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
@@ -199,10 +197,6 @@ namespace MassageStudioLorem.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ClientFirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -211,9 +205,6 @@ namespace MassageStudioLorem.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("MasseurId")
                         .IsRequired()

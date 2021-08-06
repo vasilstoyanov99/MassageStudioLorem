@@ -4,14 +4,16 @@ using MassageStudioLorem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MassageStudioLorem.Data.Migrations
 {
     [DbContext(typeof(LoremDbContext))]
-    partial class LoremDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210806115653_AddedCreatedOnColumnInReview")]
+    partial class AddedCreatedOnColumnInReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,10 +200,6 @@ namespace MassageStudioLorem.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ClientFirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()

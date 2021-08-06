@@ -1,9 +1,14 @@
 ﻿@{ ViewBag.Title = "Home"; }
 
-<cache expires-after="TimeSpan.FromHours(48)">
-    <div class="text-center">
+<div class="text-center">
+    @if (ViewBag.ClientFirstName != null)
+    {
+        <h1 class="display-4">Welcome, @ViewBag.ClientFirstName</h1>
+    }
+    else
+    {
         <h1 class="display-4">Welcome</h1>
-        <img src="/images/massage_horizontal.jpg" class="img-fluid" alt="Massage image">
-        <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin-top: 20px">Book a massage</a>
-    </div>
-</cache>
+    }
+    <partial name="_HomePagePicture"/>
+    <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin-top: 20px">Book a massage</a>
+</div>

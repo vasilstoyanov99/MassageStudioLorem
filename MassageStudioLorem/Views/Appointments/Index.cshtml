@@ -1,12 +1,12 @@
 ﻿@model AppointmentsListViewModel
-@using static MassageStudioLorem.Global.GlobalConstants.DateTimeFormats
+@using static MassageStudioLorem.Global.GlobalConstants.ErrorMessages
 
 @{ ViewBag.Title = "My Appointments"; }
 
 @if (Model.UpcomingAppointments == null || Model.PastAppointments == null)
 {
     <div class="text-center" style="font-weight: bold">
-        Nothing booked yet! Would you like to treat yourself with a massage?
+        @NoBookedAppointments
     </div>
     <div class="text-center">
         <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin-top: 20px">Book a massage</a>

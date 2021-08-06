@@ -11,5 +11,7 @@
         public string MassageName { get; set; }
 
         public string ClientPhoneNumber { get; set; }
+
+        public string ClientFirstName { get; set; }
     }
 }

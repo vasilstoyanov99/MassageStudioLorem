@@ -55,7 +55,7 @@
         public IActionResult DeleteAppointment(string appointmentId)
         {
             if (!this._appointmentsService
-                .IsAppointmentDeletedSuccessful(appointmentId))
+                .CheckIfAppointmentIsDeletedSuccessfully(appointmentId))
             {
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
                 return this.View("CancelAppointment", null);

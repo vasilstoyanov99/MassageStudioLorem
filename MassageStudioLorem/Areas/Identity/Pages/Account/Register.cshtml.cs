@@ -10,6 +10,7 @@
     using Data;
     using Data.Models;
     using static Global.GlobalConstants.ErrorMessages;
+    using static Global.GlobalConstants.DataValidations;
     using static Client.ClientConstants;
 
 
@@ -47,9 +48,16 @@
             public string UserName { get; set; }
 
             [Required]
-            [StringLength(100,
+            [Display(Name = "First Name")]
+            [StringLength(FirstNameMaxLength,
+                ErrorMessage = FirstNameError,
+                MinimumLength = FirstNameMinLength)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(PasswordMaxLength,
                 ErrorMessage = PasswordLength,
-                MinimumLength = 6)]
+                MinimumLength = PasswordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -97,7 +105,11 @@
                     if (result.Succeeded)
                     {
                         await this._data.Clients
-                            .AddAsync(new Client() {UserId = user.Id});
+                            .AddAsync(new Client()
+                            {
+                                UserId = user.Id,
+                                FirstName = this.Input.FirstName
+                            });
                         await this._data.SaveChangesAsync();
                         await this._userManager.AddToRoleAsync(user, ClientRoleName);
                         await this._signInManager.SignInAsync(user,

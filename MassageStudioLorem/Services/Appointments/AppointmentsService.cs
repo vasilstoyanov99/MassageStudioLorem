@@ -55,22 +55,31 @@
             var masseursQuery = this._data.Masseurs
                 .Include(m => m.WorkSchedule).AsQueryable();
 
-            var isUnavailable = masseursQuery.
-                    Any(m => m.Id == masseurId && m.WorkSchedule.Any(ws => ws.Date == date && ws.Hour == hour));
-
-            if (isUnavailable)
+            if (DateTime.TryParse(hour, out DateTime time))
             {
+               date = date.AddHours(time.Hour);
+
+                var isUnavailable = masseursQuery.
+                    Any(m => m.Id == masseurId && m.WorkSchedule
+                        .Any(ws => ws.Date == date));
+
+                if (isUnavailable)
+                    return this.GetAvailableHours
+                        (date, hour, masseurId, masseursQuery);
+
                 var hoursBookedInTheDay = masseursQuery
                     .FirstOrDefault(m => m.Id == masseurId)
                     .WorkSchedule
-                    .Count(ws => ws.Date == date && ws.Hour == hour);
+                    .Count(ws => ws.Date.Day == date.Day && 
+                                 ws.Date.Month == date.Month);
 
-                if (hoursBookedInTheDay == DefaultHoursPerDay)
+                if (hoursBookedInTheDay >= DefaultHoursPerDay)
                     return String.Format(MasseurBookedForTheDay,
                         date.ToString("dd-MM-yy"));
-
-                return this.GetAvailableHours
-                    (date, hour, masseurId, masseursQuery);
+            }
+            else
+            {
+                return SomethingWentWrong;
             }
 
             return null;
@@ -83,7 +92,9 @@
 
             var bookedMassages = this._data
                 .Appointments
-                .Count(a => a.ClientId == clientId && a.Date == date);
+                .Count(a => a.ClientId == clientId && 
+                            a.Date.Day == date.Day &&
+                            a.Date.Month == date.Month);
 
             if (bookedMassages == MaxAmountToBookMassages)
                 return String.Format(TooManyBookingsOfTheSameMassage,
@@ -109,9 +120,11 @@
             (string userId, string masseurId, string massageId,
              DateTime date, string hour)
         {
-            var dataFromDb = this.GetMasseurNameAndNumber(masseurId, massageId);
+            var dataFromDb = this.GetDataFromDB(masseurId, massageId, userId);
 
             var clientId = this.GetClientId(userId);
+            var client = this.GetClientFromDB(clientId);
+
             var hourAsInt = DateTime.Parse(hour).Hour;
 
             var appointment = new Appointment()
@@ -120,6 +133,7 @@
                 Hour = hour,
                 ClientId = clientId,
                 ClientPhoneNumber = this.GetClientPhoneNumber(clientId),
+                ClientFirstName = dataFromDb.clientFirstName,
                 MassageId = massageId,
                 MasseurId = masseurId,
                 MasseurFullName = dataFromDb.masseurFullName,
@@ -197,7 +211,7 @@
             var masseurId = this._data.Masseurs
                 .FirstOrDefault(m => m.UserId == userId)?.Id;
 
-            if (CheckIfNull(masseurId))
+            if (this.CheckIfNull(masseurId))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
@@ -215,7 +229,8 @@
                     Date = a.Date,
                     Hour = a.Hour,
                     MassageName = a.MassageName,
-                    ClientPhoneNumber = a.ClientPhoneNumber
+                    ClientPhoneNumber = a.ClientPhoneNumber,
+                    ClientFirstName = a.ClientFirstName
                 })
                 .OrderBy(a => a.Date)
                 .ToList();
@@ -223,7 +238,8 @@
             return upcomingAppointmentsModels;
         }
 
-        public CancelAppointmentServiceModel GetAppointment(string appointmentId)
+        public CancelAppointmentServiceModel
+            GetAppointment(string appointmentId)
         {
             var appointment = this.GetAppointmentFromDB(appointmentId);
 
@@ -242,7 +258,7 @@
             return cancelAppointmentModel;
         }
 
-        public bool IsAppointmentDeletedSuccessful
+        public bool CheckIfAppointmentIsDeletedSuccessfully
             (string appointmentId)
         {
             var appointment = this.GetAppointmentFromDB(appointmentId);
@@ -313,6 +329,9 @@
         private string GetClientId(string userId) =>
             this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
 
+        private Client GetClientFromDB(string clientId) => 
+            this._data.Clients.FirstOrDefault(c => c.Id == clientId);
+
         private string GetClientPhoneNumber(string clientId)
         {
             var clientUserId = this._data.Clients
@@ -324,8 +343,9 @@
 
         private (string masseurFullName, 
                  string masseurPhoneNumber,
-                 string massageName) 
-            GetMasseurNameAndNumber(string masseurId, string massageId)
+                 string massageName,
+                 string clientFirstName) 
+            GetDataFromDB(string masseurId, string massageId, string userId)
         {
             var masseurData = this._data.Masseurs
                 .Where(m => m.Id == masseurId)
@@ -339,7 +359,14 @@
             var massageName = this._data.Massages
                 .FirstOrDefault(m => m.Id == massageId)?.Name;
 
-            return (masseurData.FullName, masseurPhoneNumber, massageName);
+            var client = this.GetClientFromDB(this.GetClientId(userId));
+
+            var clientFirstName = client.FirstName;
+
+            return (masseurData.FullName,
+                masseurPhoneNumber,
+                massageName, 
+                clientFirstName);
         }
 
         private DateTime GetDateTimeNow() => DateTime.Now;

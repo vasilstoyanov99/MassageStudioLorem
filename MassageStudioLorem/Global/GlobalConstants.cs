@@ -5,6 +5,14 @@
         //TODO: Check for unused consts
         public static class DataValidations
         {
+            public const int FirstNameMaxLength = 30;
+
+            public const int FirstNameMinLength = 3;
+
+            public const int PasswordMaxLength = 100;
+
+            public const int PasswordMinLength = 6;
+
             public const int FullNameMaxLength = 100;
 
             public const int FullNameMinLength = 5;
@@ -51,6 +59,9 @@
             public const string NameError
                 = "The provided full name must be between {1} and {2} characters long!";
 
+            public const string FirstNameError
+                = "The provided first name must be between {1} and {2} characters long!";
+
             public const string InvalidUrl
                 = "The provided URL is invalid!";
 
@@ -83,11 +94,15 @@
 
             public const string SomethingWentWrong = "Ups... something went wrong! ¯\\_(ツ)_/¯";
 
+            public const string NothingBookedYet = "Nothing booked yet!";
+
+            public const string NoBookedAppointments = "Nothing booked yet! Would you like to treat yourself with a massage?";
+
             public const string AvailableHoursForDate = "The {0} hour is already booked for {1}! Available hours are: {2}";
 
             public const string MasseurBookedForTheDay = "There are no available hours for date: {0}";
 
-            public const string TooManyBookingsOfTheSameMassage = "You have exceeded the maximum amount of booked massages ({0}) for one day!";
+            public const string TooManyBookingsOfTheSameMassage = "You have exceeded the maximum amount of allowed booked massages ({0}) per day!";
 
             public const string CannotBookInThePast = "You cannot book an appointment in the past!";
 
@@ -96,6 +111,9 @@
 
             public const string UserHasLeftAReview
                 = "You had already left a review!";
+
+            public const string NoReviewsFound
+                = "No reviews found!";
         }
 
         public static class DateTimeFormats

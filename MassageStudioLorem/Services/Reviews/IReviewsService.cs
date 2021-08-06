@@ -2,6 +2,7 @@
 {
     using Microsoft.Net.Http.Headers;
     using Models;
+    using System.Collections.Generic;
 
     public interface IReviewsService
     {
@@ -13,5 +14,7 @@
         bool CheckIfIdsAreValid(ReviewMasseurFormServiceModel reviewModel);
 
         void AddNewReview(ReviewMasseurFormServiceModel reviewModel);
+
+        IEnumerable<MasseurReviewServiceModel> GetMasseurReviews(string userId);
     }
 }

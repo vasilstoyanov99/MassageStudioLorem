@@ -16,6 +16,9 @@
         [Required]
         public string ClientPhoneNumber { get; set; }
 
+        [Required]
+        public string ClientFirstName { get; set; }
+
         [Required] 
         public string MasseurId { get; set; }
 

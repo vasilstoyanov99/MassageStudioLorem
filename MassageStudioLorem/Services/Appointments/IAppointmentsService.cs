@@ -34,6 +34,6 @@
 
         CancelAppointmentServiceModel GetAppointment(string appointmentId);
 
-        bool IsAppointmentDeletedSuccessful(string appointmentId);
+        bool CheckIfAppointmentIsDeletedSuccessfully(string appointmentId);
     }
 }
