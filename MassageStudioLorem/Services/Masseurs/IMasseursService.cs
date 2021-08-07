@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs
 {
+    using Data.Enums;
     using Data.Models;
     using MassageStudioLorem.Models.Masseurs;
     using Models;
@@ -15,7 +16,7 @@
             string userId);
 
         public AllMasseursQueryServiceModel GetAllMasseurs
-            (int currentPage);
+            (int currentPage, Gender gender);
 
         public AvailableMasseurDetailsServiceModel GetMasseurDetails
             (MasseurDetailsQueryModel queryModel);

@@ -92,8 +92,14 @@
             ([FromQuery] AllMasseursQueryServiceModel query)
         {
             var allMasseursModel = this._masseursService
-                .GetAllMasseurs(query.CurrentPage);
+                .GetAllMasseurs(query.CurrentPage, query.Sorting);
 
+            if (allMasseursModel == null)
+            {
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+                return this.View(null);
+            }
+            
             if (allMasseursModel.Masseurs == null)
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
 
@@ -117,7 +123,7 @@
         {
             var availableMasseursModel = this._masseursService.
                 GetAvailableMasseurs(queryModel);
-
+            
             if (availableMasseursModel == null)
             {
                 this.ModelState.AddModelError

@@ -2,10 +2,12 @@
 {
     using System.Linq;
     using Data;
+    using Data.Enums;
     using Data.Models;
     using Ganss.XSS;
     using MassageStudioLorem.Models.Masseurs;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -64,7 +66,8 @@
             this._data.SaveChanges();
         }
 
-        public AllMasseursQueryServiceModel GetAllMasseurs(int currentPage)
+        public AllMasseursQueryServiceModel GetAllMasseurs
+            (int currentPage, Gender sorting)
         {
             var masseursQuery = this._data.Masseurs.AsQueryable();
 
@@ -72,7 +75,17 @@
                 return new AllMasseursQueryServiceModel()
                     { Masseurs = null };
 
-            var totalMasseurs = masseursQuery.Count();
+            masseursQuery = sorting switch
+            {
+                Gender.Female or Gender.Male => masseursQuery
+                    .Where(m => m.Gender == sorting),
+                _ => masseursQuery
+            };
+
+            var totalMasseurs = masseursQuery?.Count() ?? 0;
+
+            if (totalMasseurs <= 0)
+                return null;
 
             if (currentPage > totalMasseurs || currentPage < 1)
                 currentPage = CurrentPageStart;
@@ -81,6 +94,7 @@
             {
                 CurrentPage = currentPage,
                 MaxPage = this.GetMaxPage(totalMasseurs),
+                Sorting = sorting,
                 Masseurs = this.GetAllMasseursModels(masseursQuery
                     .Skip((currentPage - 1) * ThreeCardsPerPage)
                     .Take(ThreeCardsPerPage))
@@ -109,12 +123,13 @@
 
             if (!masseursQuery
                 .Any(m => m.CategoryId == queryModel.CategoryId))
-            {
                 return new AvailableMasseursQueryServiceModel() {Masseurs = null};
-            }
 
             var totalMasseurs = masseursQuery
-                .Count(m => m.CategoryId == queryModel.CategoryId);
+                ?.Count(m => m.CategoryId == queryModel.CategoryId) ?? 0;
+
+            if (totalMasseurs <= 0)
+                return null;
 
             if (queryModel.CurrentPage > totalMasseurs || 
                 queryModel.CurrentPage < 1)

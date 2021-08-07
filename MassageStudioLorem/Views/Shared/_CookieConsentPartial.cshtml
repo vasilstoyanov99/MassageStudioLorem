@@ -9,7 +9,7 @@
 
 @if (showBanner)
 {
-    <cache expires-after="TimeSpan.FromHours(48)">
+    <cache expires-after="TimeSpan.FromDays(2)">
         <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
             @CookiesUsage <a asp-action="Privacy" asp-controller="Home">Learn More</a>
             <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
