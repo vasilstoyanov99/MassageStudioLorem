@@ -6,11 +6,11 @@
     using System;
     using static Global.GlobalConstants.ErrorMessages;
 
-    public class AppointmentsController : MasseurController
+    public class WorkScheduleController : MasseurController
     {
         private readonly IAppointmentsService _appointmentsService;
 
-        public AppointmentsController(IAppointmentsService appointmentsService)
+        public WorkScheduleController(IAppointmentsService appointmentsService)
             => this._appointmentsService = appointmentsService;
 
         public IActionResult Index()

@@ -90,21 +90,22 @@
             this._data.SaveChanges();
         }
 
-        public IEnumerable<MasseurReviewServiceModel> GetMasseurReviews
-            (string userId)
+        public IEnumerable<ReviewServiceModel> GetMasseurReviews
+            (string userId, string masseurId)
         {
-            var masseurId = this._data.Masseurs
-                .FirstOrDefault(m => m.UserId == userId)?.Id;
+            if (!this.CheckIfNull(userId))
+                masseurId = this._data.Masseurs
+                    .FirstOrDefault(m => m.UserId == userId)?.Id;
 
-            var masseur = GetMasseurFromDB(masseurId);
+            var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (CheckIfNull(masseur))
+            if (this.CheckIfNull(masseur))
                 return null;
 
             var reviews = this._data
                 .Reviews
                 .Where(r => r.MasseurId == masseurId)
-                .Select(r => new MasseurReviewServiceModel()
+                .Select(r => new ReviewServiceModel()
                 {
                     ClientFirstName = r.ClientFirstName,
                     Content = r.Content,

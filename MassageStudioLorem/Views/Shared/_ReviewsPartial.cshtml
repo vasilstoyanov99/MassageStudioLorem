@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ReviewServiceModel>
+
+@if (Model == null || Model?.Count() <= 0)
+{
+    <div class="text-center" style="font-weight: bold">
+        @NoReviewsFound
+    </div>
+}
+
+@if (Model?.Count() > 0)
+{
+    <h2>Reviews(@Model.Count())</h2>
+
+    <table class="table table-bordered table-striped text-center">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Created On</th>
+            <th scope="col">Client First Name</th>
+            <th scope="col">Content</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>
+                    @appointment.CreatedOn.ToString(DateTimeFormat)
+                    @appointment.CreatedOn.ToString("HH"):@appointment.CreatedOn.ToString("MM")
+                </td>
+                <td>@appointment.ClientFirstName</td>
+                <td>@appointment.Content</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

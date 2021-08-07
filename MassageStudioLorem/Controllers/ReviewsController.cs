@@ -3,6 +3,7 @@
     using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Server.IIS.Core;
     using Models.Reviews;
     using Services.Reviews;
     using Services.Reviews.Models;
@@ -59,6 +60,21 @@
             this._reviewsService.AddNewReview(reviewModel);
 
             return this.RedirectToAction("Index", "Appointments");
+        }
+
+        public IActionResult MasseurReviews
+            ([FromQuery] MasseurDetailsQueryModel queryModel)
+        {
+            var reviews = this._reviewsService
+                .GetMasseurReviews(null, queryModel.MasseurId);
+
+            return this.View(new AllReviewsQueryViewModel()
+            {
+                MasseurId = queryModel.MasseurId,
+                CategoryId = queryModel.CategoryId,
+                MassageId = queryModel.MassageId,
+                Reviews = reviews
+            });
         }
     }
 }

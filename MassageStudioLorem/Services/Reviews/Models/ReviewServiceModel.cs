@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class MasseurReviewServiceModel
+    public class ReviewServiceModel
     {
         public string MassageName { get; set; }
 

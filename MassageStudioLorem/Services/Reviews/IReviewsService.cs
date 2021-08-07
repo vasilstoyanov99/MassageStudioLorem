@@ -15,6 +15,7 @@
 
         void AddNewReview(ReviewMasseurFormServiceModel reviewModel);
 
-        IEnumerable<MasseurReviewServiceModel> GetMasseurReviews(string userId);
+        IEnumerable<ReviewServiceModel> GetMasseurReviews
+            (string userId, string masseurId);
     }
 }

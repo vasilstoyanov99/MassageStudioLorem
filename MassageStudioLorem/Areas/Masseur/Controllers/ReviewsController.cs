@@ -17,7 +17,7 @@
         public IActionResult Index()
         {
             var userId = this.User.GetId();
-            var reviews = this._reviewsService.GetMasseurReviews(userId);
+            var reviews = this._reviewsService.GetMasseurReviews(userId, null);
 
             return this.View(reviews);
         }
