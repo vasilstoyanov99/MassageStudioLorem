@@ -80,26 +80,28 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.UtcNow.Year - Massage Studio Lorem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            <div class="float-sm-right">
-                <span class="fas fa-map-marker-alt fa-lg text-dark"></span>
-                <span class="text-dark big">5408 Lorem Rd</span>
-                <span class="fas fa-phone fa-lg text-dark col-1"></span>
-                <span class="text-dark big">(605) 475-6961</span>
-                <div class="float-sm-right d-none d-lg-block">
-                    <span class="fas fa-envelope fa-lg text-dark col-1"></span>
-                    <span class="text-dark big text-truncate text-center col-1">massagestudiolorem@lorem.com</span>
-                </div>
-                <div class="d-lg-none .d-xl-block p-2 text-white">
-                    <span class="fas fa-envelope fa-lg text-dark"></span>
-                    <span class="text-dark big text-truncate text-center">massagestudiolorem@lorem.com</span>
+    <cache expires-after="TimeSpan.FromDays(1)">
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; @DateTime.UtcNow.Year - Massage Studio Lorem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <div class="float-sm-right">
+                    <span class="fas fa-map-marker-alt fa-lg text-dark"></span>
+                    <span class="text-dark big">5408 Lorem Rd</span>
+                    <span class="fas fa-phone fa-lg text-dark col-1"></span>
+                    <span class="text-dark big">(605) 475-6961</span>
+                    <div class="float-sm-right d-none d-lg-block">
+                        <span class="fas fa-envelope fa-lg text-dark col-1"></span>
+                        <span class="text-dark big text-truncate text-center col-1">massagestudiolorem@lorem.com</span>
+                    </div>
+                    <div class="d-lg-none .d-xl-block p-2 text-white">
+                        <span class="fas fa-envelope fa-lg text-dark"></span>
+                        <span class="text-dark big text-truncate text-center">massagestudiolorem@lorem.com</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </cache>
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
