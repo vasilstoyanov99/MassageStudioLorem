@@ -32,7 +32,7 @@
                         @*//TODO: Use User.IsInRole!*@
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            @if (!MasseurService.IsUserMasseur(User.GetId()))
+                            @if (User.IsClient())
                             {
                                 <li class="nav-item">
                                     @*//TODO: Check if I should delete the empty asp-area!*@
@@ -53,7 +53,7 @@
                                       }
                             }
                             //TODO: Check if it should be els!  
-                            @if (MasseurService.IsUserMasseur(User.GetId()))
+                            @if (User.IsMasseur())
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Masseur" asp-controller="WorkSchedule" asp-action="Index">Work Schedule</a>
@@ -61,6 +61,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Masseur" asp-controller="Reviews" asp-action="Index">Reviews</a>
                                 </li>
+                            }
+                            @if (User.IsAdmin())
+                            {
+
                             }
                         }
                     </ul>

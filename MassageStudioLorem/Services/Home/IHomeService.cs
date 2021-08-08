@@ -5,5 +5,7 @@
         string GetClientFirstName(string userId);
 
         string GetMasseurFullName(string userId);
+
+        string GetAdminUsername(string userId);
     }
 }

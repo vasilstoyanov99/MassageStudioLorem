@@ -18,5 +18,8 @@
 
         public string GetMasseurFullName(string userId) =>
             this._data.Masseurs.FirstOrDefault(m => m.UserId == userId)?.FullName;
+
+        public string GetAdminUsername(string userId)
+            => this._data.Users.FirstOrDefault(u => u.Id == userId)?.UserName;
     }
 }

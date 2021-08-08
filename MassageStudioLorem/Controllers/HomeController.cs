@@ -5,6 +5,7 @@
     using Services.Home;
     using static Areas.Client.ClientConstants;
     using static Areas.Masseur.MasseurConstants;
+    using static Areas.Admin.AdminConstants;
 
     public class HomeController : Controller
     {
@@ -26,6 +27,10 @@
             if (this.User.IsInRole(MasseurRoleName))
                 return this.RedirectToAction("Index", "Home",
                     new {area = MasseurAreaName});
+
+            if (this.User.IsInRole(AdminRoleName))
+                return this.RedirectToAction("Index", "Home",
+                    new { area = AdminRoleName });
 
             return this.View();
         }

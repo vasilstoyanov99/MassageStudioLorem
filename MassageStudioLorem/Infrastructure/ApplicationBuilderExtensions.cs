@@ -12,6 +12,7 @@
     using System.Threading.Tasks;
 
     using static Areas.Masseur.MasseurConstants;
+    using static Areas.Admin.AdminConstants;
     using static Areas.Client.ClientConstants;
 
     public static class ApplicationBuilderExtensions
@@ -21,7 +22,8 @@
         {
             using var scopedServices = app.ApplicationServices.CreateScope();
             var services = scopedServices.ServiceProvider;
-            var data = scopedServices.ServiceProvider.GetService<LoremDbContext>();
+            var data = scopedServices.ServiceProvider
+                .GetService<LoremDbContext>();
 
             data.Database.Migrate();
 
@@ -129,6 +131,27 @@
             Task
                 .Run(async () =>
                 {
+                    if (await roleManager.RoleExistsAsync(AdminRoleName))
+                        return;
+
+                    var role = new IdentityRole { Name = AdminRoleName };
+
+                    await roleManager.CreateAsync(role);
+
+                    const string adminEmail = "admin@admin.com";
+                    const string adminUsername = "BestAdminEver";
+                    const string adminPassword = "123456";
+
+                    var user = new IdentityUser()
+                    {
+                        Email = adminEmail,
+                        UserName = adminUsername
+                    };
+
+                    await userManager.CreateAsync(user, adminPassword);
+
+                    await userManager.AddToRoleAsync(user, role.Name);
+
                     if (await roleManager.RoleExistsAsync(MasseurRoleName))
                         return;
 
@@ -142,20 +165,6 @@
                     var clientRole = new IdentityRole { Name = ClientRoleName };
 
                     await roleManager.CreateAsync(clientRole);
-
-                    //const string adminEmail = "admin@admin.com";
-                    //const string adminUsername = "LoremAdmin";
-                    //const string adminPassword = "123456";
-
-                    //var user = new User
-                    //{
-                    //    Email = adminEmail,
-                    //    UserName = adminUsername
-                    //};
-
-                    //await userManager.CreateAsync(user, adminPassword);
-
-                    //await userManager.AddToRoleAsync(user, role.Name);
                 })
                 .GetAwaiter()
                 .GetResult();
