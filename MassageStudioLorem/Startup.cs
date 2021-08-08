@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem
 {
+    using Areas.Admin.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -57,6 +58,7 @@
             services.AddTransient<IMassagesService, MassagesService>();
             services.AddTransient<IAppointmentsService, AppointmentsService>();
             services.AddTransient<IReviewsService, ReviewsService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

@@ -1,8 +1,8 @@
 ﻿namespace MassageStudioLorem.Areas.Admin.Controllers
 {
     using Infrastructure;
+    using MassageStudioLorem.Services.Home;
     using Microsoft.AspNetCore.Mvc;
-    using Services.Home;
     using System;
     using System.Collections.Generic;
     using System.Linq;

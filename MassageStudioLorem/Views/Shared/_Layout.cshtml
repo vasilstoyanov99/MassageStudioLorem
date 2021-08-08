@@ -64,7 +64,12 @@
                             }
                             @if (User.IsAdmin())
                             {
-
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Categories" asp-action="AddCategory">Add Category</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Remove Category</a>
+                                </li>
                             }
                         }
                     </ul>
@@ -79,7 +84,8 @@
         {
     <div class="alert alert-success text-center" role="alert">
         @TempData[SuccessfullyBecomeMasseurKey]
-    </div>}
+    </div>
+        }
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

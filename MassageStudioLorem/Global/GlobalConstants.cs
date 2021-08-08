@@ -46,6 +46,9 @@
             public const int MaxAmountToBookMassages = 3;
 
             public const string UrlRegex = @"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$";
+
+            public const string PhoneNumberRegex
+                = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
         }
 
         public static class ErrorMessages
@@ -69,18 +72,15 @@
                 = "The provided description must be between {1} and {2} characters long!";
 
             public const string PasswordLength
-                = "The provided {0} must be at least {2} and {1} characters long.";
+                = "The provided {0} must be at least {2} and {1} characters long!";
 
             public const string PasswordConformation
-                = "The provided password and confirmation password do not match.";
-
-            public const string PhoneNumberRegex
-                = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
+                = "The provided password and confirmation password do not match!";
 
             public const string InvalidPhoneNumber
                 = "The provided Phone Number is not valid or contains unnecessary white spaces!";
 
-            public const string CategoryIdError = "Category does not exist.";
+            public const string CategoryIdError = "Category does not exist!";
 
             public const string GenderIdError = "Please choose between the provided options!";
 
@@ -100,20 +100,26 @@
 
             public const string AvailableHoursForDate = "The {0} hour is already booked for {1}! Available hours are: {2}";
 
-            public const string MasseurBookedForTheDay = "There are no available hours for date: {0}";
+            public const string MasseurBookedForTheDay = "There are no available hours for date: {0}!";
 
             public const string TooManyBookingsOfTheSameMassage = "You have exceeded the maximum amount of allowed booked massages ({0}) per day!";
 
             public const string CannotBookInThePast = "You cannot book an appointment in the past!";
 
             public const string ReviewLength
-                = "The provided review must be at least {2} and {1} characters long.";
+                = "The provided review must be at least {2} and {1} characters long!";
 
             public const string UserHasLeftAReview
                 = "You had already left a review!";
 
             public const string NoReviewsFound
                 = "No reviews found!";
+
+            public const string CategoryNameLength
+                = "The provided name must be at least {2} and {1} characters long!";
+
+            public const string CategoryNameExists
+                = "A category with the provided name already exists!";
         }
 
         public static class DateTimeFormats
@@ -141,13 +147,18 @@
             public const string UserWillBeSignedOut =
                 "If successful you will be signed out and redirected to the home page from where you can log back into your account!";
 
-            public const string SuccessfullyBecomeMasseur =
-                "Thank you for joining our team of masseurs! Please, log back into your account!";
-
             public const string SuccessfullyBecomeMasseurKey =
                 "SBMK";
 
+            public const string SuccessfullyBecomeMasseur =
+                "Thank you for joining our team of masseurs! Please, log back into your account!";
+
             public const string CookiesUsage = "We use cookies to improve your experience.";
+
+            public const string SuccessfullyAddedCategoryKey =
+                "SAC";
+
+            public const string SuccessfullyAddedCategory = "Category added successfully!";
         }
     }
 }
