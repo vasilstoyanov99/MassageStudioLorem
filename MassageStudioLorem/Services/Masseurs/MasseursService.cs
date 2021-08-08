@@ -125,6 +125,13 @@
                 .Any(m => m.CategoryId == queryModel.CategoryId))
                 return new AvailableMasseursQueryServiceModel() {Masseurs = null};
 
+            masseursQuery = queryModel.Sorting switch
+            {
+                Gender.Female or Gender.Male => masseursQuery
+                    .Where(m => m.Gender == queryModel.Sorting),
+                _ => masseursQuery
+            };
+
             var totalMasseurs = masseursQuery
                 ?.Count(m => m.CategoryId == queryModel.CategoryId) ?? 0;
 
@@ -141,6 +148,7 @@
                 MaxPage = this.GetMaxPage(totalMasseurs),
                 MassageId = queryModel.MassageId,
                 CategoryId = queryModel.CategoryId,
+                Sorting = queryModel.Sorting,
                 Masseurs = this.GetAvailableMasseursModels(masseursQuery
                     .Skip((queryModel.CurrentPage - 1) * ThreeCardsPerPage)
                     .Take(ThreeCardsPerPage)
