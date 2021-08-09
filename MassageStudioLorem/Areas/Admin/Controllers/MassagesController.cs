@@ -17,7 +17,6 @@
         public IActionResult All
             ([FromQuery] AllCategoriesQueryServiceModel queryModel)
         {
-            //TempData.Clear();
             var allCategoriesWithMassagesModel = this._massagesService
                 .GetAllCategoriesWithMassages
                     (queryModel.Id, queryModel.Name, queryModel.CurrentPage);
@@ -27,6 +26,18 @@
                     (String.Empty, NoCategoriesFound);
 
             return this.View(allCategoriesWithMassagesModel);
+        }
+
+        public IActionResult Details(string massageId)
+        {
+            var editMassageDetailsModel =
+                this._massagesService.GetMassageDetailsForEdit(massageId);
+
+            if (editMassageDetailsModel == null)
+                this.ModelState.AddModelError
+                    (String.Empty, NoCategoriesFound);
+
+            return this.View(editMassageDetailsModel);
         }
 
         public IActionResult DeleteMassage(string massageId)
@@ -82,8 +93,7 @@
             this.TempData[SuccessfullyEditedMassageKey] =
                 SuccessfullyEditedMassage;
 
-            return this.RedirectToAction
-                ("Index", "Home");
+            return this.RedirectToAction("All", "Massages");
         }
     }
 }

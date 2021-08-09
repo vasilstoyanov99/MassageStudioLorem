@@ -125,7 +125,6 @@
             if (CheckIfNull(massage))
                 return false;
 
-
             var appointments = this._data.Appointments
                 .Where(a => a.MassageId == massageId)
                 ?.ToList();
@@ -184,6 +183,26 @@
             massage.ImageUrl = editMassageModel.ImageUrl;
             this._data.SaveChanges();
             return true;
+        }
+
+        public EditMassageDetailsServiceModel GetMassageDetailsForEdit
+            (string massageId)
+        {
+            var massage = this.GetMassageFromDB(massageId);
+
+            if (this.CheckIfNull(massage))
+                return null;
+
+            var editMassageDetailsModel = new EditMassageDetailsServiceModel()
+            {
+                Id = massage.Id,
+                Name = massage.Name,
+                ImageUrl = massage.ImageUrl,
+                LongDescription = massage.LongDescription,
+                Price = massage.Price
+            };
+
+            return editMassageDetailsModel;
         }
 
         private MassageDetailsServiceModel GetMassageDetailsModel

@@ -1,0 +1,35 @@
+﻿@model EditMassageDetailsServiceModel
+
+@{ ViewBag.Title = "Details"; }
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <div id="main-content" class="blog-page">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-lg-8 col-md-12 offset-md-2">
+                    <div class="card single_post">
+                        <div class="body">
+                            <div class="img-post">
+                                <img class="d-block img-fluid mx-auto" src="@Model.ImageUrl" alt="@Model.Name picture">
+                            </div>
+                            <h3 class="text-center" style="padding: 10px">
+                                @Model.Name
+                            </h3>
+                            <h5 style="text-align: center">@Model.LongDescription</h5>
+                            <h5 class="text-center" style="margin-top: 50px">Price: @Model.Price.ToString("F2") $</h5>
+                        </div>
+                        <div class="footer text-center">
+                            <div class="actions">
+                                <a asp-controller="Massages" asp-action="EditMassage" asp-route-massageId="@Model.Id" class="btn btn-outline-warning">Edit</a>
+                                <a asp-controller="Massages" asp-action="DeleteMassage" asp-route-massageId="@Model.Id" class="btn btn-outline-danger" style="margin: 10px">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

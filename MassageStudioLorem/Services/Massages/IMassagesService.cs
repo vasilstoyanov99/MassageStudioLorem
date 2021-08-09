@@ -24,5 +24,8 @@
 
         bool CheckIfMassageEditedSuccessfully
             (EditMassageServiceModel editMassageModel);
+
+        EditMassageDetailsServiceModel GetMassageDetailsForEdit
+            (string massageId);
     }
 }
