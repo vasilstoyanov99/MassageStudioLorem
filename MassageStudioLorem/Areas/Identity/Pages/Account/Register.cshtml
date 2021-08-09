@@ -1,4 +1,5 @@
 ﻿@page
+@using static MassageStudioLorem.Global.GlobalConstants.Notifications
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -25,6 +26,9 @@
                 <label asp-for="Input.UserName"></label>
                 <input asp-for="Input.UserName" class="form-control" />
                 <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                <h7 class="text-muted">
+                    @UsernameLetters
+                </h7>
             </div>
             <div class="form-group">
                 <label asp-for="Input.PhoneNumber"></label>
