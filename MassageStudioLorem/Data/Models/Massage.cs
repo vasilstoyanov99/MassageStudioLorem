@@ -27,7 +27,7 @@
         public string CategoryId { get; set; }
 
         [Required]
-        [MaxLength(MassageMaxLength)]
+        [MaxLength(MassageNameMaxLength)]
         public string Name { get; set; }
 
         [Required] 
@@ -35,7 +35,7 @@
 
         [Required]
         [RegularExpression(UrlRegex)]
-        public string ImageUrl { get; init; }
+        public string ImageUrl { get; set; }
 
         public ICollection<Appointment> Appointments { get; set; }
     }

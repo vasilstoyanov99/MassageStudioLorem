@@ -63,6 +63,13 @@
                 .HasForeignKey(x => x.MassageId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .Entity<Massage>()
+                .HasOne<Category>()
+                .WithMany(m => m.Massages)
+                .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(builder);
         }
     }

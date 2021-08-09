@@ -12,7 +12,7 @@
     {
         [Required]
         [StringLength(FullNameMaxLength,
-            ErrorMessage = NameError,
+            ErrorMessage = FullNameLength,
             MinimumLength = FullNameMinLength)]
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
@@ -25,7 +25,7 @@
 
         [Required]
         [StringLength(MasseurDescriptionMaxLength,
-             ErrorMessage = MasseurDescription,
+             ErrorMessage = MasseurDescriptionLength,
              MinimumLength = MasseurDescriptionMinLength)]
         public string Description { get; set; }
 

@@ -4,6 +4,7 @@
 @{ ViewBag.Title = "Add Category"; }
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 @if (TempData.ContainsKey(SuccessfullyAddedCategoryKey))
 {
     <div class="alert alert-success text-center" role="alert">
@@ -26,7 +27,3 @@
         </form>
     </div>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

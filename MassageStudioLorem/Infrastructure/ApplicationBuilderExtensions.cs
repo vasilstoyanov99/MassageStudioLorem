@@ -69,7 +69,7 @@
             //    data.MasseursAvailableHours.Add(available);
             //}
 
-            if (data.Categories.Count() == 0)
+            if (data.Categories?.Count() == 0)
             {
                 for (int i = 0; i < 2; i++)
                 {

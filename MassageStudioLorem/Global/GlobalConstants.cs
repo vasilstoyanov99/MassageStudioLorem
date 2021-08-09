@@ -33,9 +33,9 @@
 
             public const int ReviewMinLength = 20;
 
-            public const int MassageMaxLength = 40;
+            public const int MassageNameMaxLength = 40;
 
-            public const int MassageMinLength = 4;
+            public const int MassageNameMinLength = 4;
 
             public const int MasseurDescriptionMaxLength = 1000;
 
@@ -44,6 +44,10 @@
             public const int DefaultHoursPerDay = 8;
 
             public const int MaxAmountToBookMassages = 3;
+
+            public const double MassageMinPrice = 10.00;
+
+            public const double MassageMaxPrice = 1000.00;
 
             public const string UrlRegex = @"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$";
 
@@ -59,16 +63,16 @@
             public const string Date
                 = "Please select a valid date!";
 
-            public const string NameError
+            public const string FullNameLength
                 = "The provided full name must be between {1} and {2} characters long!";
 
-            public const string FirstNameError
+            public const string FirstNameLength
                 = "The provided first name must be between {1} and {2} characters long!";
 
             public const string InvalidUrl
                 = "The provided URL is invalid!";
 
-            public const string MasseurDescription
+            public const string MasseurDescriptionLength
                 = "The provided description must be between {1} and {2} characters long!";
 
             public const string PasswordLength
@@ -90,7 +94,7 @@
 
             public const string NoMasseursFound = "No masseurs are found!";
 
-            public const string NoMassagesAndCategoriesFound = "No massages and categories are found!";
+            public const string NoCategoriesFound = "No categories are found!";
 
             public const string SomethingWentWrong = "Ups... something went wrong! ¯\\_(ツ)_/¯";
 
@@ -120,6 +124,15 @@
 
             public const string CategoryNameExists
                 = "A category with the provided name already exists!";
+
+            public const string MassageDescriptionLength
+                = "The provided description must be at least {2} and {1} characters long!";
+             
+            public const string PriceRange
+                = "The provided price must be between {2} $ and {1} $!";
+
+            public const string MassageNameLength
+                = "The provided name must be at least {2} and {1} characters long!";
         }
 
         public static class DateTimeFormats
@@ -144,6 +157,9 @@
 
         public static class Notifications
         {
+            public const string UsernameLetters =
+                "The letters in the username must be only in english!";
+
             public const string UserWillBeSignedOut =
                 "If successful you will be signed out and redirected to the home page from where you can log back into your account!";
 
@@ -156,9 +172,19 @@
             public const string CookiesUsage = "We use cookies to improve your experience.";
 
             public const string SuccessfullyAddedCategoryKey =
-                "SAC";
+                "SACK";
 
             public const string SuccessfullyAddedCategory = "Category added successfully!";
+
+            public const string SuccessfullyDeletedMassageKey =
+                "SDMK";
+
+            public const string SuccessfullyDeletedMassage = "The massage and all its past and upcoming appointments were deleted successfully!";
+
+            public const string SuccessfullyEditedMassageKey =
+                "SEMK";
+
+            public const string SuccessfullyEditedMassage = "The massage was edited successfully! ";
         }
     }
 }

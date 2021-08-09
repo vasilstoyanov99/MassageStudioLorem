@@ -143,11 +143,6 @@
             };
 
             this._data.Appointments.Add(appointment);
-            //var masseur = this.GetMasseurFromDB(masseurId);
-            //masseur.WorkSchedule.Add(appointment);
-            //var client = this._data.Clients
-            //    .FirstOrDefault(c => c.UserId == userId);
-            //client.Appointments.Add(appointment);
             this._data.SaveChanges();
         }
 

@@ -2,19 +2,19 @@
 
 @{ ViewBag.Title = "All Categories"; }
 
-<div class="row">
-    <div class="col-lg-8 mx-auto text-center">
-        <div class="mb-4">
-            <h6 class="text-uppercase">@Model.Name</h6>
-            <hr class="solid">
-        </div>
-    </div>
-</div>
-
-<div asp-validation-summary="All" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 @if (Model != null)
 {
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="mb-4">
+                <h6 class="text-uppercase">@Model.Name</h6>
+                <hr class="solid">
+            </div>
+        </div>
+    </div>
+
     <div class="card-deck">
         @foreach (var massage in Model.Massages)
         {

@@ -2,6 +2,7 @@
 {
     using Data;
     using Data.Models;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System;
@@ -21,7 +22,7 @@
 
             var totalCategories = categoriesQuery.Count();
 
-            if (totalCategories == 0 || !this._data.Massages.Any())
+            if (totalCategories == 0)
                 return null;
 
             if (currentPage > totalCategories || currentPage < 1)
@@ -93,6 +94,96 @@
                 return null;
 
             return this.GetAvailableMassagesDetailsModel(massage, masseurId);
+        }
+
+        public DeleteMassageServiceModel GetDeleteMassageData(string massageId)
+        {
+            var massage = this.GetMassageFromDB(massageId);
+
+            if (CheckIfNull(massageId))
+                return null;
+
+            var category = this.GetCategoryFromDB(massage.CategoryId);
+
+            if (CheckIfNull(category))
+                return null;
+
+            var massageData = new DeleteMassageServiceModel()
+            {
+                Id = massage.Id, 
+                Name = massage.Name,
+                CategoryName = category.Name
+            };
+
+            return massageData;
+        }
+
+        public bool CheckIfMassageDeletedSuccessfully(string massageId)
+        {
+            var massage = GetMassageFromDB(massageId);
+
+            if (CheckIfNull(massage))
+                return false;
+
+
+            var appointments = this._data.Appointments
+                .Where(a => a.MassageId == massageId)
+                ?.ToList();
+
+            if (appointments.Any()) // TODO: Check if bug is here
+            {
+                foreach (var appointment in appointments)
+                {
+                    this._data.Appointments.Remove(appointment);
+                    this._data.SaveChanges();
+                }
+            }
+
+            this._data.Massages.Remove(massage);
+            this._data.SaveChanges();
+
+            var category = this.GetCategoryFromDB(massage.CategoryId);
+            category.Massages.Remove(massage);
+            this._data.SaveChanges();
+
+            return true;
+        }
+
+        public EditMassageServiceModel GetMassageDataForEdit(string massageId)
+        {
+            var massage = this.GetMassageFromDB(massageId);
+
+            if (this.CheckIfNull(massage))
+                return null;
+
+            var massageEditModel = new EditMassageServiceModel()
+            {
+                Id = massage.Id,
+                ImageUrl = massage.ImageUrl,
+                LongDescription = massage.LongDescription,
+                ShortDescription = massage.ShortDescription,
+                Name = massage.Name,
+                Price = massage.Price
+            };
+
+            return massageEditModel;
+        }
+
+        public bool CheckIfMassageEditedSuccessfully
+            (EditMassageServiceModel editMassageModel)
+        {
+            var massage = this.GetMassageFromDB(editMassageModel.Id);
+
+            if (this.CheckIfNull(massage))
+                return false;
+
+            massage.LongDescription = editMassageModel.LongDescription;
+            massage.ShortDescription = editMassageModel.ShortDescription;
+            massage.Price = editMassageModel.Price;
+            massage.Name = editMassageModel.Name;
+            massage.ImageUrl = editMassageModel.ImageUrl;
+            this._data.SaveChanges();
+            return true;
         }
 
         private MassageDetailsServiceModel GetMassageDetailsModel

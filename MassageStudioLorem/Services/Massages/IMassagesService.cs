@@ -15,5 +15,14 @@
 
         MassageDetailsServiceModel GetAvailableMassageDetails
             (string massageId, string masseurId);
+
+        DeleteMassageServiceModel GetDeleteMassageData(string massageId);
+
+        bool CheckIfMassageDeletedSuccessfully(string massageId);
+
+        EditMassageServiceModel GetMassageDataForEdit(string massageId);
+
+        bool CheckIfMassageEditedSuccessfully
+            (EditMassageServiceModel editMassageModel);
     }
 }

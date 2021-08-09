@@ -28,7 +28,7 @@
 
             if (allCategoriesWithMassagesModel == null)
                 this.ModelState.AddModelError
-                    (String.Empty, NoMassagesAndCategoriesFound);
+                    (String.Empty, NoCategoriesFound);
 
             return this.View(allCategoriesWithMassagesModel);
         }
