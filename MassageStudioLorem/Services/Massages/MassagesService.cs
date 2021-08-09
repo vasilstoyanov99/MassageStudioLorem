@@ -2,6 +2,7 @@
 {
     using Data;
     using Data.Models;
+    using Ganss.XSS;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
@@ -176,11 +177,15 @@
             if (this.CheckIfNull(massage))
                 return false;
 
-            massage.LongDescription = editMassageModel.LongDescription;
-            massage.ShortDescription = editMassageModel.ShortDescription;
+            var htmlSanitizer = new HtmlSanitizer();
+
+            massage.LongDescription = htmlSanitizer
+                .Sanitize(editMassageModel.LongDescription);
+            massage.ShortDescription = htmlSanitizer
+                .Sanitize(editMassageModel.ShortDescription);
             massage.Price = editMassageModel.Price;
-            massage.Name = editMassageModel.Name;
-            massage.ImageUrl = editMassageModel.ImageUrl;
+            massage.Name = htmlSanitizer.Sanitize(editMassageModel.Name);
+            massage.ImageUrl = htmlSanitizer.Sanitize(editMassageModel.ImageUrl);
             this._data.SaveChanges();
             return true;
         }
