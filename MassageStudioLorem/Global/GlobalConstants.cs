@@ -96,6 +96,10 @@
 
             public const string NoCategoriesFound = "No categories are found!";
 
+            public const string NoCategoriesAndMassagesFound = "No categories and massages are found!";
+
+            public const string NoMassagesFound = "No massages are found!";
+
             public const string SomethingWentWrong = "Ups... something went wrong! ¯\\_(ツ)_/¯";
 
             public const string NothingBookedYet = "Nothing booked yet!";
@@ -176,6 +180,9 @@
 
             public const string SuccessfullyAddedCategory = "Category added successfully!";
 
+            public const string DeleteMassageWarning =
+                "Deleting this massage will result in the deletion of all its past and upcoming appointments and it will be removed from its category!";
+
             public const string SuccessfullyDeletedMassageKey =
                 "SDMK";
 
@@ -185,6 +192,14 @@
                 "SEMK";
 
             public const string SuccessfullyEditedMassage = "The massage was edited successfully! ";
+
+            public const string DeleteCategoryWarning =
+                "Deleting this category will result in the deletion of all its massages, their appointments, reviews and all of the masseurs under this category will be removed from it!";
+
+            public const string SuccessfullyDeletedCategoryKey =
+                "SDCK";
+
+            public const string SuccessfullyDeletedCategory = "The category and its related entities were deleted successfully! Please set a category to the masseurs which were under the deleted category!";
         }
     }
 }

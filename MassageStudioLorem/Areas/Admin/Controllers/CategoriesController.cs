@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Areas.Admin.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Models;
     using Services;
     using Services.Models;
     using System;
@@ -13,6 +14,8 @@
 
         public CategoriesController(ICategoriesService categoriesService) 
             => this._categoriesService = categoriesService;
+
+        public IActionResult Index() => this.View();
 
         public IActionResult AddCategory() => this.View();
 
@@ -30,6 +33,44 @@
                 SuccessfullyAddedCategory;
 
             return this.RedirectToAction("AddCategory", "Categories");
+        }
+
+        public IActionResult All()
+        {
+            var allCategoriesModels = this._categoriesService.GetAllCategories();
+
+            if (allCategoriesModels == null) 
+                this.ModelState.AddModelError(String.Empty, NoCategoriesFound);
+
+            return this.View(new AllCategoriesViewModel() 
+                {Categories = allCategoriesModels});
+        }
+
+        [HttpPost]
+        public IActionResult All(AllCategoriesViewModel categoriesModel)
+        {
+            var deleteCategoryModel = this._categoriesService
+                .GetCategoryDataForDelete(categoriesModel.CategoryId);
+
+            if (deleteCategoryModel == null) 
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+
+            return this.View("DeleteCategory", deleteCategoryModel);
+        }
+
+        public IActionResult Delete(string categoryId)
+        {
+            if (!this._categoriesService
+                .CheckIfCategoryDeletedSuccessfully(categoryId))
+            {
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+                return this.View("DeleteCategory");
+            }
+
+            this.TempData[SuccessfullyDeletedCategoryKey] =
+                SuccessfullyDeletedCategory;
+
+            return this.RedirectToAction(nameof(this.All), "Categories");
         }
     }
 }

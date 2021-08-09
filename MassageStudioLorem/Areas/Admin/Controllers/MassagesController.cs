@@ -23,7 +23,7 @@
 
             if (allCategoriesWithMassagesModel == null)
                 this.ModelState.AddModelError
-                    (String.Empty, NoCategoriesFound);
+                    (String.Empty, NoMassagesFound);
 
             return this.View(allCategoriesWithMassagesModel);
         }
@@ -35,7 +35,7 @@
 
             if (editMassageDetailsModel == null)
                 this.ModelState.AddModelError
-                    (String.Empty, NoCategoriesFound);
+                    (String.Empty, SomethingWentWrong);
 
             return this.View(editMassageDetailsModel);
         }
@@ -63,7 +63,7 @@
             this.TempData[SuccessfullyDeletedMassageKey] =
                 SuccessfullyDeletedMassage;
 
-            return this.RedirectToAction("All", "Massages");
+            return this.RedirectToAction(nameof(this.All), "Massages");
         }
 
         public IActionResult EditMassage(string massageId)
@@ -93,7 +93,7 @@
             this.TempData[SuccessfullyEditedMassageKey] =
                 SuccessfullyEditedMassage;
 
-            return this.RedirectToAction("All", "Massages");
+            return this.RedirectToAction(nameof(this.All), "Massages");
         }
     }
 }

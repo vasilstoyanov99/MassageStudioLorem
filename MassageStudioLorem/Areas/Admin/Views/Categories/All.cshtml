@@ -1,0 +1,38 @@
+﻿@model MassageStudioLorem.Areas.Admin.Models.AllCategoriesViewModel
+
+@{ ViewBag.Title = "Delete Category"; }
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@if (TempData.ContainsKey(SuccessfullyDeletedCategoryKey))
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData[SuccessfullyDeletedCategoryKey]
+    </div>
+}
+
+@if (Model.Categories != null)
+{
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="CategoryId">Please choose the category you would like to delete!</label>
+                    <select asp-for="CategoryId" class="form-control">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Id">@category.Name@(category.IsEmpty ? " (Empty)" : String.Empty)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryId" class="small text-danger"></span>
+                </div>
+                <input class="btn btn-outline-danger mt-3 text-center offset-md-5" type="submit" value="Delete" />
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

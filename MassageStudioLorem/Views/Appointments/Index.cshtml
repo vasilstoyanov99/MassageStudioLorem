@@ -3,7 +3,7 @@
 
 @{ ViewBag.Title = "My Appointments"; }
 
-@if (Model.UpcomingAppointments == null || Model.PastAppointments == null)
+@if (Model?.UpcomingAppointments == null || Model?.PastAppointments == null)
 {
     <div class="text-center" style="font-weight: bold">
         @NoBookedAppointments
@@ -12,7 +12,7 @@
         <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin-top: 20px">Book a massage</a>
     </div>
 }
-@if (Model.UpcomingAppointments?.Count() > 0)
+@if (Model?.UpcomingAppointments?.Count() > 0)
 {
     <h2>Upcoming(@Model.UpcomingAppointments.Count())</h2>
 
@@ -50,7 +50,7 @@
     <hr class="bg-dark m-4" style="height: 6px;"/>
 }
 
-@if (Model.PastAppointments?.Count() > 0)
+@if (Model?.PastAppointments?.Count() > 0)
 {
     <h2>Past(@Model.PastAppointments.Count())</h2>
 

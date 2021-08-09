@@ -41,7 +41,6 @@
         [Required] 
         public string UserId { get; set; }
 
-        [Required]
         public string CategoryId { get; set; }
 
         public ICollection<Appointment> WorkSchedule { get; set; }

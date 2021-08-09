@@ -1,0 +1,60 @@
+﻿@model DeleteCategoryServiceModel
+
+@{ ViewData["Title"] = "Delete Category"; }
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <h4 class="offset-md-2 text-danger"><strong>@DeleteCategoryWarning</strong></h4>
+    <form class="col-6 mt-5 text-center offset-md-3" style="font-weight: bold">
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Category</label>
+            <div class="col-sm-7">
+                <div class="form-control">@Model.Name</div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label text-left">Category massages</label>
+            @if (Model.Massages?.Count() > 0)
+            {
+                @foreach (var massage in Model.Massages)
+                {
+                    <div class="form-control" style="margin: 5px">@massage</div>
+                }
+            }
+            else
+            {
+                <div class="form-control" style="margin: 5px">Empty</div>
+            }
+        </div>
+        <div class="form-group row text-center">
+            <label class="col-form-label text-left">Category masseurs</label>
+            @if (Model.Masseurs?.Count() > 0)
+            {
+                @foreach (var masseur in Model.Masseurs)
+                {
+                    <div class="form-control" style="margin: 5px">@masseur</div>
+                }
+            }
+            else
+            {
+                    <div class="form-control" style="margin: 5px">Empty</div>
+            }
+        </div>
+    </form>
+
+    <div class="offset-md-4" style="margin-top: 30px">
+        <div class="row ml-5">
+            <form method="post">
+                <button type="submit" class="btn btn-outline-danger"
+                        asp-controller="Categories" asp-action="Delete" asp-route-categoryId="@Model.Id">
+                    Yes, Delete It!
+                </button>
+            </form>
+            <div class="ml-5">
+                <a class="btn btn-outline-success" asp-controller="Categories"  asp-action="All" >No, Go Back</a>
+            </div>
+        </div>
+    </div>
+}

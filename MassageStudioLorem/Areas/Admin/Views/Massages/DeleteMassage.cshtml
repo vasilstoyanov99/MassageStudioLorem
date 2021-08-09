@@ -6,7 +6,7 @@
 
 @if (Model != null)
 {
-    <h4 class="offset-md-2 text-danger"><strong>Deleting this massage will delete all its past and upcoming appointments!</strong></h4>
+    <h4 class="offset-md-2 text-danger"><strong>@DeleteMassageWarning</strong></h4>
     <form class="col-6 mt-5 text-center offset-md-3" style="font-weight: bold">
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Massage</label>
