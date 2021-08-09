@@ -50,7 +50,7 @@
             [Required]
             [Display(Name = "First Name")]
             [StringLength(FirstNameMaxLength,
-                ErrorMessage = FirstNameError,
+                ErrorMessage = FirstNameLength,
                 MinimumLength = FirstNameMinLength)]
             public string FirstName { get; set; }
 
