@@ -46,12 +46,13 @@
                 {Categories = allCategoriesModels});
         }
 
-        public IActionResult All(AllCategoriesViewModel categoriesModel)
+        [HttpPost]
+        public IActionResult DeleteCategory(AllCategoriesViewModel categoriesModel)
         {
             var deleteCategoryModel = this._categoriesService
                 .GetCategoryDataForDelete(categoriesModel.CategoryId);
 
-            if (deleteCategoryModel == null) 
+            if (deleteCategoryModel == null)
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View("DeleteCategory", deleteCategoryModel);
