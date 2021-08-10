@@ -33,6 +33,17 @@
             return this.View(allMasseursModel);
         }
 
+        public IActionResult Details(string masseurId)
+        {
+            var masseurDetailsModel = this._masseursService
+                .GetMasseurDetailsForEdit(masseurId);
+
+            if (masseurDetailsModel == null)
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+
+            return this.View(masseurDetailsModel);
+        }
+
         public IActionResult EditMasseur(string masseurId)
         {
             var editMasseurModel = this._masseursService

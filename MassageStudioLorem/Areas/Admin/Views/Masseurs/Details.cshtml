@@ -1,0 +1,37 @@
+﻿@model MasseurDetailsForEdit
+
+@{ ViewBag.Title = "Masseur Details"; }
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <div id="main-content" class="blog-page">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-lg-8 col-md-12 offset-md-2">
+                    <div class="card single_post">
+                        <div class="body">
+                            <div class="img-post">
+                                <img class="d-block img-fluid mx-auto" src="@Model.ProfileImageUrl" alt="@Model.FullName's profile picture">
+                            </div>
+                            <h3 class="text-center" style="padding: 10px">
+                                @Model.FullName
+                            </h3>
+                            <h5 style="text-align: center">@Model.Description</h5>
+                        </div>
+                        <h6 class="text-center">
+                            <span class="fas fa-phone fa-lg text-dark"></span> @Model.PhoneNumber
+                        </h6>
+                        <div class="footer text-center">
+                            <div class="actions">
+                                <a asp-controller="Masseurs" asp-action="EditMasseur" asp-route-masseurId="@Model.Id" class="btn btn-outline-warning">Edit</a>
+                                <a asp-controller="Masseurs" asp-action="DeleteMasseur" asp-route-masseurId="@Model.Id" class="btn btn-outline-danger" style="margin: 10px">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

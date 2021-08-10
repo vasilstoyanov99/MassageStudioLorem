@@ -1,4 +1,4 @@
-﻿@model MassageStudioLorem.Services.Masseurs.Models.AllMasseursQueryServiceModel
+﻿@model AllMasseursQueryServiceModel
 
 @{ ViewBag.Title = "All Masseurs"; }
 
@@ -48,7 +48,7 @@
                         <img class="card-img-top" src="@masseur.ProfileImageUrl" alt="@masseur.FullName's profile photo'">
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@masseur.FullName</h5>
-                            <a asp-controller="Masseurs" asp-action="AvailableMasseurDetails" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">View More</a>
+                            <a asp-controller="Masseurs" asp-action="Details" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">View More</a>
                             <a asp-controller="Masseurs" asp-action="EditMasseur" asp-route-masseurId="@masseur.Id" class="btn btn-outline-warning">Edit</a>
                             <a asp-controller="Masseurs" asp-action="DeleteMasseur" asp-route-masseurId="@masseur.Id" class="btn btn-outline-danger" style="margin: 10px">Delete</a>
                         </div>

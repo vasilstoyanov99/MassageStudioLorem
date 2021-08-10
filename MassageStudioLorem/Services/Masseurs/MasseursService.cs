@@ -200,6 +200,25 @@
             return masseurEditModel;
         }
 
+        public MasseurDetailsForEdit GetMasseurDetailsForEdit(string masseurId)
+        {
+            var masseur = this.GetMasseurFromDB(masseurId);
+
+            if (this.CheckIfNull(masseur))
+                return null;
+
+            var masseurDetailsModel = new MasseurDetailsForEdit()
+            {
+                Id = masseur.Id,
+                Description = masseur.Description,
+                FullName = masseur.FullName,
+                PhoneNumber = this.GetMasseurPhoneNumber(masseur.UserId),
+                ProfileImageUrl = masseur.ProfileImageUrl
+            };
+
+            return masseurDetailsModel;
+        }
+
         public bool CheckIfMasseurEditedSuccessfully
             (EditMasseurFormModel editMasseurModel)
         {

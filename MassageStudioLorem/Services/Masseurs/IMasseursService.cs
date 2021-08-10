@@ -31,6 +31,8 @@
 
         EditMasseurFormModel GetMasseurDataForEdit(string masseurId);
 
+        MasseurDetailsForEdit GetMasseurDetailsForEdit(string masseurId);
+
         bool CheckIfMasseurEditedSuccessfully
             (EditMasseurFormModel editMasseurModel);
 
