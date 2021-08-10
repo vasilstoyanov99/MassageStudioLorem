@@ -28,7 +28,7 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
-                <input class="btn btn-outline-danger mt-3 text-center offset-md-5" type="submit" value="Delete" />
+                <input asp-controller="Categories" asp-action="DeleteCategory" class="btn btn-outline-danger mt-3 text-center offset-md-5" type="submit" value="Delete" />
             </form>
         </div>
     </div>
