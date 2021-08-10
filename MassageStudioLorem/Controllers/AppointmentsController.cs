@@ -1,8 +1,5 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Data;
-    using Data.Models;
-    using Global;
     using Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -10,8 +7,6 @@
     using Services.Appointments;
     using Services.Appointments.Models;
     using System;
-    using System.Linq;
-
     using static Global.GlobalConstants.ErrorMessages;
     using static Areas.Client.ClientConstants;
 

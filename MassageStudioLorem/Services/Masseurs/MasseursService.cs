@@ -7,7 +7,6 @@
     using Ganss.XSS;
     using MassageStudioLorem.Models.Masseurs;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
     using Models;
     using System;
     using System.Collections.Generic;

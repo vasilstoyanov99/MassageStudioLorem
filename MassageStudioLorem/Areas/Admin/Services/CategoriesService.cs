@@ -4,13 +4,9 @@
     using Data.Models;
     using Ganss.XSS;
     using MassageStudioLorem.Services.Massages;
-    using MassageStudioLorem.Services.Massages.Models;
-    using Microsoft.EntityFrameworkCore;
     using Models;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class CategoriesService : ICategoriesService
     {

@@ -1,9 +1,7 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs.Models
 {
     using Data.Enums;
-    using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using static Global.GlobalConstants.Paging;
 
     public class AvailableMasseursQueryServiceModel

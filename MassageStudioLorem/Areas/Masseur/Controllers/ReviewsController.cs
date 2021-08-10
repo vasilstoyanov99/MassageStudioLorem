@@ -3,9 +3,6 @@
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Services.Reviews;
-    using System;
-    using System.Linq;
-    using static Global.GlobalConstants.ErrorMessages;
 
     public class ReviewsController : MasseurController
     {
