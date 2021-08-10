@@ -32,7 +32,7 @@
             this.TempData[SuccessfullyAddedCategoryKey] =
                 SuccessfullyAddedCategory;
 
-            return this.RedirectToAction("AddCategory", "Categories");
+            return this.RedirectToAction("AddCategory");
         }
 
         public IActionResult All()
@@ -70,7 +70,7 @@
             this.TempData[SuccessfullyDeletedCategoryKey] =
                 SuccessfullyDeletedCategory;
 
-            return this.RedirectToAction(nameof(this.All), "Categories");
+            return this.RedirectToAction(nameof(this.All));
         }
     }
 }

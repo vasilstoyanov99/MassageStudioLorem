@@ -100,13 +100,10 @@
                 .Select(m => new {m.Id})
                 .ToList();
 
-            if (massageIds.Any())
+            foreach (var massage in massageIds)
             {
-                foreach (var massage in massageIds)
-                {
-                    this._massagesService
-                        .CheckIfMassageDeletedSuccessfully(massage.Id);
-                }
+                this._massagesService
+                    .CheckIfMassageDeletedSuccessfully(massage.Id);
             }
 
             this._data.Categories.Remove(category);

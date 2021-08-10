@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label asp-for="CategoryId">
                         Please choose a category! Current category:
-                        @(Model.CurrentCategoryName ?? "Empty")
+                        @(Model.CurrentCategoryName)
                     </label>
                     <select asp-for="CategoryId" class="form-control">
                         @foreach (var category in Model.Categories)

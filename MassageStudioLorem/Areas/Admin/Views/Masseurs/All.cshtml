@@ -3,7 +3,7 @@
 @{ ViewBag.Title = "All Masseurs"; }
 
 <cache expires-after="TimeSpan.FromDays(1)">
-    <partial name="_DividerPartial" model="@ViewBag.Title"/>
+    <partial name="_DividerPartial" model="@ViewBag.Title" />
 </cache>
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -12,6 +12,12 @@
 {
     <div class="alert alert-success text-center" role="alert">
         @TempData[SuccessfullyEditedMasseurKey]
+    </div>
+}
+@if (TempData.ContainsKey(SuccessfullyDeletedMasseurKey))
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData[SuccessfullyDeletedMasseurKey]
     </div>
 }
 
@@ -44,7 +50,7 @@
                             <h5 class="card-title text-center">@masseur.FullName</h5>
                             <a asp-controller="Masseurs" asp-action="AvailableMasseurDetails" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">View More</a>
                             <a asp-controller="Masseurs" asp-action="EditMasseur" asp-route-masseurId="@masseur.Id" class="btn btn-outline-warning">Edit</a>
-                            <a asp-controller="Masseurs" asp-action="DeleteMasseurs" asp-route-massageId="@masseur.Id" class="btn btn-outline-danger" style="margin: 10px">Delete</a>
+                            <a asp-controller="Masseurs" asp-action="DeleteMasseur" asp-route-masseurId="@masseur.Id" class="btn btn-outline-danger" style="margin: 10px">Delete</a>
                         </div>
                     </div>
                 </div>

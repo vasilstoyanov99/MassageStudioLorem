@@ -1,24 +1,24 @@
 ﻿@model MassageStudioLorem.Services.Shared.DeleteEntityServiceModel
 
-@{ ViewData["Title"] = "Delete Massage"; }
+@{ ViewData["Title"] = "Delete Masseur"; }
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 @if (Model != null)
 {
-    <h4 class="offset-md-2 text-danger"><strong>@DeleteMassageWarning</strong></h4>
-    <partial name="_DeleteEntityPartial" model="@Model" />
+    <h4 class="offset-md-2 text-danger"><strong>@DeleteMasseurWarning</strong></h4>
+    <partial name="_DeleteEntityPartial" model="@Model"/>
 
     <div class="offset-md-4" style="margin-top: 30px">
         <div class="row ml-5">
             <form method="post">
                 <button type="submit" class="btn btn-outline-danger"
-                        asp-controller="Massages" asp-action="Delete" asp-route-massageId="@Model.Id">
+                        asp-controller="Masseurs" asp-action="Delete" asp-route-masseurId="@Model.Id">
                     Yes, Delete It!
                 </button>
             </form>
             <div class="ml-5">
-                <a class="btn btn-outline-success" asp-controller="Massages" asp-action="All">No, Go Back</a>
+                <a class="btn btn-outline-success" asp-controller="Masseurs" asp-action="All">No, Go Back</a>
             </div>
         </div>
     </div>

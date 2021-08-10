@@ -75,5 +75,30 @@
 
             return this.RedirectToAction(nameof(this.All));
         }
+
+        public IActionResult DeleteMasseur(string masseurId)
+        {
+            var masseurData = this._masseursService
+                .GetMasseurDataForDelete(masseurId);
+
+            if (masseurData == null) 
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+
+            return this.View(masseurData);
+        }
+
+        public IActionResult Delete(string masseurId)
+        {
+            if (!this._masseursService.CheckIfMasseurDeletedSuccessfully(masseurId))
+            {
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+                return this.View("DeleteMasseur");
+            }
+
+            this.TempData[SuccessfullyDeletedMasseurKey] =
+                SuccessfullyDeletedMasseur;
+
+            return this.RedirectToAction(nameof(this.All));
+        }
     }
 }

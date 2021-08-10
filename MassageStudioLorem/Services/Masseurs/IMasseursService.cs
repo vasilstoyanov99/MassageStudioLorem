@@ -2,8 +2,10 @@
 {
     using Data.Enums;
     using Data.Models;
+    using Massages.Models;
     using MassageStudioLorem.Models.Masseurs;
     using Models;
+    using Shared;
     using System.Collections.Generic;
 
     public interface IMasseursService
@@ -31,5 +33,9 @@
 
         bool CheckIfMasseurEditedSuccessfully
             (EditMasseurFormModel editMasseurModel);
+
+        DeleteEntityServiceModel GetMasseurDataForDelete(string masseurId);
+
+        bool CheckIfMasseurDeletedSuccessfully(string masseurId);
     }
 }

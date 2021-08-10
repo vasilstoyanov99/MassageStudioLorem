@@ -43,7 +43,7 @@
         public IActionResult DeleteMassage(string massageId)
         {
             var massageDetails = this._massagesService
-                .GetDeleteMassageData(massageId);
+                .GetMassageDataForDelete(massageId);
 
             if (massageDetails == null)
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
@@ -63,7 +63,7 @@
             this.TempData[SuccessfullyDeletedMassageKey] =
                 SuccessfullyDeletedMassage;
 
-            return this.RedirectToAction(nameof(this.All), "Massages");
+            return this.RedirectToAction(nameof(this.All));
         }
 
         public IActionResult EditMassage(string massageId)
@@ -90,10 +90,10 @@
                 return this.View("EditMassage");
             }
 
-            this.TempData[SuccessfullyEditedMassageKey] =
-                SuccessfullyEditedMassage;
+            this.TempData[SuccessfullyDeletedMasseurKey] =
+                SuccessfullyDeletedMasseur;
 
-            return this.RedirectToAction(nameof(this.All), "Massages");
+            return this.RedirectToAction(nameof(this.All));
         }
     }
 }

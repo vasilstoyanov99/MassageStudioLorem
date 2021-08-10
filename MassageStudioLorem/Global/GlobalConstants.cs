@@ -209,6 +209,14 @@
                 "SEMK";
 
             public const string SuccessfullyEditedMasseur = "The masseur was edited successfully!";
+
+            public const string DeleteMasseurWarning =
+                "Deleting this masseur will result in the deletion of all its past and upcoming appointments and reviews!";
+
+            public const string SuccessfullyDeletedMasseurKey =
+                "SDMK";
+
+            public const string SuccessfullyDeletedMasseur = "The masseur and its related entities were deleted successfully!";
         }
     }
 }

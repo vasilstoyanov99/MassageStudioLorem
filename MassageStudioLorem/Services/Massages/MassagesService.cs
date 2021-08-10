@@ -5,6 +5,7 @@
     using Ganss.XSS;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -96,7 +97,7 @@
             return this.GetAvailableMassagesDetailsModel(massage, masseurId);
         }
 
-        public DeleteMassageServiceModel GetDeleteMassageData(string massageId)
+        public DeleteEntityServiceModel GetMassageDataForDelete(string massageId)
         {
             var massage = this.GetMassageFromDB(massageId);
 
@@ -108,11 +109,12 @@
             if (CheckIfNull(category))
                 return null;
 
-            var massageData = new DeleteMassageServiceModel()
+            var massageData = new DeleteEntityServiceModel()
             {
                 Id = massage.Id, 
                 Name = massage.Name,
-                CategoryName = category.Name
+                CategoryName = category.Name,
+                EntityName = "Massage"
             };
 
             return massageData;
@@ -129,13 +131,10 @@
                 .Where(a => a.MassageId == massageId)
                 ?.ToList();
 
-            if (appointments.Any()) // TODO: Check if bug is here
+            foreach (var appointment in appointments)
             {
-                foreach (var appointment in appointments)
-                {
-                    this._data.Appointments.Remove(appointment);
-                    this._data.SaveChanges();
-                }
+                this._data.Appointments.Remove(appointment);
+                this._data.SaveChanges();
             }
 
             this._data.Massages.Remove(massage);

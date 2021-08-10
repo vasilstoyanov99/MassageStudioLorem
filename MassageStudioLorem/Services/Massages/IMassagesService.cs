@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Services.Massages
 {
     using Models;
+    using Shared;
 
     public interface IMassagesService
     {
@@ -16,7 +17,7 @@
         MassageDetailsServiceModel GetAvailableMassageDetails
             (string massageId, string masseurId);
 
-        DeleteMassageServiceModel GetDeleteMassageData(string massageId);
+        DeleteEntityServiceModel GetMassageDataForDelete(string massageId);
 
         bool CheckIfMassageDeletedSuccessfully(string massageId);
 

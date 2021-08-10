@@ -5,9 +5,13 @@
     using Data.Enums;
     using Data.Models;
     using Ganss.XSS;
+    using Massages.Models;
     using MassageStudioLorem.Models.Masseurs;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Query.Internal;
     using Models;
+    using Shared;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -51,7 +55,7 @@
                 UserId = userId
             };
 
-            var user = this._data.Users.FirstOrDefault(u => u.Id == userId);
+            var user = this.GetUserFromDB(userId);
 
             this.AssignUserToMasseurRole(user);
 
@@ -165,6 +169,116 @@
             return this.GetAvailableMasseurDetailsModel(masseur);
         }
 
+        public Category GetCategoryFromDB(string categoryId) =>
+            this._data
+                .Categories
+                .FirstOrDefault(c => c.Id == categoryId);
+
+        public IdentityUser GetUserFromDB(string userId) =>
+            this._data.Users.FirstOrDefault(u => u.Id == userId);
+
+        public EditMasseurFormModel GetMasseurDataForEdit(string masseurId)
+        {
+            var masseur = this.GetMasseurFromDB(masseurId);
+
+            if (this.CheckIfNull(masseur))
+                return null;
+
+            var currentCategoryName = this.GetCategoryName(masseur.CategoryId);
+
+            var masseurEditModel = new EditMasseurFormModel()
+            {
+                Id = masseur.Id,
+                CurrentCategoryName = currentCategoryName,
+                Description = masseur.Description,
+                FullName = masseur.FullName,
+                Gender = masseur.Gender,
+                ProfileImageUrl = masseur.ProfileImageUrl,
+                Categories = this.GetCategories()
+            };
+
+            return masseurEditModel;
+        }
+
+        public bool CheckIfMasseurEditedSuccessfully
+            (EditMasseurFormModel editMasseurModel)
+        {
+            var masseur = this.GetMasseurFromDB(editMasseurModel.Id);
+
+            if (this.CheckIfNull(masseur))
+                return false;
+
+            var htmlSanitizer = new HtmlSanitizer();
+
+            masseur.CategoryId = editMasseurModel.CategoryId;
+            masseur.Description = htmlSanitizer
+                .Sanitize(editMasseurModel.Description);
+            masseur.FullName = htmlSanitizer.Sanitize(editMasseurModel.FullName);
+            masseur.Gender = editMasseurModel.Gender;
+            masseur.ProfileImageUrl = htmlSanitizer
+                .Sanitize(editMasseurModel.ProfileImageUrl);
+
+            this._data.SaveChanges();
+
+            return true;
+        }
+
+        public DeleteEntityServiceModel GetMasseurDataForDelete(string masseurId)
+        {
+            var masseur = this.GetMasseurFromDB(masseurId);
+
+            if (this.CheckIfNull(masseur))
+                return null;
+
+            var masseurData = new DeleteEntityServiceModel()
+            {
+                Id = masseur.Id,
+                Name = masseur.FullName,
+                CategoryName = this.GetCategoryName(masseur.CategoryId),
+                EntityName = "Masseur",
+            };
+
+            return masseurData;
+        }
+
+        public bool CheckIfMasseurDeletedSuccessfully(string masseurId)
+        {
+            var masseur = this._data
+                .Masseurs
+                .Include(m => m.Reviews)
+                .Include(m => m.WorkSchedule)
+                .FirstOrDefault(m => m.Id == masseurId);
+
+            if (this.CheckIfNull(masseur))
+                return false;
+
+            var reviews = masseur?.Reviews.ToList();
+
+            foreach (var review in reviews)
+            {
+                this._data.Reviews.Remove(review);
+            }
+
+            this._data.SaveChanges();
+
+            var workSchedule = masseur?.WorkSchedule.ToList();
+
+            foreach (var appointment in workSchedule)
+            {
+                this._data.Appointments.Remove(appointment);
+            }
+
+            var user = this.GetUserFromDB(masseur.UserId);
+
+            this.RemoveUserFromMasseurRole(user);
+            this._data.Masseurs.Remove(masseur);
+            this._data.SaveChanges();
+            this._data.Users.Remove(user);
+            this._data.SaveChanges();
+
+            return true;
+        }
+
         private IEnumerable<MasseurListingServiceModel>
             GetAllMasseursModels(IQueryable<Masseur> masseursQuery)
             => masseursQuery
@@ -236,60 +350,6 @@
                 .Massages
                 .FirstOrDefault(m => m.Id == massageId);
 
-        public Category GetCategoryFromDB(string categoryId) =>
-            this._data
-                .Categories
-                .FirstOrDefault(c => c.Id == categoryId);
-
-        public EditMasseurFormModel GetMasseurDataForEdit(string masseurId)
-        {
-            var masseur = this.GetMasseurFromDB(masseurId);
-
-            if (this.CheckIfNull(masseur))
-                return null;
-
-            var currentCategoryName = masseur.CategoryId != null 
-                ? this._data.Categories
-                    .FirstOrDefault(c => c.Id == masseur.CategoryId).Name 
-                 : null;
-
-            var masseurEditModel = new EditMasseurFormModel()
-            {
-                Id = masseur.Id,
-                CurrentCategoryName = currentCategoryName,
-                Description = masseur.Description,
-                FullName = masseur.FullName,
-                Gender = masseur.Gender,
-                ProfileImageUrl = masseur.ProfileImageUrl,
-                Categories = this.GetCategories()
-            };
-
-            return masseurEditModel;
-        }
-
-        public bool CheckIfMasseurEditedSuccessfully
-            (EditMasseurFormModel editMasseurModel)
-        {
-            var masseur = this.GetMasseurFromDB(editMasseurModel.Id);
-
-            if (this.CheckIfNull(masseur))
-                return false;
-
-            var htmlSanitizer = new HtmlSanitizer();
-
-            masseur.CategoryId = editMasseurModel.CategoryId;
-            masseur.Description = htmlSanitizer
-                .Sanitize(editMasseurModel.Description);
-            masseur.FullName = htmlSanitizer.Sanitize(editMasseurModel.FullName);
-            masseur.Gender = editMasseurModel.Gender;
-            masseur.ProfileImageUrl = htmlSanitizer
-                .Sanitize(editMasseurModel.ProfileImageUrl);
-
-            this._data.SaveChanges();
-
-            return true;
-        }
-
         private Masseur ReturnMasseurIfMasseurDetailsQueryDataIsValid
             (MasseurDetailsQueryModel queryModel)
         {
@@ -344,5 +404,22 @@
                 .GetAwaiter()
                 .GetResult();
         }
+
+        private void RemoveUserFromMasseurRole(IdentityUser user)
+        {
+            Task
+                .Run(async () =>
+                {
+                    await this._userManager.RemoveFromRoleAsync(user, MasseurRoleName);
+                })
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        private string GetCategoryName(string categoryId) =>
+            categoryId != null
+                ? this._data.Categories
+                    .FirstOrDefault(c => c.Id == categoryId).Name
+                : "Empty";
     }
 }
