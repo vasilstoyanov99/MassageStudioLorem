@@ -46,7 +46,6 @@
                 {Categories = allCategoriesModels});
         }
 
-        [HttpPost]
         public IActionResult DeleteCategory(AllCategoriesViewModel categoriesModel)
         {
             var deleteCategoryModel = this._categoriesService
