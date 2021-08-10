@@ -149,14 +149,14 @@
             return true;
         }
 
-        public EditMassageServiceModel GetMassageDataForEdit(string massageId)
+        public EditMassageFormModel GetMassageDataForEdit(string massageId)
         {
             var massage = this.GetMassageFromDB(massageId);
 
             if (this.CheckIfNull(massage))
                 return null;
 
-            var massageEditModel = new EditMassageServiceModel()
+            var massageEditModel = new EditMassageFormModel()
             {
                 Id = massage.Id,
                 ImageUrl = massage.ImageUrl,
@@ -170,7 +170,7 @@
         }
 
         public bool CheckIfMassageEditedSuccessfully
-            (EditMassageServiceModel editMassageModel)
+            (EditMassageFormModel editMassageModel)
         {
             var massage = this.GetMassageFromDB(editMassageModel.Id);
 
@@ -187,6 +187,7 @@
             massage.Name = htmlSanitizer.Sanitize(editMassageModel.Name);
             massage.ImageUrl = htmlSanitizer.Sanitize(editMassageModel.ImageUrl);
             this._data.SaveChanges();
+
             return true;
         }
 
@@ -238,8 +239,10 @@
                             ShortDescription = m.ShortDescription,
                             Name = m.Name
                         })
+                        .OrderBy(m => m.Name)
                         .ToList()
                 })
+                .OrderBy(m => m.Name)
                 .ToList()
                 .FirstOrDefault();
 
@@ -253,6 +256,7 @@
                     ImageUrl = m.ImageUrl,
                     ShortDescription = m.ShortDescription
                 })
+                .OrderBy(m => m.Name)
                 .ToList();
 
         private MassageDetailsServiceModel GetAvailableMassagesDetailsModel

@@ -1,10 +1,10 @@
-﻿@model MassageStudioLorem.Models.Masseurs.BecomeMasseurFormModel
+﻿@model MassageStudioLorem.Services.Masseurs.Models.EditMasseurFormModel
 
-@{ ViewBag.Title = "Become A Masseur"; }
+@{ ViewBag.Title = "Edit Masseur"; }
 
-<div asp-validation-summary="All" class="text-danger"></div>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-@if (Model.Categories?.Count() > 0)
+@if (Model?.Categories != null)
 {
     <div class="row">
         <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
@@ -20,7 +20,7 @@
                     <input asp-for="ProfileImageUrl" class="form-control">
                     <span asp-validation-for="ProfileImageUrl" class="small text-danger"></span>
                     <h7 class="text-muted">
-                        @GlobalConstants.Recommendations.ImageUrl
+                        @ImageUrl
                     </h7>
 
                 </div>
@@ -30,7 +30,10 @@
                     <span asp-validation-for="Description" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CategoryId">Please choose the category of massages you can perform!</label>
+                    <label asp-for="CategoryId">
+                        Please choose a category! Current category:
+                        @(Model.CurrentCategoryName ?? "Empty")
+                    </label>
                     <select asp-for="CategoryId" class="form-control">
                         @foreach (var category in Model.Categories)
                         {
@@ -38,6 +41,9 @@
                         }
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
+                    <h7 class="text-danger">
+                        @ChangeCategory
+                    </h7>
                 </div>
                 <div class="form-group">
                     <label asp-for="Gender">Please choose your biological gender!</label>
@@ -47,10 +53,9 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
-                <div class="text-muted text-center" style="padding: 5px">
-                    @GlobalConstants.Notifications.UserWillBeSignedOut
-                </div>
-                <input class="btn btn-outline-success mt-3 text-center offset-md-5" type="submit" value="Save" />
+                <input type="hidden" name="Id" value="@Model.Id">
+                <input asp-controller="Masseurs" asp-action="Edit" class="btn btn-outline-warning text-center offset-md-4" type="submit" value="Edit" />
+                <a asp-controller="Masseurs" asp-action="All" class="btn btn-outline-primary" style="margin: 5px">Cancel</a>
             </form>
         </div>
     </div>

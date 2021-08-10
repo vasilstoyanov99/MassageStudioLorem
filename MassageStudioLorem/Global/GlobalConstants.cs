@@ -87,9 +87,7 @@
             public const string CategoryIdError = "Category does not exist!";
 
             public const string GenderIdError = "Please choose between the provided options!";
-
-            public const string AlreadyMasseur = "You are already a masseur!";
-
+            
             public const string NoMasseursFoundUnderCategory = "No masseurs are found under this category!";
 
             public const string NoMasseursFound = "No masseurs are found!";
@@ -157,6 +155,12 @@
         {
             public const string ImageUrl =
                 "We recommend to upload it on imgur.com and then right click over the post -> Copy image address. The URL should end with .jpg / .png etc...";
+
+            public const string ChangeCategory =
+                "Please, change the masseur's category after the salon's closing hours or during the weekend!";
+
+            public const string PerformAction =
+                "Please, perform this action after the salon's closing hours or during the weekend!";
         }
 
         public static class Notifications
@@ -200,6 +204,11 @@
                 "SDCK";
 
             public const string SuccessfullyDeletedCategory = "The category and its related entities were deleted successfully! Please set a category to the masseurs which were under the deleted category!";
+
+            public const string SuccessfullyEditedMasseurKey =
+                "SEMK";
+
+            public const string SuccessfullyEditedMasseur = "The masseur was edited successfully!";
         }
     }
 }

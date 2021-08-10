@@ -20,7 +20,7 @@
         [Display(Name = "Biological Gender")] 
         public Gender Sorting { get; set; }
 
-        public IEnumerable<AvailableMasseurDetailsServiceModel> Masseurs
+        public IEnumerable<MasseurListingServiceModel> Masseurs
         { get; set; }
     }
 }

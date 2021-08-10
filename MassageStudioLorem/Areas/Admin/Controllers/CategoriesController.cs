@@ -20,7 +20,7 @@
         public IActionResult AddCategory() => this.View();
 
         [HttpPost]
-        public IActionResult AddCategory(AddCategoryServiceModel model)
+        public IActionResult AddCategory(AddCategoryFormModel model)
         {
             if (!this._categoriesService
                 .CheckIfCategoryIsAddedSuccessfully(model.Name))

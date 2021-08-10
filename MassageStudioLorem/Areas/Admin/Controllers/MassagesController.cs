@@ -78,7 +78,7 @@
         }
 
         [HttpPost]
-        public IActionResult Edit(EditMassageServiceModel editMassageModel)
+        public IActionResult Edit(EditMassageFormModel editMassageModel)
         {
             if (!this.ModelState.IsValid)
                 return this.View("EditMassage", editMassageModel);

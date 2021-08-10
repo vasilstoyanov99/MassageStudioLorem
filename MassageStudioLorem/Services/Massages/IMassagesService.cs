@@ -20,10 +20,10 @@
 
         bool CheckIfMassageDeletedSuccessfully(string massageId);
 
-        EditMassageServiceModel GetMassageDataForEdit(string massageId);
+        EditMassageFormModel GetMassageDataForEdit(string massageId);
 
         bool CheckIfMassageEditedSuccessfully
-            (EditMassageServiceModel editMassageModel);
+            (EditMassageFormModel editMassageModel);
 
         EditMassageDetailsServiceModel GetMassageDetailsForEdit
             (string massageId);

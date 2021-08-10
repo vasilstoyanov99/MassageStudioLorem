@@ -9,6 +9,7 @@
     using Services.Masseurs;
     using Services.Masseurs.Models;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.GlobalConstants.Notifications;
@@ -29,18 +30,11 @@
 
         public IActionResult BecomeMasseur()
         {
-            var userId = this.User.GetId();
-
-            if (this._masseursService.IsUserMasseur(userId))
-                return this.Unauthorized();
-
             var becomeMasseurModel = new BecomeMasseurFormModel()
                 {Categories = this._masseursService.GetCategories()};
 
-            if (becomeMasseurModel.Categories == null)
-            {
+            if (becomeMasseurModel.Categories?.Count() <= 0) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
-            }
 
             return this.View(becomeMasseurModel);
         }
@@ -49,20 +43,13 @@
         public IActionResult BecomeMasseur
             (BecomeMasseurFormModel masseurModel)
         {
-            var userId = this.User.GetId();
-
-            if (this._masseursService.IsUserMasseur(userId))
-                this.ModelState.AddModelError(String.Empty, AlreadyMasseur);
-
-            if (this._masseursService.GetCategoryFromDB
-                (masseurModel.CategoryId) == null)
-                this.ModelState.AddModelError
-                    (String.Empty, CategoryIdError);
+            if (this._masseursService.
+                GetCategoryFromDB(masseurModel.CategoryId) == null)
+                this.ModelState.AddModelError(String.Empty, CategoryIdError);
 
             if (!Enum.TryParse(typeof(Gender),
                 masseurModel.Gender.ToString(), true, out _))
-                this.ModelState.AddModelError
-                    (String.Empty, GenderIdError);
+                this.ModelState.AddModelError(String.Empty, GenderIdError);
 
             if (!this.ModelState.IsValid || this.ModelState.ErrorCount > 0)
             {
@@ -70,7 +57,8 @@
 
                 return this.View(masseurModel);
             }
-            
+
+            var userId = this.User.GetId();
             this._masseursService.RegisterNewMasseur(masseurModel, userId);
 
             Task

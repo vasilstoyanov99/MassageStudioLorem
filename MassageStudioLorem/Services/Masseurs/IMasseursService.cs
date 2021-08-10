@@ -8,8 +8,6 @@
 
     public interface IMasseursService
     {
-        bool IsUserMasseur(string userId);
-
         public IEnumerable<MassageCategoryServiceModel> GetCategories();
 
         public void RegisterNewMasseur(BecomeMasseurFormModel masseurModel,
@@ -28,5 +26,10 @@
             (string masseurId);
 
         Category GetCategoryFromDB(string categoryId);
+
+        EditMasseurFormModel GetMasseurDataForEdit(string masseurId);
+
+        bool CheckIfMasseurEditedSuccessfully
+            (EditMasseurFormModel editMasseurModel);
     }
 }

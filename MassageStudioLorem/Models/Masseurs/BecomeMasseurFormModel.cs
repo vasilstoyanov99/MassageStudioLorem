@@ -35,7 +35,5 @@
 
         public IEnumerable<MassageCategoryServiceModel> Categories
         { get; set; }
-
-        //public ICollection<int> SelectedCategoriesIds { get; set; }
     }
 }

@@ -40,24 +40,6 @@
                         <img class="card-img-top" src="@masseur.ProfileImageUrl" alt="@masseur.FullName's profile photo'">
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@masseur.FullName</h5>
-                            <div>
-                                <span class="star-rating">
-                                    @{
-                                        var rated = Math.Ceiling(masseur.Rating);
-                                        var leftEmpty = 5 - rated;
-                                    }
-                                    @for (var i = 1; i <= rated; i++)
-                                    {
-                                        <span class="fas fa-star"></span>
-                                    }
-                                    @for (var i = leftEmpty; i >= 0; i--)
-                                    {
-                                        <span class="far fa-star"></span>
-                                    }
-                                    <input type="hidden" name="" class="rating-value" value="@masseur.Rating">
-                                </span>
-                                <span>( @masseur.Rating.ToString("F") / 5.00 ) from @masseur.RatersCount votes</span>
-                            </div>
                             <a asp-controller="Masseurs" asp-action="AvailableMasseurDetails" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">View More</a>
                             <a asp-controller="Massages" asp-action="AvailableMassages" asp-route-masseurId="@masseur.Id" asp-route-categoryId="@masseur.CategoryId" class="btn btn-outline-primary">Book</a>
                         </div>

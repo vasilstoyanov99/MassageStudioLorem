@@ -32,12 +32,6 @@
         [MaxLength(MasseurDescriptionMaxLength)]
         public string Description { get; set; }
 
-
-        // TODO: Check if Rating should be double
-        public double Rating { get; set; }
-
-        public int RatersCount { get; set; }
-
         [Required] 
         public string UserId { get; set; }
 

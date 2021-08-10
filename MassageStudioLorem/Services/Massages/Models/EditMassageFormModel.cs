@@ -4,7 +4,7 @@
     using static Global.GlobalConstants.DataValidations;
     using static Global.GlobalConstants.ErrorMessages;
 
-    public class EditMassageServiceModel
+    public class EditMassageFormModel
     {
         public string Id { get; set; }
 

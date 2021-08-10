@@ -4,7 +4,7 @@
     using static Global.GlobalConstants.DataValidations;
     using static Global.GlobalConstants.ErrorMessages;
 
-    public class AddCategoryServiceModel
+    public class AddCategoryFormModel
     {
         [Required]
         [StringLength(CategoryNameMaxLength,

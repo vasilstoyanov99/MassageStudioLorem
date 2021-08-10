@@ -18,24 +18,6 @@
                             <h3 class="text-center" style="padding: 10px">
                                 @Model.FullName
                             </h3>
-                            <div>
-                                <span class="star-rating">
-                                    @{
-                                        var rated = Math.Ceiling(Model.Rating);
-                                        var leftEmpty = 5 - rated;
-                                    }
-                                    @for (var i = 1; i <= rated; i++)
-                                    {
-                                        <span class="fas fa-star"></span>
-                                    }
-                                    @for (var i = leftEmpty; i >= 0; i--)
-                                    {
-                                        <span class="far fa-star"></span>
-                                    }
-                                    <input type="hidden" name="" class="rating-value" value="@Model.Rating">
-                                </span>
-                                <span>( @Model.Rating.ToString("F") / 5.00 ) from @Model.RatersCount votes</span>
-                            </div>
                             <h5 style="text-align: center">@Model.Description</h5>
                         </div>
                         <h6 class="text-center">

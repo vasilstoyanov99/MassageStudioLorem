@@ -7,6 +7,7 @@
 @if (Model != null)
 {
     <h4 class="offset-md-2 text-danger"><strong>@DeleteMassageWarning</strong></h4>
+    <h5 class="text-dark offset-md-2"><strong>@PerformAction</strong></h5>
     <form class="col-6 mt-5 text-center offset-md-3" style="font-weight: bold">
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Massage</label>
@@ -26,12 +27,12 @@
         <div class="row ml-5">
             <form method="post">
                 <button type="submit" class="btn btn-outline-danger"
-                         asp-controller="Massages" asp-action="Delete" asp-route-massageId="@Model.Id">
+                        asp-controller="Massages" asp-action="Delete" asp-route-massageId="@Model.Id">
                     Yes, Delete It!
                 </button>
             </form>
             <div class="ml-5">
-                <a class="btn btn-outline-success" asp-controller="Massages"  asp-action="All" >No, Go Back</a>
+                <a class="btn btn-outline-success" asp-controller="Massages" asp-action="All">No, Go Back</a>
             </div>
         </div>
     </div>

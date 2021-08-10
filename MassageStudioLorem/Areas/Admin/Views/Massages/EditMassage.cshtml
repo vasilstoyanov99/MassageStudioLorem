@@ -1,4 +1,4 @@
-﻿@model EditMassageServiceModel
+﻿@model EditMassageFormModel
 @using static MassageStudioLorem.Global.GlobalConstants.Notifications
 
 @{ ViewBag.Title = "Edit Massage"; }
@@ -38,8 +38,8 @@
                     <span asp-validation-for="Price" class="small text-danger"></span>
                 </div>
                 <input type="hidden" name="Id" value="@Model.Id">
-                <input asp-controller="Massages" asp-action="Edit" class="btn btn-outline-success text-center offset-md-4" type="submit" value="Edit" />
-                <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary">Cancel</a>
+                <input asp-controller="Massages" asp-action="Edit" class="btn btn-outline-success text-center offset-md-4" type="submit" value="Edit"/>
+                <a asp-controller="Massages" asp-action="All" class="btn btn-outline-primary" style="margin: 5px">Cancel</a>
             </form>
         </div>
     </div>

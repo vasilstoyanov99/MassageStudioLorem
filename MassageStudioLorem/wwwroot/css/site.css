@@ -337,13 +337,3 @@ body {
     .blog-page .single_post .body,
     .blog-page .single_post .footer { padding: 10px }
 }
-
-/* Rating
--------------------------------------------------- */
-
-.star-rating {
-    line-height: 30px;
-    font-size: 1.00em;
-}
-
-.star-rating .fa-star { color: #4c136e; }

@@ -44,7 +44,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">My Appointments</a>
                                 </li> 
-                                if (!MasseurService.IsUserMasseur(User.GetId()))
+                                if (!User.IsMasseur())
                                       {
                                           <li class="nav-item">
                                               <a class="nav-link text-dark" asp-controller="Masseurs" asp-action="BecomeMasseur" title="Become A Masseur">Become A Masseur</a>
@@ -69,6 +69,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Admin" asp-controller="Massages" asp-action="All">Edit Massages</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Masseurs" asp-action="All">Edit Masseurs</a>
                                 </li>
                             }
                         }

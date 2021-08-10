@@ -29,9 +29,6 @@
             this._userManager = userManager;
         }
 
-        public bool IsUserMasseur(string userId) =>
-            this._data.Masseurs.Any(m => m.UserId == userId);
-
         public IEnumerable<MassageCategoryServiceModel> GetCategories()
             => this._data
                 ?.Categories
@@ -39,8 +36,8 @@
                     { Id = c.Id, Name = c.Name })
                 .ToList();
 
-        public void RegisterNewMasseur(BecomeMasseurFormModel masseurModel,
-            string userId)
+        public void RegisterNewMasseur
+        (BecomeMasseurFormModel masseurModel, string userId)
         {
             var htmlSanitizer = new HtmlSanitizer();
 
@@ -169,18 +166,17 @@
             return this.GetAvailableMasseurDetailsModel(masseur);
         }
 
-        private IEnumerable<AvailableMasseurDetailsServiceModel>
+        private IEnumerable<MasseurListingServiceModel>
             GetAllMasseursModels(IQueryable<Masseur> masseursQuery)
             => masseursQuery
-                .Select(m => new AvailableMasseurDetailsServiceModel()
+                .Select(m => new MasseurListingServiceModel()
                 {
                     Id = m.Id,
                     ProfileImageUrl = m.ProfileImageUrl,
                     FullName = m.FullName,
-                    RatersCount = m.RatersCount,
-                    CategoryId = m.CategoryId,
-                    Rating = m.Rating
+                    CategoryId = m.CategoryId
                 })
+                .OrderBy(m => m.FullName)
                 .ToList();
 
         private AvailableMasseurDetailsServiceModel
@@ -194,9 +190,7 @@
             Description = masseur.Description,
             PhoneNumber = this.GetMasseurPhoneNumber(masseur.UserId),
             FullName = masseur.FullName,
-            ProfileImageUrl = masseur.ProfileImageUrl,
-            RatersCount = masseur.RatersCount,
-            Rating = masseur.Rating
+            ProfileImageUrl = masseur.ProfileImageUrl
         };
 
         private IEnumerable<AvailableMasseurListingServiceModel>
@@ -207,9 +201,8 @@
                 Id = m.Id,
                 ProfileImageUrl = m.ProfileImageUrl,
                 FullName = m.FullName,
-                RatersCount = m.RatersCount,
-                Rating = m.Rating,
             })
+            .OrderBy(m => m.FullName)
             .ToList();
 
         private AvailableMasseurDetailsServiceModel
@@ -221,9 +214,7 @@
             PhoneNumber = this.GetMasseurPhoneNumber(masseur.UserId),
             FullName = masseur.FullName,
             ProfileImageUrl = masseur.ProfileImageUrl,
-            RatersCount = masseur.RatersCount,
             CategoryId = masseur.CategoryId,
-            Rating = masseur.Rating
         };
 
         private string GetMasseurPhoneNumber(string userId) =>
@@ -250,6 +241,55 @@
             this._data
                 .Categories
                 .FirstOrDefault(c => c.Id == categoryId);
+
+        public EditMasseurFormModel GetMasseurDataForEdit(string masseurId)
+        {
+            var masseur = this.GetMasseurFromDB(masseurId);
+
+            if (this.CheckIfNull(masseur))
+                return null;
+
+            var currentCategoryName = masseur.CategoryId != null 
+                ? this._data.Categories
+                    .FirstOrDefault(c => c.Id == masseur.CategoryId).Name 
+                 : null;
+
+            var masseurEditModel = new EditMasseurFormModel()
+            {
+                Id = masseur.Id,
+                CurrentCategoryName = currentCategoryName,
+                Description = masseur.Description,
+                FullName = masseur.FullName,
+                Gender = masseur.Gender,
+                ProfileImageUrl = masseur.ProfileImageUrl,
+                Categories = this.GetCategories()
+            };
+
+            return masseurEditModel;
+        }
+
+        public bool CheckIfMasseurEditedSuccessfully
+            (EditMasseurFormModel editMasseurModel)
+        {
+            var masseur = this.GetMasseurFromDB(editMasseurModel.Id);
+
+            if (this.CheckIfNull(masseur))
+                return false;
+
+            var htmlSanitizer = new HtmlSanitizer();
+
+            masseur.CategoryId = editMasseurModel.CategoryId;
+            masseur.Description = htmlSanitizer
+                .Sanitize(editMasseurModel.Description);
+            masseur.FullName = htmlSanitizer.Sanitize(editMasseurModel.FullName);
+            masseur.Gender = editMasseurModel.Gender;
+            masseur.ProfileImageUrl = htmlSanitizer
+                .Sanitize(editMasseurModel.ProfileImageUrl);
+
+            this._data.SaveChanges();
+
+            return true;
+        }
 
         private Masseur ReturnMasseurIfMasseurDetailsQueryDataIsValid
             (MasseurDetailsQueryModel queryModel)
