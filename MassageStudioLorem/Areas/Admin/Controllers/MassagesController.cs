@@ -51,6 +51,7 @@
             return this.View(massageDetails);
         }
 
+        [HttpPost]
         public IActionResult Delete(string massageId)
         {
             if (!this._massagesService

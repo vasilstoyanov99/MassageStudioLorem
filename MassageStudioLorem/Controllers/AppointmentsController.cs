@@ -46,7 +46,8 @@
             return this.View(cancelAppointmentModel);
         }
 
-        public IActionResult DeleteAppointment(string appointmentId)
+        [HttpPost]
+        public IActionResult Delete(string appointmentId)
         {
             if (!this._appointmentsService
                 .CheckIfAppointmentIsDeletedSuccessfully(appointmentId))

@@ -87,6 +87,7 @@
             return this.View(masseurData);
         }
 
+        [HttpPost]
         public IActionResult Delete(string masseurId)
         {
             if (!this._masseursService.CheckIfMasseurDeletedSuccessfully(masseurId))
