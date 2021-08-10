@@ -19,14 +19,7 @@
 
 @if (Model != null)
 {
-    <div class="row">
-        <div class="col-lg-8 mx-auto text-center">
-            <div class="mb-4">
-                <h6 class="text-uppercase">@Model.Name</h6>
-                <hr class="solid">
-            </div>
-        </div>
-    </div>
+    <partial name="_DividerPartial" model="@Model.Name"/>
 
     <div class="card-deck">
         @foreach (var massage in Model.Massages)
@@ -82,5 +75,5 @@
 }
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }

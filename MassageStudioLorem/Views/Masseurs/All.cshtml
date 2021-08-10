@@ -2,14 +2,9 @@
 
 @{ ViewBag.Title = "All Masseurs"; }
 
-<div class="row">
-    <div class="col-lg-8 mx-auto text-center">
-        <div class="mb-4">
-            <h6 class="text-uppercase">All Masseurs</h6>
-            <hr class="solid">
-        </div>
-    </div>
-</div>
+<cache expires-after="TimeSpan.FromDays(1)">
+    <partial name="_DividerPartial" model="@ViewBag.Title" />
+</cache>
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
