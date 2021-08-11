@@ -14,7 +14,7 @@
         public IActionResult Index()
         {
             var userId = this.User.GetId();
-            ViewBag.AdminUserName = this._homeService
+            this.ViewBag.AdminUserName = this._homeService
                 .GetAdminUsername(userId);
 
             return this.View();

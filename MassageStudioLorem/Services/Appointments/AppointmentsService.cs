@@ -20,20 +20,20 @@
         public BookAppointmentServiceModel GetTheMasseurSchedule
             (string masseurId, string massageId)
         {
-            if (this.CheckIfNull(HourScheduleAsString))
+            if (CheckIfNull(HourScheduleAsString))
                 SeedHourScheduleAsString();
 
             var massage = this.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage))
+            if (CheckIfNull(massage))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur))
+            if (CheckIfNull(masseur))
                 return null;
 
-            return this.GetAppointmentModel
+            return GetAppointmentModel
                 (masseurId, massageId, massage.Name, masseur.FullName);
         }
 
@@ -55,7 +55,7 @@
                         .Any(ws => ws.Date == date));
 
                 if (isUnavailable)
-                    return this.GetAvailableHours
+                    return GetAvailableHours
                         (date, hour, masseurId, masseursQuery);
 
                 var hoursBookedInTheDay = masseursQuery
@@ -97,7 +97,7 @@
         public bool CheckIfClientTryingToBookAPastTime
             (DateTime date, string hour)
         {
-            var dateTimeNow = this.GetDateTimeNow();
+            var dateTimeNow = GetDateTimeNow();
             DateTime.TryParse(hour, out DateTime dateTimeHour);
 
             if (date.Date < dateTimeNow &&
@@ -145,22 +145,10 @@
             if (!this._data.Appointments.Any(a => a.ClientId == clientId))
                 return null;
 
-            var dateTimeNow = this.GetDateTimeNow();
+            var dateTimeNow = GetDateTimeNow();
 
-            var upcomingAppointmentsModels = this._data.Appointments
-                .Where(a => a.ClientId == clientId &&
-                            a.Date > dateTimeNow)
-                .Select(a => new UpcomingAppointmentServiceModel()
-                {
-                    Id = a.Id,
-                    Date = a.Date,
-                    Hour = a.Hour,
-                    MassageName = a.MassageName,
-                    MasseurFullName = a.MasseurFullName,
-                    MasseurPhoneNumber = a.MasseurPhoneNumber
-                })
-                .OrderBy(a => a.Date)
-                .ToList();
+            var upcomingAppointmentsModels = this.GetUpcomingAppointments
+                (clientId, dateTimeNow);
 
             return upcomingAppointmentsModels;
         }
@@ -168,58 +156,33 @@
         public IEnumerable<PastAppointmentServiceModel> GetPastAppointments
             (string userId)
         {
-            var dateTimeNow = this.GetDateTimeNow();
             var clientId = this.GetClientId(userId);
-            
-            var pastAppointmentsModels = this._data.Appointments
-                .Where(a => a.ClientId == clientId && 
-                            a.Date < dateTimeNow)
-                .Select(a => new PastAppointmentServiceModel()
-                {
-                    Id = a.Id,
-                    Date = a.Date,
-                    Hour = a.Hour,
-                    MasseurId = a.MasseurId,
-                    MassageName = a.MassageName,
-                    MasseurFullName = a.MasseurFullName,
-                    MasseurPhoneNumber = a.MasseurPhoneNumber,
-                    ClientId = clientId,
-                    IsUserReviewedMasseur = a.IsUserReviewedMasseur
-                })
-                .OrderByDescending(a => a.Date)
-                .ToList();
+            var dateTimeNow = GetDateTimeNow();
+
+            var pastAppointmentsModels = this.GetPastAppointmentsModels
+                (clientId, dateTimeNow);
 
             return pastAppointmentsModels;
         }
 
-        public IEnumerable<MasseurUpcomingAppointmentServiceModel> GetMasseurUpcomingAppointments(string userId)
+        public IEnumerable<MasseurUpcomingAppointmentServiceModel> 
+            GetMasseurUpcomingAppointments(string userId)
         {
             var masseurId = this._data.Masseurs
                 .FirstOrDefault(m => m.UserId == userId)?.Id;
 
-            if (this.CheckIfNull(masseurId))
+            if (CheckIfNull(masseurId))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur))
+            if (CheckIfNull(masseur))
                 return null;
 
-            var dateTimeNow = this.GetDateTimeNow();
+            var dateTimeNow = GetDateTimeNow();
 
-            var upcomingAppointmentsModels = this._data.Appointments
-                .Where(a => a.MasseurId == masseurId &&
-                            a.Date > dateTimeNow)
-                .Select(a => new MasseurUpcomingAppointmentServiceModel()
-                {
-                    Date = a.Date,
-                    Hour = a.Hour,
-                    MassageName = a.MassageName,
-                    ClientPhoneNumber = a.ClientPhoneNumber,
-                    ClientFirstName = a.ClientFirstName
-                })
-                .OrderBy(a => a.Date)
-                .ToList();
+            var upcomingAppointmentsModels = this.GetMasseurUpcomingAppointmentsModels
+                (masseurId, dateTimeNow);
 
             return upcomingAppointmentsModels;
         }
@@ -229,7 +192,7 @@
         {
             var appointment = this.GetAppointmentFromDB(appointmentId);
 
-            if (this.CheckIfNull(appointment))
+            if (CheckIfNull(appointment))
                 return null;
 
             var cancelAppointmentModel = new CancelAppointmentServiceModel()
@@ -249,7 +212,7 @@
         {
             var appointment = this.GetAppointmentFromDB(appointmentId);
 
-            if (this.CheckIfNull(appointment))
+            if (CheckIfNull(appointment))
                 return false;
 
             this._data.Appointments.Remove(appointment);
@@ -257,8 +220,19 @@
             return true;
         }
 
-        private bool CheckIfNull(object obj)
+        private static bool CheckIfNull(object obj)
             => obj == null;
+
+        private static BookAppointmentServiceModel GetAppointmentModel
+        (string masseurId, string massageId,
+            string massageName, string masseurFullName)
+            => new()
+            {
+                MassageName = massageName,
+                MasseurFullName = masseurFullName,
+                MassageId = massageId,
+                MasseurId = masseurId
+            };
 
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
@@ -275,18 +249,47 @@
                 .Appointments
                 .FirstOrDefault(a => a.Id == appointmentId);
 
-        private BookAppointmentServiceModel GetAppointmentModel
-            (string masseurId, string massageId, 
-            string massageName, string masseurFullName)
-            => new()
-            {
-                MassageName = massageName,
-                MasseurFullName = masseurFullName,
-                MassageId = massageId,
-                MasseurId = masseurId
-            };
+        private Client GetClientFromDB(string clientId) =>
+            this._data.Clients.FirstOrDefault(c => c.Id == clientId);
 
-        private string GetAvailableHours
+        private string GetClientPhoneNumber(string clientId)
+        {
+            var clientUserId = this._data.Clients
+                .FirstOrDefault(c => c.Id == clientId)?.UserId;
+
+            return this._data.Users
+                .FirstOrDefault(u => u.Id == clientUserId)?.PhoneNumber;
+        }
+
+        private (string masseurFullName,
+            string masseurPhoneNumber,
+            string massageName,
+            string clientFirstName)
+            GetDataFromDB(string masseurId, string massageId, string userId)
+        {
+            var masseurData = this._data.Masseurs
+                .Where(m => m.Id == masseurId)
+                .Select(m => new { m.FullName, m.UserId })
+                .FirstOrDefault();
+
+            var masseurPhoneNumber =
+                this._data.Users
+                    .FirstOrDefault(u => u.Id == masseurData.UserId)?.PhoneNumber;
+
+            var massageName = this._data.Massages
+                .FirstOrDefault(m => m.Id == massageId)?.Name;
+
+            var client = this.GetClientFromDB(this.GetClientId(userId));
+
+            var clientFirstName = client.FirstName;
+
+            return (masseurData.FullName,
+                masseurPhoneNumber,
+                massageName,
+                clientFirstName);
+        }
+
+        private static string GetAvailableHours
             (DateTime date, string hour, string masseurId,
             IQueryable<Masseur> masseursQuery)
         {
@@ -296,7 +299,7 @@
                 .Select(s => new {s.Hour})
                 .ToList();
 
-            if (this.CheckIfNull(HourScheduleAsString))
+            if (CheckIfNull(HourScheduleAsString))
                 SeedHourScheduleAsString();
 
             var defaultHourSchedule = new List<string>(HourScheduleAsString);
@@ -312,49 +315,63 @@
                     String.Join(' ', defaultHourSchedule));
         }
 
+        private IEnumerable<MasseurUpcomingAppointmentServiceModel>
+            GetMasseurUpcomingAppointmentsModels
+            (string masseurId, DateTime dateTimeNow)
+            => this._data.Appointments
+                .Where(a => a.MasseurId == masseurId &&
+                            a.Date > dateTimeNow)
+                .Select(a => new MasseurUpcomingAppointmentServiceModel()
+                {
+                    Date = a.Date,
+                    Hour = a.Hour,
+                    MassageName = a.MassageName,
+                    ClientPhoneNumber = a.ClientPhoneNumber,
+                    ClientFirstName = a.ClientFirstName
+                })
+                .OrderBy(a => a.Date)
+                .ToList();
+
+        private IEnumerable<UpcomingAppointmentServiceModel>
+            GetUpcomingAppointments(string clientId, DateTime dateTimeNow)
+            => this._data.Appointments
+                .Where(a => a.ClientId == clientId &&
+                            a.Date > dateTimeNow)
+                .Select(a => new UpcomingAppointmentServiceModel()
+                {
+                    Id = a.Id,
+                    Date = a.Date,
+                    Hour = a.Hour,
+                    MassageName = a.MassageName,
+                    MasseurFullName = a.MasseurFullName,
+                    MasseurPhoneNumber = a.MasseurPhoneNumber
+                })
+                .OrderBy(a => a.Date)
+                .ToList();
+
+        private IEnumerable<PastAppointmentServiceModel>
+            GetPastAppointmentsModels(string clientId, DateTime dateTimeNow)
+            => this._data.Appointments
+               .Where(a => a.ClientId == clientId &&
+                           a.Date < dateTimeNow)
+               .Select(a => new PastAppointmentServiceModel()
+               {
+                   Id = a.Id,
+                   Date = a.Date,
+                   Hour = a.Hour,
+                   MasseurId = a.MasseurId,
+                   MassageName = a.MassageName,
+                   MasseurFullName = a.MasseurFullName,
+                   MasseurPhoneNumber = a.MasseurPhoneNumber,
+                   ClientId = clientId,
+                   IsUserReviewedMasseur = a.IsUserReviewedMasseur
+               })
+               .OrderByDescending(a => a.Date)
+               .ToList();
+
         private string GetClientId(string userId) =>
             this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
 
-        private Client GetClientFromDB(string clientId) => 
-            this._data.Clients.FirstOrDefault(c => c.Id == clientId);
-
-        private string GetClientPhoneNumber(string clientId)
-        {
-            var clientUserId = this._data.Clients
-                .FirstOrDefault(c => c.Id == clientId)?.UserId;
-
-            return this._data.Users
-                .FirstOrDefault(u => u.Id == clientUserId)?.PhoneNumber;
-        }
-
-        private (string masseurFullName, 
-                 string masseurPhoneNumber,
-                 string massageName,
-                 string clientFirstName) 
-            GetDataFromDB(string masseurId, string massageId, string userId)
-        {
-            var masseurData = this._data.Masseurs
-                .Where(m => m.Id == masseurId)
-                .Select(m => new {m.FullName, m.UserId})
-                .FirstOrDefault();
-
-            var masseurPhoneNumber = 
-                this._data.Users
-                    .FirstOrDefault(u => u.Id == masseurData.UserId)?.PhoneNumber;
-
-            var massageName = this._data.Massages
-                .FirstOrDefault(m => m.Id == massageId)?.Name;
-
-            var client = this.GetClientFromDB(this.GetClientId(userId));
-
-            var clientFirstName = client.FirstName;
-
-            return (masseurData.FullName,
-                masseurPhoneNumber,
-                massageName, 
-                clientFirstName);
-        }
-
-        private DateTime GetDateTimeNow() => DateTime.Now;
+        private static DateTime GetDateTimeNow() => DateTime.Now;
     }
 }

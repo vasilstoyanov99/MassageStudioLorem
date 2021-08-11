@@ -14,7 +14,7 @@
         public IActionResult Index()
         {
             var userId = this.User.GetId();
-            ViewBag.MasseurFullName = this._homeService
+            this.ViewBag.MasseurFullName = this._homeService
                 .GetMasseurFullName(userId);
 
             return this.View();

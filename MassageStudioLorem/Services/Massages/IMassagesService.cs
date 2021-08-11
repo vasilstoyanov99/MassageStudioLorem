@@ -10,7 +10,7 @@
 
         MassageDetailsServiceModel GetMassageDetails
             (string massageId, string categoryId);
-        //TODO: Add query models!
+        
         AvailableMassagesQueryServiceModel GetAvailableMassages
             (string masseurId, string categoryId, int currentPage);
 

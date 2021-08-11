@@ -19,7 +19,7 @@
             if (this.User.IsInRole(ClientRoleName))
             {
                 var userId = this.User.GetId();
-                ViewBag.ClientFirstName = this._homeService
+                this.ViewBag.ClientFirstName = this._homeService
                     .GetClientFirstName(userId);
                 return this.View();
             }

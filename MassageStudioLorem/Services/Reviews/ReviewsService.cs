@@ -27,12 +27,12 @@
             var masseurFullName = this._data.Masseurs
                 .FirstOrDefault(m => m.Id == masseurId)?.FullName;
 
-            if (this.CheckIfNull(masseurFullName))
+            if (CheckIfNull(masseurFullName))
                 return null;
 
             var clientId = this.GetClientId(userId);
 
-            if (this.CheckIfNull(clientId))
+            if (CheckIfNull(clientId))
                 return null;
 
             var reviewMasseurModel = new ReviewMasseurFormServiceModel()
@@ -51,18 +51,18 @@
             var masseur = this._data.Masseurs
                 .FirstOrDefault(m => m.Id == reviewModel.MasseurId);
 
-            if (this.CheckIfNull(masseur))
+            if (CheckIfNull(masseur))
                 return false;
 
             var appointment = this.GetAppointmentFromDB(reviewModel.AppointmentId);
 
-            if (this.CheckIfNull(appointment))
+            if (CheckIfNull(appointment))
                 return false;
 
             var client = this._data
                 .Clients.FirstOrDefault(c => c.Id == reviewModel.ClientId);
 
-            if (this.CheckIfNull(client))
+            if (CheckIfNull(client))
                 return false;
 
             return true;
@@ -93,13 +93,13 @@
         public IEnumerable<ReviewServiceModel> GetMasseurReviews
             (string userId, string masseurId)
         {
-            if (!this.CheckIfNull(userId))
+            if (!CheckIfNull(userId))
                 masseurId = this._data.Masseurs
                     .FirstOrDefault(m => m.UserId == userId)?.Id;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur))
+            if (CheckIfNull(masseur))
                 return null;
 
             var reviews = this._data
@@ -129,18 +129,7 @@
             if (currentPage > totalReviews || currentPage < 1)
                 currentPage = CurrentPageStart;
 
-            var allReviews = reviewsAsQuery
-                .Skip((currentPage - 1) * ReviewsPerPage)
-                .Take(ReviewsPerPage)
-                .Select(r => new ReviewServiceModel()
-                {
-                    Id = r.Id,
-                    ClientFirstName = r.ClientFirstName,
-                    Content = r.Content,
-                    CreatedOn = r.CreatedOn
-                })
-                .OrderBy(r => r.CreatedOn)
-                .ToList();
+            var allReviews = GetAllReviewsModels(reviewsAsQuery, currentPage);
 
             var allReviewsModel = new AllReviewsQueryServiceModel()
             {
@@ -183,15 +172,23 @@
             return true;
         }
 
-        private bool CheckIfNull(object obj)
+        private static bool CheckIfNull(object obj)
             => obj == null;
 
-        private string GetClientId(string userId) =>
-            this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
-
-        private string GetClientFirstName(string clientId) =>
-            this._data.Clients
-                .FirstOrDefault(c => c.Id == clientId)?.FirstName;
+        private static IEnumerable<ReviewServiceModel> GetAllReviewsModels
+            (IQueryable<Review> reviewsAsQuery, int currentPage)
+            => reviewsAsQuery
+                .Skip((currentPage - 1) * ReviewsPerPage)
+                .Take(ReviewsPerPage)
+                .Select(r => new ReviewServiceModel()
+                {
+                    Id = r.Id,
+                    ClientFirstName = r.ClientFirstName,
+                    Content = r.Content,
+                    CreatedOn = r.CreatedOn
+                })
+                .OrderBy(r => r.CreatedOn)
+                .ToList();
 
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
@@ -200,6 +197,13 @@
 
         private Appointment GetAppointmentFromDB(string appointmentId) =>
             this._data.Appointments.FirstOrDefault(a => a.Id == appointmentId);
+
+        private string GetClientId(string userId) =>
+            this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
+
+        private string GetClientFirstName(string clientId) =>
+            this._data.Clients
+                .FirstOrDefault(c => c.Id == clientId)?.FirstName;
 
         private Review GetReviewFromDB(string reviewId) =>
             this._data.Reviews.FirstOrDefault(r => r.Id == reviewId);

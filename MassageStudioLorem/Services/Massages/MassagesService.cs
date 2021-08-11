@@ -29,7 +29,7 @@
             if (currentPage > totalCategories || currentPage < 1)
                 currentPage = CurrentPageStart;
 
-            var allCategoriesModel = this.GetAllCategoriesWithMassagesModel(categoriesQuery
+            var allCategoriesModel = GetAllCategoriesWithMassagesModel(categoriesQuery
                 .Skip((currentPage - 1) * CategoriesPerPage)
                 .Take(CategoriesPerPage)
                 .Include(c => c.Massages));
@@ -45,15 +45,15 @@
         {
             var massage = this.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage))
+            if (CheckIfNull(massage))
                 return null;
 
             var category = this.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(category))
+            if (CheckIfNull(category))
                 return null;
 
-            return this.GetMassageDetailsModel(massage);
+            return GetMassageDetailsModel(massage);
         }
 
         public AvailableMassagesQueryServiceModel GetAvailableMassages
@@ -70,19 +70,8 @@
             if (currentPage > totalMassages || currentPage < 1)
                 currentPage = CurrentPageStart;
 
-            return new AvailableMassagesQueryServiceModel()
-            {
-                CategoryId = categoryId,
-                MasseurId = masseurId,
-                CurrentPage = currentPage,
-                MaxPage = Math
-                    .Ceiling(totalMassages * 1.00 / ThreeCardsPerPage * 1.00),
-                Massages = this.GetAvailableMassagesModels
-                (massagesQuery
-                    .Where(m => m.CategoryId == categoryId)
-                    .Skip((currentPage - 1) * CategoriesPerPage)
-                    .Take(CategoriesPerPage))
-            };
+            return GetAvailableMassagesModel
+                (categoryId, masseurId, currentPage, totalMassages, massagesQuery);
         }
 
         public MassageDetailsServiceModel GetAvailableMassageDetails
@@ -91,10 +80,10 @@
             var massage = this.ReturnMassageIfAvailableMassageQueryDataIsValid
                 (massageId, masseurId);
 
-            if (this.CheckIfNull(massage))
+            if (CheckIfNull(massage))
                 return null;
 
-            return this.GetAvailableMassagesDetailsModel(massage, masseurId);
+            return GetAvailableMassagesDetailsModel(massage, masseurId);
         }
 
         public DeleteEntityServiceModel GetMassageDataForDelete(string massageId)
@@ -122,7 +111,7 @@
 
         public bool CheckIfMassageDeletedSuccessfully(string massageId)
         {
-            var massage = GetMassageFromDB(massageId);
+            var massage = this.GetMassageFromDB(massageId);
 
             if (CheckIfNull(massage))
                 return false;
@@ -131,11 +120,10 @@
                 .Where(a => a.MassageId == massageId)
                 ?.ToList();
 
-            foreach (var appointment in appointments)
-            {
+            foreach (var appointment in appointments) 
                 this._data.Appointments.Remove(appointment);
-                this._data.SaveChanges();
-            }
+
+            this._data.SaveChanges();
 
             this._data.Massages.Remove(massage);
             this._data.SaveChanges();
@@ -151,7 +139,7 @@
         {
             var massage = this.GetMassageFromDB(massageId);
 
-            if (this.CheckIfNull(massage))
+            if (CheckIfNull(massage))
                 return null;
 
             var massageEditModel = new EditMassageFormModel()
@@ -167,12 +155,32 @@
             return massageEditModel;
         }
 
+        public EditMassageDetailsServiceModel GetMassageDetailsForEdit
+            (string massageId)
+        {
+            var massage = this.GetMassageFromDB(massageId);
+
+            if (CheckIfNull(massage))
+                return null;
+
+            var editMassageDetailsModel = new EditMassageDetailsServiceModel()
+            {
+                Id = massage.Id,
+                Name = massage.Name,
+                ImageUrl = massage.ImageUrl,
+                LongDescription = massage.LongDescription,
+                Price = massage.Price
+            };
+
+            return editMassageDetailsModel;
+        }
+
         public bool CheckIfMassageEditedSuccessfully
             (EditMassageFormModel editMassageModel)
         {
             var massage = this.GetMassageFromDB(editMassageModel.Id);
 
-            if (this.CheckIfNull(massage))
+            if (CheckIfNull(massage))
                 return false;
 
             var htmlSanitizer = new HtmlSanitizer();
@@ -189,27 +197,30 @@
             return true;
         }
 
-        public EditMassageDetailsServiceModel GetMassageDetailsForEdit
-            (string massageId)
+        private static bool CheckIfNull(object obj)
+            => obj == null;
+
+        private bool IsAvailableMassagesQueryDataValid
+            (string masseurId, string categoryId)
         {
-            var massage = this.GetMassageFromDB(massageId);
+            var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(massage))
-                return null;
+            if (CheckIfNull(masseur))
+                return false;
 
-            var editMassageDetailsModel = new EditMassageDetailsServiceModel()
-            {
-                Id = massage.Id,
-                Name = massage.Name,
-                ImageUrl = massage.ImageUrl,
-                LongDescription = massage.LongDescription,
-                Price = massage.Price
-            };
+            var category = this.GetCategoryFromDB(categoryId);
 
-            return editMassageDetailsModel;
+            if (CheckIfNull(category))
+                return false;
+
+            if (masseur.CategoryId != categoryId ||
+                !this._data.Massages.Any(m => m.CategoryId == categoryId))
+                return false;
+
+            return true;
         }
 
-        private MassageDetailsServiceModel GetMassageDetailsModel
+        private static MassageDetailsServiceModel GetMassageDetailsModel
             (Massage massage) =>
             new()
             {
@@ -221,7 +232,7 @@
                 Name = massage.Name
             };
 
-        private AllCategoriesQueryServiceModel
+        private static AllCategoriesQueryServiceModel
             GetAllCategoriesWithMassagesModel
             (IQueryable<Category> categoriesQuery) =>
             categoriesQuery
@@ -244,7 +255,28 @@
                 .ToList()
                 .FirstOrDefault();
 
-        private IEnumerable<MassageListingServiceModel> GetAvailableMassagesModels
+        private static AvailableMassagesQueryServiceModel GetAvailableMassagesModel
+        (string categoryId, 
+         string masseurId, 
+         int currentPage,
+         int totalMassages,
+         IQueryable<Massage> massagesQuery)
+        => new()
+        {
+            CategoryId = categoryId,
+            MasseurId = masseurId,
+            CurrentPage = currentPage,
+            MaxPage = Math
+                .Ceiling(totalMassages * 1.00 / ThreeCardsPerPage * 1.00),
+            Massages = GetAvailableMassagesModels
+            (massagesQuery
+                .Where(m => m.CategoryId == categoryId)
+                .Skip((currentPage - 1) * CategoriesPerPage)
+                .Take(CategoriesPerPage))
+        };
+
+        private static IEnumerable<MassageListingServiceModel>
+            GetAvailableMassagesModels
             (IQueryable<Massage> massagesQuery) =>
             massagesQuery
                 .Select(m => new MassageListingServiceModel()
@@ -257,7 +289,7 @@
                 .OrderBy(m => m.Name)
                 .ToList();
 
-        private MassageDetailsServiceModel GetAvailableMassagesDetailsModel
+        private static MassageDetailsServiceModel GetAvailableMassagesDetailsModel
             (Massage massage, string masseurId) =>
             new()
             {
@@ -268,9 +300,6 @@
                 Price = massage.Price,
                 Name = massage.Name
             };
-
-        private bool CheckIfNull(object obj)
-            => obj == null;
 
         private Masseur GetMasseurFromDB(string masseurId) =>
             this._data
@@ -287,39 +316,17 @@
                 .Categories
                 .FirstOrDefault(c => c.Id == categoryId);
 
-        private bool IsAvailableMassagesQueryDataValid
-            (string masseurId, string categoryId)
-        {
-            var masseur = this.GetMasseurFromDB(masseurId);
-
-            if (this.CheckIfNull(masseur))
-                return false;
-
-            var category = this.GetCategoryFromDB(categoryId);
-
-            if (this.CheckIfNull(category))
-                return false;
-
-            if (masseur.CategoryId != categoryId ||
-                !this._data.Massages.Any(m => m.CategoryId == categoryId))
-                return false;
-
-            return true;
-        }
-
-        //TODO: Check if the order is correct!
-
         private Massage ReturnMassageIfAvailableMassageQueryDataIsValid
             (string massageId, string masseurId)
         {
             var massage = this.GetMassageFromDB(massageId);
-            
-            if (this.CheckIfNull(massage))
+
+            if (CheckIfNull(massage))
                 return null;
 
             var masseur = this.GetMasseurFromDB(masseurId);
 
-            if (this.CheckIfNull(masseur))
+            if (CheckIfNull(masseur))
                 return null;
 
             if (masseur.CategoryId != massage.CategoryId)
