@@ -58,13 +58,13 @@
                 .CheckIfMassageDeletedSuccessfully(massageId))
             {
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
-                return this.View("DeleteMassage");
+                return this.View(nameof(this.DeleteMassage));
             }
 
             this.TempData[SuccessfullyDeletedMassageKey] =
                 SuccessfullyDeletedMassage;
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.View(nameof(this.All));
         }
 
         public IActionResult EditMassage(string massageId)
@@ -82,13 +82,13 @@
         public IActionResult Edit(EditMassageFormModel editMassageModel)
         {
             if (!this.ModelState.IsValid)
-                return this.View("EditMassage", editMassageModel);
+                return this.View(nameof(this.EditMassage), editMassageModel);
 
             if (!this._massagesService
                 .CheckIfMassageEditedSuccessfully(editMassageModel))
             {
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
-                return this.View("EditMassage");
+                return this.View(nameof(this.EditMassage));
             }
 
             this.TempData[SuccessfullyDeletedMasseurKey] =

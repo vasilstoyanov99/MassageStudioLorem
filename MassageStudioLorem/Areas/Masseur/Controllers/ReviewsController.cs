@@ -11,7 +11,7 @@
         public ReviewsController(IReviewsService reviewsService) => 
             this._reviewsService = reviewsService;
 
-        public IActionResult Index()
+        public IActionResult All()
         {
             var userId = this.User.GetId();
             var reviews = this._reviewsService.GetMasseurReviews(userId, null);

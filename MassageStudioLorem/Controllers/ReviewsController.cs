@@ -64,7 +64,7 @@
             var reviews = this._reviewsService
                 .GetMasseurReviews(null, queryModel.MasseurId);
 
-            return this.View(new AllReviewsQueryViewModel()
+            return this.View(new MasseurAllReviewsQueryViewModel()
             {
                 MasseurId = queryModel.MasseurId,
                 CategoryId = queryModel.CategoryId,

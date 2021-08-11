@@ -3,7 +3,7 @@
     using Services.Reviews.Models;
     using System.Collections.Generic;
 
-    public class AllReviewsQueryViewModel
+    public class MasseurAllReviewsQueryViewModel
     {
         public string CategoryId { get; set; }
 

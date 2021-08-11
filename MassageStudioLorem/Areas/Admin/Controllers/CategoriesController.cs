@@ -32,7 +32,7 @@
             this.TempData[SuccessfullyAddedCategoryKey] =
                 SuccessfullyAddedCategory;
 
-            return this.RedirectToAction("AddCategory");
+            return this.RedirectToAction(nameof(this.AddCategory));
         }
 
         public IActionResult All()
@@ -54,7 +54,7 @@
             if (deleteCategoryModel == null)
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
-            return this.View("DeleteCategory", deleteCategoryModel);
+            return this.View(nameof(this.DeleteCategory), deleteCategoryModel);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@
                 .CheckIfCategoryDeletedSuccessfully(categoryId))
             {
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
-                return this.View("DeleteCategory");
+                return this.View(nameof(this.DeleteCategory));
             }
 
             this.TempData[SuccessfullyDeletedCategoryKey] =

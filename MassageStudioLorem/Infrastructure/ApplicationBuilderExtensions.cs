@@ -98,15 +98,25 @@
                 data.SaveChanges();
             }
 
+            var review = new Review()
+            {
+                ClientFirstName = "TestClient",
+                ClientId = "7e3b0c08-14a2-4d6a-8d7c-70cb9fd14ad9",
+                Content = "Test",
+                CreatedOn = DateTime.Now,
+                MasseurId = "4b3b016d-5335-41c9-80b9-0e353c64aa74"
+            };
+
+            data.Reviews.Add(review);
+            data.SaveChanges();
 
             //var appointment = new Appointment()
             //{
             //    Date = DateTime.MinValue.AddHours(1),
             //    Hour = "11:00",
-            //    BookedOn = DateTime.MinValue,
-            //    ClientId = "950917a3-137b-4c73-8074-79b4aa0b3e47",
-            //    MassageId = "717a0aa5-0fd0-459e-b5db-b4caa1c60cc5",
-            //    MasseurId = "3dc04e08-d563-418d-82eb-a0f0c349cddd",
+            //    ClientId = "7e3b0c08-14a2-4d6a-8d7c-70cb9fd14ad9",
+            //    MassageId = "0f3ff649-f3d2-4b40-891a-d73b312b7409",
+            //    MasseurId = "4b3b016d-5335-41c9-80b9-0e353c64aa74",
             //    MasseurFullName = "Test Past Time",
             //    MasseurPhoneNumber = "0886650805",
             //    MassageName = "Test Past Time",
@@ -114,11 +124,6 @@
             //};
 
             //data.Appointments.Add(appointment);
-            //var masseur = m
-            //masseur.WorkSchedule.Add(appointment);
-            //var client = this._data.Clients
-            //    .FirstOrDefault(c => c.UserId == userId);
-            //client.Appointments.Add(appointment);
             //data.SaveChanges();
         }
 

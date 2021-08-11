@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Services.Reviews
 {
+    using MassageStudioLorem.Models.Reviews;
     using Models;
     using System.Collections.Generic;
 
@@ -16,5 +17,11 @@
 
         IEnumerable<ReviewServiceModel> GetMasseurReviews
             (string userId, string masseurId);
+
+        AllReviewsQueryServiceModel GetAllReviews(int currentPage);
+
+        DeleteReviewServiceModel GetReviewDataForDelete(string reviewId);
+
+        bool CheckIfReviewDeletedSuccessfully(string reviewId);
     }
 }

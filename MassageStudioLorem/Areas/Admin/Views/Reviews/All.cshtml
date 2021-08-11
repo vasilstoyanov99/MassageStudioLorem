@@ -1,0 +1,84 @@
+﻿@model AllReviewsQueryServiceModel
+
+@{ ViewBag.Title = "All Reviews"; }
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@if (TempData.ContainsKey(SuccessfullyDeletedReviewKey))
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData[SuccessfullyDeletedReviewKey]
+    </div>
+}
+
+@if (Model != null || Model?.Reviews?.Count() > 0)
+{
+    <h2>All Reviews(@Model.Reviews.Count())</h2>
+
+    <table class="table table-bordered table-striped text-center">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Created On</th>
+                <th scope="col">Client First Name</th>
+                <th scope="col">Content</th>
+                <th scope="col">Deletion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var review in Model.Reviews)
+            {
+                <tr>
+                    <td>
+                        @review.CreatedOn.ToString(DateTimeFormat)
+                        @review.CreatedOn.ToString("HH"):@review.CreatedOn.ToString("MM")
+                    </td>
+                    <td>@review.ClientFirstName</td>
+                    <td>@review.Content</td>
+                    <td>
+                        <a class="btn btn-outline-danger btn-sm"
+                           asp-controller="Reviews" asp-action="DeleteReview" asp-route-reviewId="@review.Id">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.CurrentPage - 1 < 1)
+    {
+        Model.CurrentPage = 1;
+    }
+
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+               asp-controller="Reviews"
+               asp-action="All"
+               asp-route-currentPage="@(Model.CurrentPage - 1)">
+                Previous
+            </a>
+        </div>
+
+        @{
+            var shouldButtonBeDisabled = Model.CurrentPage == Model.MaxPage
+                                         || Model.MaxPage == 0
+                                         || Model == null;
+        }
+
+        <div class="col-md-6">
+            <a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="margin-top: 10px"
+               asp-controller="Reviews"
+               asp-action="All"
+               asp-route-currentPage="@(Model.CurrentPage + 1)">
+                Next
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center" style="font-weight: bold">
+        @NoReviewsFound
+    </div>
+}

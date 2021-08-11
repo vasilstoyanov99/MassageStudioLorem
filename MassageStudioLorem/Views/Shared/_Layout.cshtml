@@ -59,7 +59,7 @@
                                     <a class="nav-link text-dark" asp-area="Masseur" asp-controller="WorkSchedule" asp-action="Index">Work Schedule</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Masseur" asp-controller="Reviews" asp-action="Index">Reviews</a>
+                                    <a class="nav-link text-dark" asp-area="Masseur" asp-controller="Reviews" asp-action="All">Reviews</a>
                                 </li>
                             }
                             @if (User.IsAdmin())
@@ -72,6 +72,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="Admin" asp-controller="Masseurs" asp-action="All">Edit Masseurs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Reviews" asp-action="All">Edit Reviews</a>
                                 </li>
                             }
                         }

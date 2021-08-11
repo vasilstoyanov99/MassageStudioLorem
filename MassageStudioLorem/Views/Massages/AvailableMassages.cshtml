@@ -2,14 +2,14 @@
 
 @{ ViewBag.Title = "Available Massages"; }
 
-<cache expires-after="TimeSpan.FromDays(1)">
-    <partial name="_DividerPartial" model="@ViewBag.Title" />
-</cache>
-
 <div asp-validation-summary="All" class="text-danger"></div>
 
 @if (Model?.Massages != null || Model != null) 
 {
+    <cache expires-after="TimeSpan.FromDays(1)">
+        <partial name="_DividerPartial" model="@ViewBag.Title" />
+    </cache>
+
     <div class="card-deck">
         @foreach (var massage in Model.Massages)
         {
@@ -28,11 +28,6 @@
             </div>
         }
     </div>
-
-    if (Model.CurrentPage - 1 < 1)
-    {
-        Model.CurrentPage = 1;
-    }
 
         <div class="row mb-5">
     <div class="col-md-6">

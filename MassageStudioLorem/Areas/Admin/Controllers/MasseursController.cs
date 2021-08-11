@@ -104,7 +104,7 @@
             if (!this._masseursService.CheckIfMasseurDeletedSuccessfully(masseurId))
             {
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
-                return this.View("DeleteMasseur");
+                return this.View(nameof(this.DeleteMasseur));
             }
 
             this.TempData[SuccessfullyDeletedMasseurKey] =

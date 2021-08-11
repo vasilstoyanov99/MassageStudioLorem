@@ -149,6 +149,8 @@
             public const int CategoriesPerPage = 1;
 
             public const int ThreeCardsPerPage = 3;
+
+            public const int ReviewsPerPage = 10;
         }
 
         public static class Recommendations
@@ -217,6 +219,14 @@
                 "SDMK";
 
             public const string SuccessfullyDeletedMasseur = "The masseur and its related entities were deleted successfully!";
+
+            public const string DeleteReviewWarning =
+                "Are you sure you want to delete this review?";
+
+            public const string SuccessfullyDeletedReviewKey =
+                "SDRK";
+
+            public const string SuccessfullyDeletedReview = "The review was deleted successfully!";
         }
     }
 }

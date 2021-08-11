@@ -3,10 +3,12 @@
     using Data;
     using Data.Models;
     using Ganss.XSS;
+    using MassageStudioLorem.Models.Reviews;
     using Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using static Global.GlobalConstants.Paging;
 
     public class ReviewsService : IReviewsService
     {
@@ -116,6 +118,72 @@
             return reviews;
         }
 
+        public AllReviewsQueryServiceModel GetAllReviews(int currentPage)
+        {
+            var reviewsAsQuery = this._data.Reviews.AsQueryable();
+
+            if (!reviewsAsQuery.Any())
+                return null;
+
+            var totalReviews = reviewsAsQuery.Count();
+
+            if (currentPage > totalReviews || currentPage < 1)
+                currentPage = CurrentPageStart;
+
+            var allReviews = reviewsAsQuery
+                .Skip((currentPage - 1) * ReviewsPerPage)
+                .Take(ReviewsPerPage)
+                .Select(r => new ReviewServiceModel()
+                {
+                    Id = r.Id,
+                    ClientFirstName = r.ClientFirstName,
+                    Content = r.Content,
+                    CreatedOn = r.CreatedOn
+                })
+                .OrderBy(r => r.CreatedOn)
+                .ToList();
+
+            var allReviewsModel = new AllReviewsQueryServiceModel()
+            {
+                Reviews = allReviews,
+                CurrentPage = currentPage,
+                MaxPage = Math.Ceiling
+                    (totalReviews * 1.00 / ReviewsPerPage * 1.00)
+            };
+
+            return allReviewsModel;
+        }
+
+        public DeleteReviewServiceModel GetReviewDataForDelete(string reviewId)
+        {
+            var review = this.GetReviewFromDB(reviewId);
+
+            if (CheckIfNull(review))
+                return null;
+
+            var reviewData = new DeleteReviewServiceModel()
+            {
+                Id = review.Id, 
+                ClientFirstName = review.ClientFirstName, 
+                Content = review.Content
+            };
+
+            return reviewData;
+        }
+
+        public bool CheckIfReviewDeletedSuccessfully(string reviewId)
+        {
+            var review = this.GetReviewFromDB(reviewId);
+
+            if (CheckIfNull(review))
+                return false;
+
+            this._data.Reviews.Remove(review);
+            this._data.SaveChanges();
+
+            return true;
+        }
+
         private bool CheckIfNull(object obj)
             => obj == null;
 
@@ -133,5 +201,8 @@
 
         private Appointment GetAppointmentFromDB(string appointmentId) =>
             this._data.Appointments.FirstOrDefault(a => a.Id == appointmentId);
+
+        private Review GetReviewFromDB(string reviewId) =>
+            this._data.Reviews.FirstOrDefault(r => r.Id == reviewId);
     }
 }
