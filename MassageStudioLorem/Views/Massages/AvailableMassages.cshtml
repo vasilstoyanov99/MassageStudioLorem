@@ -4,10 +4,10 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-@if (Model?.Massages != null || Model != null) 
+@if (Model?.Massages != null || Model != null)
 {
     <cache expires-after="TimeSpan.FromDays(1)">
-        <partial name="_DividerPartial" model="@ViewBag.Title" />
+        <partial name="_DividerPartial" model="@ViewBag.Title"/>
     </cache>
 
     <div class="card-deck">
@@ -20,8 +20,20 @@
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@massage.Name</h5>
                             <p class="card-text">@massage.ShortDescription</p>
-                            <a asp-controller="Massages" asp-action="AvailableMassageDetails" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">View More</a>
-                            <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@massage.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
+                            <a asp-controller="Massages"
+                               asp-action="AvailableMassageDetails"
+                               asp-route-massageId="@massage.Id"
+                               asp-route-masseurId="@Model.MasseurId"
+                               class="btn btn-outline-primary">
+                                View More
+                            </a>
+                            <a asp-controller="Appointments"
+                               asp-action="Book"
+                               asp-route-massageId="@massage.Id"
+                               asp-route-masseurId="@Model.MasseurId"
+                               class="btn btn-outline-primary">
+                                Book
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -29,28 +41,28 @@
         }
     </div>
 
-        <div class="row mb-5">
-    <div class="col-md-6">
-        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-           asp-controller="Massages"
-           asp-action="AvailableMassages"
-           asp-route-currentPage="@(Model.CurrentPage - 1)">
-            Previous
-        </a>
-    </div>
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+               asp-controller="Massages"
+               asp-action="AvailableMassages"
+               asp-route-currentPage="@(Model.CurrentPage - 1)">
+                Previous
+            </a>
+        </div>
 
-    @{
-        var shouldButtonBeDisabled = Model.CurrentPage == Model.MaxPage ||
-                                     Model == null;
-    }
+        @{
+            var shouldButtonBeDisabled = Model.CurrentPage == Model.MaxPage ||
+                                         Model == null;
+        }
 
-    <div class="col-md-6">
-        <a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="margin-top: 10px"
-           asp-controller="Massages"
-           asp-action="AvailableMassages"
-           asp-route-currentPage="@(Model.CurrentPage + 1)">
-            Next
-        </a>
+        <div class="col-md-6">
+            <a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="margin-top: 10px"
+               asp-controller="Massages"
+               asp-action="AvailableMassages"
+               asp-route-currentPage="@(Model.CurrentPage + 1)">
+                Next
+            </a>
+        </div>
     </div>
-</div>
 }

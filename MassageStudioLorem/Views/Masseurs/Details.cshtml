@@ -27,13 +27,37 @@
                             <div class="actions">
                                 @if (Model.MassageId == null)
                                 {
-                                    <a asp-controller="Massages" asp-action="AvailableMassages" asp-route-categoryId="@Model.CategoryId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
-                                    <a asp-controller="Reviews" asp-action="MasseurReviews" asp-route-categoryId="@Model.CategoryId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">See reviews</a>
+                                    <a asp-controller="Massages"
+                                       asp-action="AvailableMassages"
+                                       asp-route-categoryId="@Model.CategoryId"
+                                       asp-route-masseurId="@Model.Id"
+                                       class="btn btn-outline-primary">
+                                        Book
+                                    </a>
+                                    <a asp-controller="Reviews"
+                                       asp-action="MasseurReviews"
+                                       asp-route-categoryId="@Model.CategoryId"
+                                       asp-route-masseurId="@Model.Id"
+                                       class="btn btn-outline-primary">
+                                        See reviews
+                                    </a>
                                 }
                                 else
                                 {
-                                    <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.MassageId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">Book</a>
-                                    <a asp-controller="Reviews" asp-action="MasseurReviews" asp-route-massageId="@Model.MassageId" asp-route-masseurId="@Model.Id" class="btn btn-outline-primary">See reviews</a>
+                                    <a asp-controller="Appointments"
+                                       asp-action="Book"
+                                       asp-route-massageId="@Model.MassageId"
+                                       asp-route-masseurId="@Model.Id"
+                                       class="btn btn-outline-primary">
+                                        Book
+                                    </a>
+                                    <a asp-controller="Reviews"
+                                       asp-action="MasseurReviews"
+                                       asp-route-massageId="@Model.MassageId"
+                                       asp-route-masseurId="@Model.Id"
+                                       class="btn btn-outline-primary">
+                                        See reviews
+                                    </a>
                                 }
                             </div>
                         </div>

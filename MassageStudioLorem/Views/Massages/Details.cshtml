@@ -25,11 +25,23 @@
                             <div class="actions">
                                 @if (Model.MasseurId == null)
                                 {
-                                    <a asp-controller="Masseurs" asp-action="AvailableMasseurs" asp-route-categoryId="@Model.CategoryId" asp-route-massageId="@Model.Id" class="btn btn-outline-primary">Book</a>
+                                    <a asp-controller="Masseurs"
+                                       asp-action="AvailableMasseurs"
+                                       asp-route-categoryId="@Model.CategoryId"
+                                       asp-route-massageId="@Model.Id"
+                                       class="btn btn-outline-primary">
+                                        Book
+                                    </a>
                                 }
                                 else
                                 {
-                                    <a asp-controller="Appointments" asp-action="Book" asp-route-massageId="@Model.Id" asp-route-masseurId="@Model.MasseurId" class="btn btn-outline-primary">Book</a>
+                                    <a asp-controller="Appointments"
+                                       asp-action="Book"
+                                       asp-route-massageId="@Model.Id"
+                                       asp-route-masseurId="@Model.MasseurId"
+                                       class="btn btn-outline-primary">
+                                        Book
+                                    </a>
                                 }
                             </div>
                         </div>
