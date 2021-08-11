@@ -1,6 +1,5 @@
 ﻿namespace MassageStudioLorem.Services.Reviews
 {
-    using MassageStudioLorem.Models.Reviews;
     using Models;
     using System.Collections.Generic;
 

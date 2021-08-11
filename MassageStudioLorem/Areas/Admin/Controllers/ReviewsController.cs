@@ -1,6 +1,5 @@
 ﻿namespace MassageStudioLorem.Areas.Admin.Controllers
 {
-    using MassageStudioLorem.Models.Reviews;
     using MassageStudioLorem.Services.Reviews;
     using MassageStudioLorem.Services.Reviews.Models;
     using Microsoft.AspNetCore.Mvc;

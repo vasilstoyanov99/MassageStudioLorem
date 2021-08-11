@@ -2,7 +2,6 @@
 {
     using Data.Enums;
     using Data.Models;
-    using Massages.Models;
     using MassageStudioLorem.Models.Masseurs;
     using Models;
     using Shared;

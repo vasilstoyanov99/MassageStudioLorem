@@ -5,11 +5,9 @@
     using Data.Enums;
     using Data.Models;
     using Ganss.XSS;
-    using Massages.Models;
     using MassageStudioLorem.Models.Masseurs;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Query.Internal;
     using Models;
     using Shared;
     using System;
