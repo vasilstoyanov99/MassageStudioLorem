@@ -17,31 +17,33 @@
 
     <table class="table table-bordered table-striped text-center">
         <thead class="thead-light">
-            <tr>
-                <th scope="col">Created On</th>
-                <th scope="col">Client First Name</th>
-                <th scope="col">Content</th>
-                <th scope="col">Deletion</th>
-            </tr>
+        <tr>
+            <th scope="col">Created On</th>
+            <th scope="col">Client First Name</th>
+            <th scope="col">Content</th>
+            <th scope="col">Deletion</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var review in Model.Reviews)
-            {
-                <tr>
-                    <td>
-                        @review.CreatedOn.ToString(DateTimeFormat)
-                        @review.CreatedOn.ToString("HH"):@review.CreatedOn.ToString("MM")
-                    </td>
-                    <td>@review.ClientFirstName</td>
-                    <td>@review.Content</td>
-                    <td>
-                        <a class="btn btn-outline-danger btn-sm"
-                           asp-controller="Reviews" asp-action="DeleteReview" asp-route-reviewId="@review.Id">
-                            Delete
-                        </a>
-                    </td>
-                </tr>
-            }
+        @foreach (var review in Model.Reviews)
+        {
+            <tr>
+                <td>
+                    @review.CreatedOn.ToString(DateTimeFormat)
+                    @review.CreatedOn.ToString("HH"):@review.CreatedOn.ToString("MM")
+                </td>
+                <td>@review.ClientFirstName</td>
+                <td>@review.Content</td>
+                <td>
+                    <a class="btn btn-outline-danger btn-sm"
+                       asp-controller="Reviews"
+                       asp-action="DeleteReview"
+                       asp-route-reviewId="@review.Id">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 

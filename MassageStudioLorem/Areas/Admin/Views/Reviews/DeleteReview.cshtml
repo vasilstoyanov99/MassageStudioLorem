@@ -6,7 +6,9 @@
 
 @if (Model != null)
 {
-    <h4 class="offset-md-4 text-danger"><strong>@DeleteReviewWarning</strong></h4>
+    <h4 class="offset-md-4 text-danger">
+        <strong>@DeleteReviewWarning</strong>
+    </h4>
     <form class="col-6 mt-5 text-center offset-md-3" style="font-weight: bold">
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Client First Name</label>
@@ -26,12 +28,18 @@
         <div class="row ml-5">
             <form method="post">
                 <button type="submit" class="btn btn-outline-danger"
-                        asp-controller="Reviews" asp-action="Delete" asp-route-reviewId="@Model.Id">
+                        asp-controller="Reviews"
+                        asp-action="Delete"
+                        asp-route-reviewId="@Model.Id">
                     Yes, Delete It!
                 </button>
             </form>
             <div class="ml-5">
-                <a class="btn btn-outline-success" asp-controller="Reviews" asp-action="All">No, Go Back</a>
+                <a class="btn btn-outline-success"
+                   asp-controller="Reviews"
+                   asp-action="All">
+                    No, Go Back
+                </a>
             </div>
         </div>
     </div>

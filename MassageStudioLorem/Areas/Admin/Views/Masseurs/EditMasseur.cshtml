@@ -54,8 +54,14 @@
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
                 <input type="hidden" name="Id" value="@Model.Id">
-                <input asp-controller="Masseurs" asp-action="Edit" class="btn btn-outline-warning text-center offset-md-4" type="submit" value="Edit" />
-                <a asp-controller="Masseurs" asp-action="All" class="btn btn-outline-primary" style="margin: 5px">Cancel</a>
+                <input asp-controller="Masseurs"
+                       asp-action="Edit"
+                       class="btn btn-outline-warning text-center offset-md-4" type="submit" value="Edit"/>
+                <a asp-controller="Masseurs"
+                   asp-action="All"
+                   class="btn btn-outline-primary" style="margin: 5px">
+                    Cancel
+                </a>
             </form>
         </div>
     </div>

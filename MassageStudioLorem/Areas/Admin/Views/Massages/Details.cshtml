@@ -23,8 +23,18 @@
                         </div>
                         <div class="footer text-center">
                             <div class="actions">
-                                <a asp-controller="Massages" asp-action="EditMassage" asp-route-massageId="@Model.Id" class="btn btn-outline-warning">Edit</a>
-                                <a asp-controller="Massages" asp-action="DeleteMassage" asp-route-massageId="@Model.Id" class="btn btn-outline-danger" style="margin: 10px">Delete</a>
+                                <a asp-controller="Massages"
+                                   asp-action="EditMassage"
+                                   asp-route-massageId="@Model.Id"
+                                   class="btn btn-outline-warning">
+                                    Edit
+                                </a>
+                                <a asp-controller="Massages"
+                                   asp-action="DeleteMassage"
+                                   asp-route-massageId="@Model.Id"
+                                   class="btn btn-outline-danger" style="margin: 10px">
+                                    Delete
+                                </a>
                             </div>
                         </div>
                     </div>

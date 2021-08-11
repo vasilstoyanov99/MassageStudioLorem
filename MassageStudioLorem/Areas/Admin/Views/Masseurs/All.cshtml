@@ -20,7 +20,7 @@
 @if (Model?.Masseurs != null && Model != null)
 {
     <cache expires-after="TimeSpan.FromDays(1)">
-        <partial name="_DividerPartial" model="@ViewBag.Title" />
+        <partial name="_DividerPartial" model="@ViewBag.Title"/>
     </cache>
 
     <form method="get">
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <input class="btn btn-outline-success offset-2" style="margin-bottom: 25px" type="submit" value="Sort" />
+        <input class="btn btn-outline-success offset-2" style="margin-bottom: 25px" type="submit" value="Sort"/>
     </form>
 
     <div class="card-deck">
@@ -48,9 +48,24 @@
                         <img class="card-img-top" src="@masseur.ProfileImageUrl" alt="@masseur.FullName's profile photo'">
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@masseur.FullName</h5>
-                            <a asp-controller="Masseurs" asp-action="Details" asp-route-masseurId="@masseur.Id" class="btn btn-outline-primary">View More</a>
-                            <a asp-controller="Masseurs" asp-action="EditMasseur" asp-route-masseurId="@masseur.Id" class="btn btn-outline-warning">Edit</a>
-                            <a asp-controller="Masseurs" asp-action="DeleteMasseur" asp-route-masseurId="@masseur.Id" class="btn btn-outline-danger" style="margin: 10px">Delete</a>
+                            <a asp-controller="Masseurs"
+                               asp-action="Details"
+                               asp-route-masseurId="@masseur.Id"
+                               class="btn btn-outline-primary">
+                                View More
+                            </a>
+                            <a asp-controller="Masseurs"
+                               asp-action="EditMasseur"
+                               asp-route-masseurId="@masseur.Id"
+                               class="btn btn-outline-warning">
+                                Edit
+                            </a>
+                            <a asp-controller="Masseurs"
+                               asp-action="DeleteMasseur"
+                               asp-route-masseurId="@masseur.Id"
+                               class="btn btn-outline-danger" style="margin: 10px">
+                                Delete
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -64,7 +79,7 @@
                asp-controller="Masseurs"
                asp-action="All"
                asp-route-currentPage="@(Model.CurrentPage - 1)"
-               asp-route-Sorting="@((int)Model.Sorting)">
+               asp-route-Sorting="@((int) Model.Sorting)">
                 Previous
             </a>
         </div>
@@ -79,7 +94,7 @@
                asp-controller="Masseurs"
                asp-action="All"
                asp-route-currentPage="@(Model.CurrentPage + 1)"
-               asp-route-Sorting="@((int)Model.Sorting)">
+               asp-route-Sorting="@((int) Model.Sorting)">
                 Next
             </a>
         </div>

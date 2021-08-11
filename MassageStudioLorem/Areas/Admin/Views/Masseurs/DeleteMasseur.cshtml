@@ -6,19 +6,27 @@
 
 @if (Model != null)
 {
-    <h4 class="offset-md-2 text-danger"><strong>@DeleteMasseurWarning</strong></h4>
+    <h4 class="offset-md-2 text-danger">
+        <strong>@DeleteMasseurWarning</strong>
+    </h4>
     <partial name="_DeleteEntityPartial" model="@Model"/>
 
     <div class="offset-md-4" style="margin-top: 30px">
         <div class="row ml-5">
             <form method="post">
                 <button type="submit" class="btn btn-outline-danger"
-                        asp-controller="Masseurs" asp-action="Delete" asp-route-masseurId="@Model.Id">
+                        asp-controller="Masseurs"
+                        asp-action="Delete"
+                        asp-route-masseurId="@Model.Id">
                     Yes, Delete It!
                 </button>
             </form>
             <div class="ml-5">
-                <a class="btn btn-outline-success" asp-controller="Masseurs" asp-action="All">No, Go Back</a>
+                <a class="btn btn-outline-success"
+                   asp-controller="Masseurs"
+                   asp-action="All">
+                    No, Go Back
+                </a>
             </div>
         </div>
     </div>

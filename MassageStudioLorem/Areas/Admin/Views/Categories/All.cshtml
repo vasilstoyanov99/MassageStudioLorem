@@ -13,7 +13,9 @@
 
 @if (Model.Categories != null)
 {
-    <h5 class="text-danger offset-md-2"><strong>@PerformAction</strong></h5>
+    <h5 class="text-danger offset-md-2">
+        <strong>@PerformAction</strong>
+    </h5>
     <div class="row">
         <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
             <form method="post">
@@ -27,12 +29,14 @@
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
-                <input asp-controller="Categories" asp-action="DeleteCategory" class="btn btn-outline-danger mt-3 text-center offset-md-5" type="submit" value="Delete" />
+                <input asp-controller="Categories"
+                       asp-action="DeleteCategory"
+                       class="btn btn-outline-danger mt-3 text-center offset-md-5" type="submit" value="Delete"/>
             </form>
         </div>
     </div>
 }
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }
