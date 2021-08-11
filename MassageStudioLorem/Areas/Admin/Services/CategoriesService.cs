@@ -55,7 +55,7 @@
         {
             var category = this.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(categoryId))
+            if (CheckIfNull(categoryId))
                 return null;
 
             var deleteCategoryModel = new DeleteCategoryServiceModel
@@ -83,13 +83,13 @@
         {
             var category = this.GetCategoryFromDB(categoryId);
 
-            if (this.CheckIfNull(categoryId))
+            if (CheckIfNull(categoryId))
                 return false;
 
             var masseur = this._data.Masseurs
                 .FirstOrDefault(m => m.CategoryId == categoryId);
 
-            if (!this.CheckIfNull(masseur)) 
+            if (!CheckIfNull(masseur)) 
                 masseur.CategoryId = null;
 
             this._data.SaveChanges();
@@ -112,7 +112,7 @@
             return true;
         }
 
-        private bool CheckIfNull(object obj)
+        private static bool CheckIfNull(object obj)
             => obj == null;
 
         private Category GetCategoryFromDB(string categoryId) =>
