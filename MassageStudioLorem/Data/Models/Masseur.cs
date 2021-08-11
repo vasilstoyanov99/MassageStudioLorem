@@ -21,7 +21,6 @@
         [MaxLength(FullNameMaxLength)] 
         public string FullName { get; set; }
 
-        //TODO: I can add a sorting feature by gender!
         public Gender Gender { get; set; }
 
         [Required]

@@ -37,15 +37,8 @@
                 (masseurId, massageId, massage.Name, masseur.FullName);
         }
 
-        public DateTime ParseDate(string dateAsString)
-        {
-            //TODO: Decided if this if is need
-
-            if (!DateTime.TryParse(dateAsString, out DateTime date))
-                return DateTime.MaxValue;
-
-            return date;
-        }
+        public DateTime ParseDate(string dateAsString) 
+            => DateTime.Parse(dateAsString);
 
         public string CheckIfMasseurUnavailableAndGetErrorMessage
             (DateTime date, string hour, string masseurId)

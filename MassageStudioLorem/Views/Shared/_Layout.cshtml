@@ -29,7 +29,6 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @*//TODO: Use User.IsInRole!*@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             @if (User.IsClient())
@@ -52,7 +51,6 @@
 
                                       }
                             }
-                            //TODO: Check if it should be els!  
                             @if (User.IsMasseur())
                             {
                                 <li class="nav-item">

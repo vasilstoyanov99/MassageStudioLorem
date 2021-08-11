@@ -98,17 +98,17 @@
                 data.SaveChanges();
             }
 
-            var review = new Review()
-            {
-                ClientFirstName = "TestClient",
-                ClientId = "7e3b0c08-14a2-4d6a-8d7c-70cb9fd14ad9",
-                Content = "Test",
-                CreatedOn = DateTime.Now,
-                MasseurId = "4b3b016d-5335-41c9-80b9-0e353c64aa74"
-            };
+            //var review = new Review()
+            //{
+            //    ClientFirstName = "TestClient",
+            //    ClientId = "7e3b0c08-14a2-4d6a-8d7c-70cb9fd14ad9",
+            //    Content = "Test",
+            //    CreatedOn = DateTime.Now,
+            //    MasseurId = "4b3b016d-5335-41c9-80b9-0e353c64aa74"
+            //};
 
-            data.Reviews.Add(review);
-            data.SaveChanges();
+            //data.Reviews.Add(review);
+            //data.SaveChanges();
 
             //var appointment = new Appointment()
             //{

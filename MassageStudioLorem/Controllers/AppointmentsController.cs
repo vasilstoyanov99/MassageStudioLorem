@@ -87,10 +87,6 @@
             var date = this._appointmentsService.ParseDate(query.Date);
             var hour = query.Hour.Trim();
 
-            if(date == DateTime.MaxValue)
-                return this.RedirectToAction
-                    ("Book", new { massageId, masseurId });
-
             var exceededBookedMassagesMessage = this._appointmentsService
                 .CheckIfClientBookedTooManyMassagesInTheSameDay(date, userId);
 

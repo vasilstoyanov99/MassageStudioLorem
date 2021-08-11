@@ -91,8 +91,8 @@
                 return this.View(nameof(this.EditMassage));
             }
 
-            this.TempData[SuccessfullyDeletedMasseurKey] =
-                SuccessfullyDeletedMasseur;
+            this.TempData[SuccessfullyEditedMassageKey] =
+                SuccessfullyEditedMassage;
 
             return this.RedirectToAction(nameof(this.All));
         }
