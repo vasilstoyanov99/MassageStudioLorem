@@ -1,9 +1,6 @@
-﻿namespace MassageStudioLorem.Data.Seeding
+﻿namespace MassageStudioLorem.Data.Seeding.Data
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class CategoriesSeedData
     {
@@ -12,8 +9,8 @@
             Categories = new List<string>()
             {
                 "Energizing", 
-                "For Womеn", 
-                "Relax and Stress Relieve", 
+                "For Womеn",
+                "Relax and Stress Relief", 
                 "Pain Relief"
             };
         }

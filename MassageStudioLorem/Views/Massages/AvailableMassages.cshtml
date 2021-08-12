@@ -46,7 +46,9 @@
             <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
                asp-controller="Massages"
                asp-action="AvailableMassages"
-               asp-route-currentPage="@(Model.CurrentPage - 1)">
+               asp-route-currentPage="@(Model.CurrentPage - 1)"
+               asp-route-masseurId="@Model.MasseurId"
+               asp-route-categoryId="@Model.CategoryId">
                 Previous
             </a>
         </div>
@@ -60,7 +62,9 @@
             <a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="margin-top: 10px"
                asp-controller="Massages"
                asp-action="AvailableMassages"
-               asp-route-currentPage="@(Model.CurrentPage + 1)">
+               asp-route-currentPage="@(Model.CurrentPage + 1)"
+               asp-route-masseurId="@Model.MasseurId"
+               asp-route-categoryId="@Model.CategoryId">
                 Next
             </a>
         </div>

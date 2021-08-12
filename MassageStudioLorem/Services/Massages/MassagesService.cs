@@ -67,7 +67,7 @@
             var totalMassages = massagesQuery
                 .Count(m => m.CategoryId == categoryId);
 
-            if (currentPage > totalMassages || currentPage < 1)
+            if (currentPage > GetMaxPage(totalMassages) || currentPage < 1)
                 currentPage = CurrentPageStart;
 
             return GetAvailableMassagesModel
@@ -266,14 +266,17 @@
             CategoryId = categoryId,
             MasseurId = masseurId,
             CurrentPage = currentPage,
-            MaxPage = Math
-                .Ceiling(totalMassages * 1.00 / ThreeCardsPerPage * 1.00),
+            MaxPage = GetMaxPage(totalMassages),
             Massages = GetAvailableMassagesModels
             (massagesQuery
                 .Where(m => m.CategoryId == categoryId)
-                .Skip((currentPage - 1) * CategoriesPerPage)
-                .Take(CategoriesPerPage))
+                .Skip((currentPage - 1) * ThreeCardsPerPage)
+                .Take(ThreeCardsPerPage))
         };
+
+        private static double GetMaxPage(int count)
+            => Math.Ceiling
+                (count * 1.00 / ThreeCardsPerPage * 1.00);
 
         private static IEnumerable<MassageListingServiceModel>
             GetAvailableMassagesModels

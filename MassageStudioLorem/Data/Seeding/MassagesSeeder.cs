@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Data.Seeding
 {
+    using Data;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -11,24 +12,25 @@
         {
             if (!data.Massages.Any())
             {
-                var energizingCategoryId = data.Categories
-                    .FirstOrDefault(c => c.Name == "Energizing")?.Id;
-
                 var allMassages = new List<Massage>();
+                var categoryIdGetter = new CategoryIdGetter();
+
+                var energizingCategoryId = categoryIdGetter
+                    .GetEnergizingCategoryId(data);
                 SeedMassagesInEnergizingCategory
                     (allMassages, energizingCategoryId);
 
-                var forWomеnCategoryId = data.Categories
-                    .FirstOrDefault(c => c.Name == "For Womеn")?.Id;
+                var forWomеnCategoryId = categoryIdGetter
+                    .GetForWomеnCategoryId(data);
                 SeedMassagesInForWomеnCategory(allMassages, forWomеnCategoryId);
 
-                var relaxAndStressRelieveCategoryId = data.Categories
-                    .FirstOrDefault(c => c.Name == "Relax and Stress Relieve")?.Id;
-                SeedMassagesInRelaxAndStressRelieveCategory
+                var relaxAndStressRelieveCategoryId = categoryIdGetter
+                        .GetRelaxAndStressReliefCategoryId(data);
+                SeedMassagesInRelaxAndStressReliefCategory
                     (allMassages, relaxAndStressRelieveCategoryId);
 
-                var painReliefCategoryId = data.Categories
-                    .FirstOrDefault(c => c.Name == "Pain Relief")?.Id;
+                var painReliefCategoryId = categoryIdGetter
+                    .GetPainReliefCategoryId(data);
                 SeedMassagesInPainReliefCategory(allMassages, painReliefCategoryId);
 
                 data.Massages.AddRange(allMassages);
@@ -101,7 +103,7 @@
             allMassages.Add(prenatal);
         }
 
-        private static void SeedMassagesInRelaxAndStressRelieveCategory
+        private static void SeedMassagesInRelaxAndStressReliefCategory
             (ICollection<Massage> allMassages, string categoryId)
         {
             var shiatsu = new Massage()

@@ -74,7 +74,7 @@
             if (totalMasseurs <= 0)
                 return null;
 
-            if (currentPage > totalMasseurs || currentPage < 1)
+            if (currentPage > GetMaxPage(totalMasseurs) || currentPage < 1)
                 currentPage = CurrentPageStart;
 
             var allMasseursModel = GetAllMasseursModel
@@ -118,7 +118,7 @@
             if (totalMasseurs <= 0)
                 return null;
 
-            if (queryModel.CurrentPage > totalMasseurs || 
+            if (queryModel.CurrentPage > GetMaxPage(totalMasseurs) || 
                 queryModel.CurrentPage < 1)
                 queryModel.CurrentPage = CurrentPageStart;
 
@@ -343,9 +343,9 @@
                 CategoryId = queryModel.CategoryId,
                 Sorting = queryModel.Sorting,
                 Masseurs = GetAvailableMasseursModels(masseursQuery
+                    .Where(m => m.CategoryId == queryModel.CategoryId))
                     .Skip((queryModel.CurrentPage - 1) * ThreeCardsPerPage)
                     .Take(ThreeCardsPerPage)
-                    .Where(c => c.CategoryId == queryModel.CategoryId))
             };
 
         private static IEnumerable<AvailableMasseurListingServiceModel>
