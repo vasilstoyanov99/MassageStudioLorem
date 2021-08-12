@@ -20,7 +20,7 @@
 
             public const int CategoryNameMinLength = 5;
 
-            public const int ShortDescriptionMaxLength = 150;
+            public const int ShortDescriptionMaxLength = 300;
 
             public const int ShortDescriptionMinLength = 20;
 

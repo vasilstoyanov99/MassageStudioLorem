@@ -5,6 +5,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
     using Data;
+    using Data.Seeding;
     using Microsoft.AspNetCore.Identity;
     using System;
     using System.Linq;
@@ -26,7 +27,9 @@
 
             data.Database.Migrate();
 
-            SeedData(data);
+            //SeedData(data);
+            var seeder = new Seeder();
+            seeder.Seed(data, services);
             SeedRoles(services);
 
             return app;
