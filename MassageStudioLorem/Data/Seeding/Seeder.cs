@@ -11,6 +11,8 @@
                 { new CategoriesSeeder(), 
                     new MasseursSeeder(),
                     new MassagesSeeder(),
+                    new RolesSeeder(),
+                    new UsersSeeder()
                 };
 
             foreach (var seeder in seeders)

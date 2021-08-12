@@ -16,8 +16,6 @@
 
         public DbSet<Client> Clients { get; set; }
 
-        //public DbSet<ApplicationUser> IdentityUsers { get; set; }
-
         public DbSet<Massage> Massages { get; set; }
 
         public DbSet<Masseur> Masseurs { get; set; }
@@ -48,13 +46,6 @@
                 .WithMany(x => x.WorkSchedule)
                 .HasForeignKey(x => x.MasseurId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder
-            //    .Entity<Appointment>()
-            //    .HasOne<Client>()
-            //    .WithMany(x => x.Appointments)
-            //    .HasForeignKey(x => x.ClientId)
-            //    .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<Appointment>()

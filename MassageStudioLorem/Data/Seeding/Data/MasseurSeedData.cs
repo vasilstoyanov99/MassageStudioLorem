@@ -10,7 +10,7 @@
 
         public class EnergizingMasseur1
         {
-            public const string FullName = "Nataniel Armstrong";
+            public const string FullName = "Natalie Armstrong";
             public const Gender Gender = Female;
             public const string ProfileImageUrl = "https://i.imgur.com/y94Ylj9.jpg";
             public const string Description = DummyDescription;
