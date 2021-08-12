@@ -126,7 +126,7 @@
 
             var totalReviews = reviewsAsQuery.Count();
 
-            if (currentPage > totalReviews || currentPage < 1)
+            if (currentPage > GetMaxPage(totalReviews) || currentPage < 1)
                 currentPage = CurrentPageStart;
 
             var allReviews = GetAllReviewsModels(reviewsAsQuery, currentPage);
@@ -135,8 +135,7 @@
             {
                 Reviews = allReviews,
                 CurrentPage = currentPage,
-                MaxPage = Math.Ceiling
-                    (totalReviews * 1.00 / ReviewsPerPage * 1.00)
+                MaxPage = GetMaxPage(totalReviews)
             };
 
             return allReviewsModel;
@@ -204,6 +203,9 @@
         private string GetClientFirstName(string clientId) =>
             this._data.Clients
                 .FirstOrDefault(c => c.Id == clientId)?.FirstName;
+
+        private static double GetMaxPage(int count) => Math.Ceiling
+            (count * 1.00 / ReviewsPerPage * 1.00);
 
         private Review GetReviewFromDB(string reviewId) =>
             this._data.Reviews.FirstOrDefault(r => r.Id == reviewId);
