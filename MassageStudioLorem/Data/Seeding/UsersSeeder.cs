@@ -31,6 +31,10 @@
                         await SeedClient(data, userManager);
 
                     if (!data.Users.Any
+                        (u => u.UserName == UsersSeedData.Common.Username + "0"))
+                        await SeedCommonMasseurUser(data, userManager);
+
+                    if (!data.Users.Any
                         (u => u.UserName == UsersSeedData.MaleMasseur.Username))
                         await SeedMaleMasseur(data, userManager);
 
@@ -74,15 +78,41 @@
 
             await userManager.AddToRoleAsync(client, ClientRoleName);
 
-            var userClientId = data.Users.
-                FirstOrDefault
-                    (u => u.UserName == UsersSeedData.Client.Username)?.Id;
             var newClient = new Client() 
             {
-                UserId = userClientId,
+                UserId = client.Id,
                 FirstName = UsersSeedData.Client.FirstName
             };
             data.Clients.Add(newClient);
+        }
+
+        private static async Task SeedCommonMasseurUser
+            (LoremDbContext data, UserManager<IdentityUser> userManager)
+        {
+            var masseurs = data
+                .Masseurs
+                .Where(m => m.FullName != 
+                            MasseurSeedData.EnergizingMasseur1.FullName
+                            && m.FullName != MasseurSeedData.PainRelief1.FullName)
+                .ToList();
+
+            for (int i = 0; i < 8; i++)
+            {
+                var commonMasseur = new IdentityUser()
+                {
+                    Email = UsersSeedData.Common.Email + $"{i}",
+                    UserName = UsersSeedData.Common.Username + $"{i}",
+                    PhoneNumber = UsersSeedData.Common.PhoneNumber + $"{i}"
+                };
+
+                await userManager.CreateAsync
+                    (commonMasseur, UsersSeedData.Common.Password);
+
+                await userManager.AddToRoleAsync
+                    (commonMasseur, MasseurRoleName);
+
+                masseurs[i].UserId = commonMasseur.Id;
+            }
         }
 
         private static async Task SeedMaleMasseur
@@ -100,12 +130,9 @@
 
             await userManager.AddToRoleAsync(maleMasseur, MasseurRoleName);
 
-            var userMasseurId = data.Users.
-                FirstOrDefault
-                    (u => u.UserName == UsersSeedData.MaleMasseur.Username)?.Id;
             var masseur = data.Masseurs.FirstOrDefault
                 (m => m.FullName == MasseurSeedData.PainRelief1.FullName);
-            masseur.UserId = userMasseurId;
+            masseur.UserId = maleMasseur.Id;
         }
 
         private static async Task SeedFemaleMasseur
@@ -124,12 +151,9 @@
             await userManager.AddToRoleAsync
                 (femaleMasseur, MasseurRoleName);
 
-            var userMasseurId = data.Users.
-                FirstOrDefault
-                    (u => u.UserName == UsersSeedData.FemaleMasseur.Username)?.Id;
             var masseur = data.Masseurs.FirstOrDefault
                 (m => m.FullName == MasseurSeedData.EnergizingMasseur1.FullName);
-            masseur.UserId = userMasseurId;
+            masseur.UserId = femaleMasseur.Id;
         }
     }
 }

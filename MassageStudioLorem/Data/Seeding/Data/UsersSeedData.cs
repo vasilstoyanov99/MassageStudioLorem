@@ -37,5 +37,13 @@
             public const string Username = "BestAdminEver";
             public const string Password = DefaultPassword;
         }
+
+        public class Common
+        {
+            public const string Email = "common@lorem.com";
+            public const string Username = "Common";
+            public const string Password = DefaultPassword;
+            public const string PhoneNumber = "Dummy PhoneNumber";
+        }
     }
 }
