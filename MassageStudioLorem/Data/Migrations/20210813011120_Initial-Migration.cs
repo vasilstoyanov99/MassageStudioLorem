@@ -169,6 +169,7 @@ namespace MassageStudioLorem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -183,11 +184,34 @@ namespace MassageStudioLorem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Masseurs",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CategoryId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Masseurs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Masseurs_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Massages",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ShortDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     LongDescription = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
@@ -202,36 +226,27 @@ namespace MassageStudioLorem.Data.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Masseurs",
+                name: "Reviews",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Rating = table.Column<double>(type: "float", nullable: false),
-                    RatersCount = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    ClientId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Masseurs", x => x.Id);
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Masseurs_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Masseurs_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        name: "FK_Reviews_Masseurs_MasseurId",
+                        column: x => x.MasseurId,
+                        principalTable: "Masseurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -241,7 +256,9 @@ namespace MassageStudioLorem.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClientId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MasseurFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MasseurPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -249,18 +266,11 @@ namespace MassageStudioLorem.Data.Migrations
                     MassageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Hour = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BookedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsUserReviewedMasseur = table.Column<bool>(type: "bit", nullable: true)
+                    IsUserReviewedMasseur = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Appointments_Massages_MassageId",
                         column: x => x.MassageId,
@@ -274,37 +284,6 @@ namespace MassageStudioLorem.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MasseurId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_Masseurs_MasseurId",
-                        column: x => x.MasseurId,
-                        principalTable: "Masseurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_ClientId",
-                table: "Appointments",
-                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_MassageId",
@@ -362,30 +341,21 @@ namespace MassageStudioLorem.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ClientId",
-                table: "Comments",
-                column: "ClientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_MasseurId",
-                table: "Comments",
-                column: "MasseurId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Massages_CategoryId",
                 table: "Massages",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Masseurs_CategoryId",
-                table: "Masseurs",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Masseurs_UserId",
                 table: "Masseurs",
                 column: "UserId",
-                unique: true);
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_MasseurId",
+                table: "Reviews",
+                column: "MasseurId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -409,7 +379,10 @@ namespace MassageStudioLorem.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Massages");
@@ -418,16 +391,13 @@ namespace MassageStudioLorem.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Clients");
-
-            migrationBuilder.DropTable(
                 name: "Masseurs");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "AspNetUsers");
         }
     }
 }
