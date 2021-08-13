@@ -30,9 +30,11 @@
                         (u => u.UserName == UsersSeedData.Client.Username))
                         await SeedClient(data, userManager);
 
-                    if (!data.Users.Any
-                        (u => u.UserName == UsersSeedData.Common.Username + "0"))
-                        await SeedCommonMasseurUser(data, userManager);
+                    if (data.Users.Count(u => u.UserName !=
+                            UsersSeedData.FemaleMasseur.Username &&
+                            u.UserName !=
+                            UsersSeedData.MaleMasseur.Username) == 2)
+                    await SeedCommonMasseurUser(data, userManager);
 
                     if (!data.Users.Any
                         (u => u.UserName == UsersSeedData.MaleMasseur.Username))
