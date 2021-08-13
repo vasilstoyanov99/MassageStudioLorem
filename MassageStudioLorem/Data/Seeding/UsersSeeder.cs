@@ -5,7 +5,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using Models;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using static Areas.Masseur.MasseurConstants;
@@ -112,7 +111,6 @@
 
                 await userManager.AddToRoleAsync
                     (commonMasseur, MasseurRoleName);
-
                 masseurs[i].UserId = commonMasseur.Id;
             }
         }

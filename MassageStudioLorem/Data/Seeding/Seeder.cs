@@ -12,7 +12,8 @@
                     new MasseursSeeder(),
                     new MassagesSeeder(),
                     new RolesSeeder(),
-                    new UsersSeeder()
+                    new UsersSeeder(),
+                    new AppointmentsSeeder()
                 };
 
             foreach (var seeder in seeders)
