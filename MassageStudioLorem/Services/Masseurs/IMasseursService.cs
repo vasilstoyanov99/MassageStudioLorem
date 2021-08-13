@@ -1,11 +1,12 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs
 {
+    using System.Collections.Generic;
+
     using Data.Enums;
     using Data.Models;
-    using MassageStudioLorem.Models.Masseurs;
     using Models;
     using Shared;
-    using System.Collections.Generic;
+    using MassageStudioLorem.Models.Masseurs;
 
     public interface IMasseursService
     {

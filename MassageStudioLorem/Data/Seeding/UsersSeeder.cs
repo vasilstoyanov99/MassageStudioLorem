@@ -1,13 +1,15 @@
 ﻿namespace MassageStudioLorem.Data.Seeding
 {
-    using Data;
-    using Interfaces;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.DependencyInjection;
-    using Models;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.DependencyInjection;
+
+    using Models;
+    using Data;
+    using Interfaces;
+
     using static Areas.Masseur.MasseurConstants;
     using static Areas.Admin.AdminConstants;
     using static Areas.Client.ClientConstants;

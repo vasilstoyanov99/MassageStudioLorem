@@ -1,11 +1,13 @@
 ﻿namespace MassageStudioLorem.Areas.Admin.Controllers
 {
-    using Data.Enums;
-    using MassageStudioLorem.Services.Masseurs;
-    using MassageStudioLorem.Services.Masseurs.Models;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Linq;
+    using Data.Enums;
+    using Microsoft.AspNetCore.Mvc;
+
+    using MassageStudioLorem.Services.Masseurs;
+    using MassageStudioLorem.Services.Masseurs.Models;
+
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.GlobalConstants.Notifications;
 

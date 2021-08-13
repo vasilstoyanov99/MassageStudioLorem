@@ -1,8 +1,10 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs.Models
 {
-    using Data.Enums;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using Data.Enums;
+
     using static Global.GlobalConstants.Paging;
 
     public class AllMasseursQueryServiceModel

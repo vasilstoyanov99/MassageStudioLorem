@@ -1,7 +1,8 @@
 ﻿namespace MassageStudioLorem.Services.Massages.Models
 {
-    using Masseurs.Models;
     using System.Collections.Generic;
+
+    using Masseurs.Models;
 
     public class AddMassageFormModel : EditMassageFormModel
     {

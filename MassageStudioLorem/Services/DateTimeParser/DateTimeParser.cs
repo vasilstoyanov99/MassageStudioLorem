@@ -1,8 +1,9 @@
 ﻿namespace MassageStudioLorem.Services.DateTimeParser
 {
-    using Global;
     using System;
     using System.Globalization;
+
+    using Global;
 
     public class DateTimeParser : IDateTimeParserService
     {

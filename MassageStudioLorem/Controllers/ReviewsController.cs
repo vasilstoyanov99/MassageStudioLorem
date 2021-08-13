@@ -1,12 +1,14 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Infrastructure;
+    using System;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using Infrastructure;
     using Models.Reviews;
     using Services.Reviews;
     using Services.Reviews.Models;
-    using System;
+
     using static Global.GlobalConstants.ErrorMessages;
     using static Areas.Client.ClientConstants;
 

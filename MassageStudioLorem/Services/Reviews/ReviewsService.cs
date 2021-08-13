@@ -1,12 +1,15 @@
 ﻿namespace MassageStudioLorem.Services.Reviews
 {
-    using Data;
-    using Data.Models;
-    using Ganss.XSS;
-    using Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using Ganss.XSS;
+
+    using Data;
+    using Data.Models;
+    using Models;
+
     using static Global.GlobalConstants.Paging;
 
     public class ReviewsService : IReviewsService

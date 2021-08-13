@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Services.Reviews.Models
 {
     using System.Collections.Generic;
+
     using static Global.GlobalConstants.Paging;
 
     public class AllReviewsQueryServiceModel

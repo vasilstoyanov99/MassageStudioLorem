@@ -1,10 +1,11 @@
 ﻿namespace MassageStudioLorem.Data.Seeding
 {
+    using System;
+    using System.Linq;
+
     using Data;
     using Interfaces;
     using Models;
-    using System;
-    using System.Linq;
 
     public class AppointmentsSeeder : ISeeder
     {

@@ -1,9 +1,10 @@
 ﻿namespace MassageStudioLorem.Services.Appointments.Models
 {
-    using Global;
-    using MassageStudioLorem.Models.CustomValidationAttributes;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using Global;
+    using MassageStudioLorem.Models.CustomValidationAttributes;
 
     public class BookAppointmentServiceModel
     {

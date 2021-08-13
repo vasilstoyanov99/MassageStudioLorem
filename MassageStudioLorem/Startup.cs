@@ -1,6 +1,5 @@
 ﻿namespace MassageStudioLorem
 {
-    using Areas.Admin.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -8,10 +7,12 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.EntityFrameworkCore;
-    using Data;
-    using Infrastructure;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+
+    using Areas.Admin.Services;
+    using Data;
+    using Infrastructure;
     using Services.Appointments;
     using Services.Home;
     using Services.Massages;

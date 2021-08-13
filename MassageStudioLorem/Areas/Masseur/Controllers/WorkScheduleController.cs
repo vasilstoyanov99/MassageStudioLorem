@@ -1,9 +1,11 @@
 ﻿namespace MassageStudioLorem.Areas.Masseur.Controllers
 {
-    using Infrastructure;
-    using Microsoft.AspNetCore.Mvc;
-    using Services.Appointments;
     using System;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Infrastructure;
+    using Services.Appointments;
+
     using static Global.GlobalConstants.ErrorMessages;
 
     public class WorkScheduleController : MasseurController

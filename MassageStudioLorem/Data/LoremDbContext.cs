@@ -2,8 +2,9 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using Models;
     using Microsoft.AspNetCore.Identity;
+
+    using Models;
 
     public class LoremDbContext : IdentityDbContext
     {

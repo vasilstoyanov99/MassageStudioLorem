@@ -1,8 +1,9 @@
 ﻿namespace MassageStudioLorem.Areas.Admin.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
     using Infrastructure;
     using MassageStudioLorem.Services.Home;
-    using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : AdminController
     {

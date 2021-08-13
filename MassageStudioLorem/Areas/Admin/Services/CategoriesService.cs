@@ -1,12 +1,14 @@
 ﻿namespace MassageStudioLorem.Areas.Admin.Services
 {
-    using Data;
-    using Data.Models;
-    using Ganss.XSS;
-    using MassageStudioLorem.Services.Massages;
-    using Models;
     using System.Collections.Generic;
     using System.Linq;
+
+    using Ganss.XSS;
+
+    using Data;
+    using Data.Models;
+    using MassageStudioLorem.Services.Massages;
+    using Models;
 
     public class CategoriesService : ICategoriesService
     {

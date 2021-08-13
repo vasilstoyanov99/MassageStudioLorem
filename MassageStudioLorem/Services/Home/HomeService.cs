@@ -1,7 +1,8 @@
 ﻿namespace MassageStudioLorem.Services.Home
 {
-    using Data;
     using System.Linq;
+
+    using Data;
 
     public class HomeService : IHomeService
     {

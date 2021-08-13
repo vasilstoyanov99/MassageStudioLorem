@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Data.Seeding.Data
 {
     using Enums;
+
     using static Enums.Gender;
 
     public class MasseurSeedData

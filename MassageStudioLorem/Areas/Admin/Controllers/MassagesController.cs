@@ -1,10 +1,12 @@
 ﻿namespace MassageStudioLorem.Areas.Admin.Controllers
 {
-    using MassageStudioLorem.Services.Massages;
-    using MassageStudioLorem.Services.Massages.Models;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
+
+    using MassageStudioLorem.Services.Massages;
+    using MassageStudioLorem.Services.Massages.Models;
+
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.GlobalConstants.Notifications;
 

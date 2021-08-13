@@ -1,15 +1,18 @@
 ﻿namespace MassageStudioLorem.Services.Massages
 {
-    using Data;
-    using Data.Models;
-    using Ganss.XSS;
-    using Masseurs.Models;
-    using Microsoft.EntityFrameworkCore;
-    using Models;
-    using Shared;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+
+    using Ganss.XSS;
+
+    using Data;
+    using Data.Models;
+    using Masseurs.Models;
+    using Models;
+    using Shared;
+   
     using static Global.GlobalConstants.Paging;
 
     public class MassagesService : IMassagesService

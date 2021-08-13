@@ -1,12 +1,14 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Infrastructure;
+    using System;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+
+    using Infrastructure;
     using Models.Appointments;
     using Services.Appointments;
     using Services.Appointments.Models;
-    using System;
+
     using static Global.GlobalConstants.ErrorMessages;
     using static Areas.Client.ClientConstants;
 
@@ -74,15 +76,13 @@
         [HttpPost]
         public IActionResult Book(BookAppointmentServiceModel query)
         {
-            //TODO: Move the code to methods
-
             var massageId = query.MassageId;
             var masseurId = query.MasseurId;
             var userId = this.User.GetId();
 
             if (!this.ModelState.IsValid)
-                return this.RedirectToAction("Book", new
-                    {massageId, masseurId});
+                return this.RedirectToAction
+                ("Book", new {massageId, masseurId});
 
             var date = this._appointmentsService.ParseDate(query.Date);
             var hour = query.Hour.Trim();
@@ -124,9 +124,5 @@
 
             return this.RedirectToAction("Index");
         }
-
-        //TODO: Check if it needs to be used!
-        //private bool CheckIfNull(object obj)
-        //    => obj == null;
     }
 }

@@ -1,16 +1,18 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Data.Enums;
-    using Infrastructure;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-    using Models.Masseurs;
-    using Services.Masseurs;
-    using Services.Masseurs.Models;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Data.Enums;
+    using Infrastructure;
+    using Models.Masseurs;
+    using Services.Masseurs;
+    using Services.Masseurs.Models;
+
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.GlobalConstants.Notifications;
     using static Areas.Client.ClientConstants;

@@ -1,10 +1,11 @@
 ﻿namespace MassageStudioLorem.Services.Massages
 {
+    using System.Collections.Generic;
+
     using Data.Models;
     using Masseurs.Models;
     using Models;
     using Shared;
-    using System.Collections.Generic;
 
     public interface IMassagesService
     {

@@ -1,18 +1,21 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs
 {
+    using System;
     using System.Linq;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+
+    using Ganss.XSS;
+
     using Data;
     using Data.Enums;
     using Data.Models;
-    using Ganss.XSS;
     using MassageStudioLorem.Models.Masseurs;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
     using Models;
     using Shared;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+
     using static Global.GlobalConstants.Paging;
     using static Areas.Masseur.MasseurConstants;
     using static Areas.Client.ClientConstants;

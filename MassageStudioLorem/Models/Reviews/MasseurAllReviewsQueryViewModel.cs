@@ -1,7 +1,8 @@
 ﻿namespace MassageStudioLorem.Models.Reviews
 {
-    using Services.Reviews.Models;
     using System.Collections.Generic;
+
+    using Services.Reviews.Models;
 
     public class MasseurAllReviewsQueryViewModel
     {

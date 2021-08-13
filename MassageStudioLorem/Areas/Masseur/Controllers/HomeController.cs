@@ -1,7 +1,8 @@
 ﻿namespace MassageStudioLorem.Areas.Masseur.Controllers
 {
-    using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
+
+    using Infrastructure;
     using Services.Home;
 
     public class HomeController : MasseurController

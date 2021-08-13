@@ -1,8 +1,10 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
-    using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
+
+    using Infrastructure;
     using Services.Home;
+
     using static Areas.Client.ClientConstants;
     using static Areas.Masseur.MasseurConstants;
     using static Areas.Admin.AdminConstants;

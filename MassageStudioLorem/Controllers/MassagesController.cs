@@ -4,10 +4,12 @@
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using static Global.GlobalConstants.ErrorMessages;
+
     using Models.Massages;
     using Services.Massages;
     using Services.Massages.Models;
+
+    using static Global.GlobalConstants.ErrorMessages;
     using static Areas.Client.ClientConstants;
 
     [Authorize(Roles = ClientRoleName)]

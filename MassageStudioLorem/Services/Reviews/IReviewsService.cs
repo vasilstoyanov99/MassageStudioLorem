@@ -1,7 +1,8 @@
 ﻿namespace MassageStudioLorem.Services.Reviews
 {
-    using Models;
     using System.Collections.Generic;
+
+    using Models;
 
     public interface IReviewsService
     {

@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+
     using static Global.GlobalConstants.DataValidations;
 
     public class Review

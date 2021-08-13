@@ -1,13 +1,12 @@
 ﻿namespace MassageStudioLorem.Services.Reviews.Models
 {
     using System.ComponentModel.DataAnnotations;
+
     using static Global.GlobalConstants.DataValidations;
     using static Global.GlobalConstants.ErrorMessages;
 
     public class ReviewMasseurFormServiceModel
     {
-        //TODO: Check I more validation attributes need to be added in the other view models!
-
         [Required]
         [StringLength(ReviewMaxLength, 
             MinimumLength = ReviewMinLength,

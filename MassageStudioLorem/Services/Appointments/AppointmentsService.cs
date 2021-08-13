@@ -1,12 +1,14 @@
 ﻿namespace MassageStudioLorem.Services.Appointments
 {
-    using Data;
-    using Data.Models;
-    using Microsoft.EntityFrameworkCore;
-    using Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+
+    using Data;
+    using Data.Models;
+    using Models;
+
     using static Global.GlobalConstants.DataValidations;
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.DefaultHourSchedule;

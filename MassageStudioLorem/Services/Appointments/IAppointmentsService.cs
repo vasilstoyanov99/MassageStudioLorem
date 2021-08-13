@@ -1,8 +1,9 @@
 ﻿namespace MassageStudioLorem.Services.Appointments
 {
-    using Models;
     using System;
     using System.Collections.Generic;
+
+    using Models;
 
     public interface IAppointmentsService
     {
