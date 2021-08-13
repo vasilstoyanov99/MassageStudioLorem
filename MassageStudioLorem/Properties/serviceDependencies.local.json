@@ -3,6 +3,14 @@
     "mssql1": {
       "type": "mssql.local",
       "connectionId": "DefaultConnection"
+    },
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }
