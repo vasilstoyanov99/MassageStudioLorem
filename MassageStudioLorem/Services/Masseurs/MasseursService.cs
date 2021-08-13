@@ -203,7 +203,6 @@
             masseur.Description = htmlSanitizer
                 .Sanitize(editMasseurModel.Description);
             masseur.FullName = htmlSanitizer.Sanitize(editMasseurModel.FullName);
-            masseur.Gender = editMasseurModel.Gender;
             masseur.ProfileImageUrl = htmlSanitizer
                 .Sanitize(editMasseurModel.ProfileImageUrl);
 
