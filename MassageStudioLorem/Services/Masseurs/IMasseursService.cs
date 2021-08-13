@@ -5,8 +5,8 @@
     using Data.Enums;
     using Data.Models;
     using Models;
-    using Shared;
     using MassageStudioLorem.Models.Masseurs;
+    using SharedModels;
 
     public interface IMasseursService
     {

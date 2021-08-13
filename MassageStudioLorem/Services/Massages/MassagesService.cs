@@ -11,8 +11,8 @@
     using Data.Models;
     using Masseurs.Models;
     using Models;
-    using Shared;
-   
+    using SharedModels;
+
     using static Global.GlobalConstants.Paging;
 
     public class MassagesService : IMassagesService

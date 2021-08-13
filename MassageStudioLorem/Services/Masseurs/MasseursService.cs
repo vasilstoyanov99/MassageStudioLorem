@@ -14,7 +14,7 @@
     using Data.Models;
     using MassageStudioLorem.Models.Masseurs;
     using Models;
-    using Shared;
+    using SharedModels;
 
     using static Global.GlobalConstants.Paging;
     using static Areas.Masseur.MasseurConstants;

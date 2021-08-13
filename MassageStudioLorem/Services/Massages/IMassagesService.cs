@@ -5,7 +5,7 @@
     using Data.Models;
     using Masseurs.Models;
     using Models;
-    using Shared;
+    using SharedModels;
 
     public interface IMassagesService
     {

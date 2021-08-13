@@ -1,4 +1,4 @@
-﻿namespace MassageStudioLorem.Services.Shared
+﻿namespace MassageStudioLorem.Services.SharedModels
 {
     public class DeleteEntityServiceModel
     {
