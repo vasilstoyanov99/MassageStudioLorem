@@ -3,6 +3,7 @@
     using Data;
     using Data.Models;
     using Ganss.XSS;
+    using Masseurs.Models;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Shared;
@@ -175,6 +176,11 @@
             return editMassageDetailsModel;
         }
 
+        public Category GetCategoryFromDB(string categoryId) =>
+            this._data
+                .Categories
+                .FirstOrDefault(c => c.Id == categoryId);
+
         public bool CheckIfMassageEditedSuccessfully
             (EditMassageFormModel editMassageModel)
         {
@@ -195,6 +201,37 @@
             this._data.SaveChanges();
 
             return true;
+        }
+
+        public bool CheckIfMassageNameExists(string massageName)
+            => this._data.Massages.Any(m => m.Name == massageName);
+
+        public IEnumerable<MassageCategoryServiceModel> GetCategories()
+            => this._data
+                ?.Categories
+                .Select(c => new MassageCategoryServiceModel()
+                    { Id = c.Id, Name = c.Name })
+                .OrderBy(c => c.Name)
+                .ToList();
+
+        public void AddMassage(AddMassageFormModel addMassageModel)
+        {
+            var htmlSanitizer = new HtmlSanitizer();
+
+            var massage = new Massage()
+            {
+                Name = htmlSanitizer.Sanitize(addMassageModel.Name),
+                ShortDescription = htmlSanitizer
+                    .Sanitize(addMassageModel.ShortDescription),
+                LongDescription = htmlSanitizer
+                    .Sanitize(addMassageModel.LongDescription),
+                CategoryId = addMassageModel.CategoryId,
+                ImageUrl = htmlSanitizer.Sanitize(addMassageModel.ImageUrl),
+                Price = addMassageModel.Price
+            };
+
+            this._data.Massages.Add(massage);
+            this._data.SaveChanges();
         }
 
         private static bool CheckIfNull(object obj)
@@ -313,11 +350,6 @@
             this._data
                 .Massages
                 .FirstOrDefault(m => m.Id == massageId);
-
-        private Category GetCategoryFromDB(string categoryId) =>
-            this._data
-                .Categories
-                .FirstOrDefault(c => c.Id == categoryId);
 
         private Massage ReturnMassageIfAvailableMassageQueryDataIsValid
             (string massageId, string masseurId)

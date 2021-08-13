@@ -83,7 +83,7 @@
             public const string InvalidPhoneNumber
                 = "The provided Phone Number is not valid or contains unnecessary white spaces!";
 
-            public const string CategoryIdError = "Category does not exist!";
+            public const string CategoryIdError = "Category does not exists!";
 
             public const string GenderIdError = "Please choose between the provided options!";
             
@@ -128,7 +128,9 @@
 
             public const string MassageDescriptionLength
                 = "The provided description must be at least {2} and {1} characters long!";
-             
+
+            public const string MassageNameError = "A massage with the provided name -> {0} <- already exists!";
+
             public const string PriceRange
                 = "The provided price must be between {2} $ and {1} $!";
 
@@ -197,6 +199,11 @@
                 "SEMK";
 
             public const string SuccessfullyEditedMassage = "The massage was edited successfully! ";
+
+            public const string SuccessfullyAddedMassageKey =
+                "SAMK";
+
+            public const string SuccessfullyAddedMassage = "The massage was added successfully! ";
 
             public const string DeleteCategoryWarning =
                 "Deleting this category will result in the deletion of all its massages, their appointments, reviews and all of the masseurs under this category will be removed from it!";

@@ -16,10 +16,16 @@
         @TempData[SuccessfullyEditedMassageKey]
     </div>
 }
+@if (TempData.ContainsKey(SuccessfullyAddedMassageKey))
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData[SuccessfullyAddedMassageKey]
+    </div>
+}
 
 @if (Model != null)
 {
-    <partial name="_DividerPartial" model="@Model.Name"/>
+    <partial name="_DividerPartial" model="@Model.Name" />
 
     <div class="card-deck">
         @foreach (var massage in Model.Massages)
@@ -83,8 +89,16 @@
             </a>
         </div>
     </div>
+
+    <div class="text-center">
+        <a class="btn btn-outline-success"
+           asp-controller="Massages"
+           asp-action="AddMassage">
+            Add Massage
+        </a>
+    </div>
 }
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -1,0 +1,67 @@
+﻿@model AddMassageFormModel
+
+@{ ViewBag.Title = "Add Massage"; }
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control">
+                    <span asp-validation-for="Name" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortDescription"></label>
+                    <textarea asp-for="ShortDescription" class="form-control"></textarea>
+                    <span asp-validation-for="ShortDescription" class="small text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="LongDescription"></label>
+                    <textarea asp-for="LongDescription" rows="4" class="form-control"></textarea>
+                    <span asp-validation-for="LongDescription" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl"></label>
+                    <input asp-for="ImageUrl" class="form-control">
+                    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control">
+                    <span asp-validation-for="Price" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId">
+                        Please choose a category!
+                    </label>
+                    <select asp-for="CategoryId" class="form-control">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryId" class="small text-danger"></span>
+                </div>
+                <input type="hidden" name="Id" value="@Model.Id">
+                <input asp-controller="Massages"
+                       asp-action="Add"
+                       class="btn btn-outline-success text-center offset-md-4" type="submit" value="Add" />
+                <a asp-controller="Massages"
+                   asp-action="All"
+                   class="btn btn-outline-primary" style="margin: 5px">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

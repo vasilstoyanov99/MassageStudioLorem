@@ -4,6 +4,7 @@
     using MassageStudioLorem.Services.Massages.Models;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Linq;
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.GlobalConstants.Notifications;
 
@@ -93,6 +94,43 @@
 
             this.TempData[SuccessfullyEditedMassageKey] =
                 SuccessfullyEditedMassage;
+
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        public IActionResult AddMassage()
+        {
+            var addMassageModel = new AddMassageFormModel() 
+                { Categories = this._massagesService.GetCategories() };
+
+            if (addMassageModel.Categories?.Count() <= 0)
+                this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
+
+            return this.View(addMassageModel);
+        }
+
+        [HttpPost]
+        public IActionResult Add(AddMassageFormModel addMassageModel)
+        {
+            if (this._massagesService
+                .GetCategoryFromDB(addMassageModel.CategoryId) == null)
+                this.ModelState.AddModelError(String.Empty, CategoryIdError);
+
+            if (this._massagesService.CheckIfMassageNameExists(addMassageModel.Name))
+                this.ModelState.AddModelError(String.Empty,
+                    String.Format(MassageNameError, addMassageModel.Name));
+
+            if (!this.ModelState.IsValid || this.ModelState.ErrorCount > 0)
+            {
+                addMassageModel.Categories = this._massagesService.GetCategories();
+
+                return this.View(nameof(this.AddMassage), addMassageModel);
+            }
+
+            this._massagesService.AddMassage(addMassageModel);
+
+            this.TempData[SuccessfullyAddedMassageKey] =
+                SuccessfullyAddedMassage;
 
             return this.RedirectToAction(nameof(this.All));
         }
