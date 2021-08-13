@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Data.Seeding
 {
     using Data;
+    using Interfaces;
     using Models;
     using System;
     using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace MassageStudioLorem.Data.Seeding
+﻿namespace MassageStudioLorem.Data.Seeding.Interfaces
 {
     using System;
 

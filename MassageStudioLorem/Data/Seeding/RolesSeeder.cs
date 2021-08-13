@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Data.Seeding
 {
+    using Interfaces;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
     using System;

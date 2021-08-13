@@ -1,5 +1,6 @@
 ﻿namespace MassageStudioLorem.Data.Seeding
 {
+    using Interfaces;
     using System;
     using System.Collections.Generic;
 
