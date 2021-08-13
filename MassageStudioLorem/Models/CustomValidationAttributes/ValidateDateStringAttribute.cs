@@ -15,7 +15,7 @@
             if (!DateTime.TryParse(dateAsString, out DateTime dateTime))
                 return false;
 
-            if (dateTime < DateTime.Now.Date)
+            if (dateTime < DateTime.UtcNow.Date)
                 return false;
 
             return true;

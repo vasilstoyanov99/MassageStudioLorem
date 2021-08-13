@@ -14,7 +14,7 @@
             if (string.IsNullOrEmpty(hourAsString))
                 return false;
 
-            if (!DateTime.TryParse(hourAsString, out DateTime dateTime))
+            if (!DateTime.TryParse(hourAsString, out DateTime _))
                 return false;
 
             if (HourScheduleAsString == null)
