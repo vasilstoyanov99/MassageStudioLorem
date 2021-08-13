@@ -45,8 +45,8 @@
         public IActionResult BecomeMasseur
             (BecomeMasseurFormModel masseurModel)
         {
-            if (this._masseursService.
-                GetCategoryFromDB(masseurModel.CategoryId) == null)
+            if (CheckIfNull(this._masseursService.
+                GetCategoryFromDB(masseurModel.CategoryId)))
                 this.ModelState.AddModelError(String.Empty, CategoryIdError);
 
             if (!Enum.TryParse(typeof(Gender),
@@ -84,13 +84,13 @@
             var allMasseursModel = this._masseursService
                 .GetAllMasseurs(query.CurrentPage, query.Sorting);
 
-            if (allMasseursModel == null)
+            if (CheckIfNull(allMasseursModel))
             {
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
                 return this.View(null);
             }
             
-            if (allMasseursModel.Masseurs == null)
+            if (CheckIfNull(allMasseursModel.Masseurs))
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
 
             return this.View(allMasseursModel);
@@ -102,7 +102,7 @@
             var masseurDetails = this._masseursService
                 .GetMasseurDetails(queryModel);
 
-            if (masseurDetails == null) 
+            if (CheckIfNull(masseurDetails)) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(masseurDetails);
@@ -114,7 +114,7 @@
             var availableMasseursModel = this._masseursService.
                 GetAvailableMasseurs(queryModel);
             
-            if (availableMasseursModel == null)
+            if (CheckIfNull(availableMasseursModel))
             {
                 this.ModelState.AddModelError
                     (String.Empty, SomethingWentWrong);
@@ -122,7 +122,7 @@
                 return this.View((AvailableMasseursQueryServiceModel) null);
             }
 
-            if (availableMasseursModel.Masseurs == null)
+            if (CheckIfNull(availableMasseursModel.Masseurs))
             {
                 this.ModelState
                     .AddModelError(String.Empty, NoMasseursFoundUnderCategory);
@@ -138,10 +138,13 @@
             var masseurDetailsModel = this._masseursService
                 .GetAvailableMasseurDetails(masseurId);
 
-            if (masseurDetailsModel == null)
+            if (CheckIfNull(masseurDetailsModel))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
-            return this.View("Details", masseurDetailsModel);
+            return this.View("/Views/Masseurs/Details.cshtml", masseurDetailsModel);
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

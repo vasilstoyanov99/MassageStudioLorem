@@ -23,13 +23,13 @@
             var allMasseursModel = this._masseursService
                 .GetAllMasseurs(query.CurrentPage, query.Sorting);
 
-            if (allMasseursModel == null)
+            if (CheckIfNull(allMasseursModel))
             {
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
                 return this.View(null);
             }
 
-            if (allMasseursModel.Masseurs == null)
+            if (CheckIfNull(allMasseursModel.Masseurs))
                 this.ModelState.AddModelError(String.Empty, NoMasseursFound);
 
             return this.View(allMasseursModel);
@@ -40,7 +40,7 @@
             var masseurDetailsModel = this._masseursService
                 .GetMasseurDetailsForEdit(masseurId);
 
-            if (masseurDetailsModel == null)
+            if (CheckIfNull(masseurDetailsModel))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(masseurDetailsModel);
@@ -60,8 +60,8 @@
         [HttpPost]
         public IActionResult Edit(EditMasseurFormModel editMasseurModel)
         {
-            if (this._masseursService.
-                GetCategoryFromDB(editMasseurModel.CategoryId) == null)
+            if (CheckIfNull(this._masseursService.
+                GetCategoryFromDB(editMasseurModel.CategoryId)))
                 this.ModelState.AddModelError(String.Empty, CategoryIdError);
 
             if (!Enum.TryParse(typeof(Gender),
@@ -94,7 +94,7 @@
             var masseurData = this._masseursService
                 .GetMasseurDataForDelete(masseurId);
 
-            if (masseurData == null) 
+            if (CheckIfNull(masseurData)) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(masseurData);
@@ -114,5 +114,8 @@
 
             return this.RedirectToAction(nameof(this.All));
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

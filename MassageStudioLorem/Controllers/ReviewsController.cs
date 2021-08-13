@@ -38,7 +38,7 @@
                 .GetDataForReview(userId, queryModel.MasseurId,
                     queryModel.AppointmentId);
 
-            if (reviewMasseurModel == null)
+            if (CheckIfNull(reviewMasseurModel))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(reviewMasseurModel);
@@ -74,5 +74,8 @@
                 Reviews = reviews
             });
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

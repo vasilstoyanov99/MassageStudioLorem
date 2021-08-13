@@ -42,7 +42,7 @@
             var cancelAppointmentModel = this._appointmentsService
                 .GetAppointment(appointmentId);
 
-            if (cancelAppointmentModel == null)
+            if (CheckIfNull(cancelAppointmentModel))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(cancelAppointmentModel);
@@ -67,7 +67,7 @@
                 this._appointmentsService
                     .GetTheMasseurSchedule(query.MasseurId, query.MassageId);
 
-            if (appointmentModel == null) 
+            if (CheckIfNull(appointmentModel)) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(appointmentModel);
@@ -90,7 +90,7 @@
             var exceededBookedMassagesMessage = this._appointmentsService
                 .CheckIfClientBookedTooManyMassagesInTheSameDay(date, userId);
 
-            if (exceededBookedMassagesMessage != null)
+            if (!CheckIfNull(exceededBookedMassagesMessage))
             {
                 this.ModelState.AddModelError
                     (String.Empty, exceededBookedMassagesMessage);
@@ -111,7 +111,7 @@
                     CheckIfMasseurUnavailableAndGetErrorMessage
                         (date, hour, masseurId);
 
-            if (availableHoursMessage != null)
+            if (!CheckIfNull(availableHoursMessage))
             {
                 this.ModelState.AddModelError
                     (String.Empty, availableHoursMessage);
@@ -124,5 +124,8 @@
 
             return this.RedirectToAction("Index");
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

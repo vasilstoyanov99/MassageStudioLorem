@@ -22,10 +22,13 @@
             var upcomingAppointmentsModels = this._appointmentsService
                 .GetMasseurUpcomingAppointments(userId);
 
-            if (upcomingAppointmentsModels == null)
+            if (CheckIfNull(upcomingAppointmentsModels))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(upcomingAppointmentsModels);
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

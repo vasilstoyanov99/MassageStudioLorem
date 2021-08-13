@@ -30,7 +30,7 @@
             var reviewDataModel = this._reviewsService
                 .GetReviewDataForDelete(reviewId);
 
-            if (reviewDataModel == null) 
+            if (CheckIfNull(reviewDataModel)) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(reviewDataModel);
@@ -50,5 +50,8 @@
 
             return this.RedirectToAction(nameof(this.All));
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

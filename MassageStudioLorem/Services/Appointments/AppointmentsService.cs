@@ -62,7 +62,7 @@
 
                 var hoursBookedInTheDay = masseursQuery
                     .FirstOrDefault(m => m.Id == masseurId)
-                    .WorkSchedule
+                    ?.WorkSchedule
                     .Count(ws => ws.Date.Day == date.Day && 
                                  ws.Date.Month == date.Month);
 

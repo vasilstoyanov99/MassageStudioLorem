@@ -24,7 +24,7 @@
                 .GetAllCategoriesWithMassages
                     (queryModel.Id, queryModel.Name, queryModel.CurrentPage);
 
-            if (allCategoriesWithMassagesModel == null)
+            if (CheckIfNull(allCategoriesWithMassagesModel))
                 this.ModelState.AddModelError
                     (String.Empty, NoMassagesFound);
 
@@ -36,7 +36,7 @@
             var editMassageDetailsModel =
                 this._massagesService.GetMassageDetailsForEdit(massageId);
 
-            if (editMassageDetailsModel == null)
+            if (CheckIfNull(editMassageDetailsModel))
                 this.ModelState.AddModelError
                     (String.Empty, SomethingWentWrong);
 
@@ -48,7 +48,7 @@
             var massageDetails = this._massagesService
                 .GetMassageDataForDelete(massageId);
 
-            if (massageDetails == null)
+            if (CheckIfNull(massageDetails))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(massageDetails);
@@ -75,7 +75,7 @@
             var editMassageModel = this._massagesService
                 .GetMassageDataForEdit(massageId);
 
-            if (editMassageModel == null)
+            if (CheckIfNull(editMassageModel))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(editMassageModel);
@@ -114,8 +114,8 @@
         [HttpPost]
         public IActionResult Add(AddMassageFormModel addMassageModel)
         {
-            if (this._massagesService
-                .GetCategoryFromDB(addMassageModel.CategoryId) == null)
+            if (CheckIfNull(this._massagesService
+                .GetCategoryFromDB(addMassageModel.CategoryId)))
                 this.ModelState.AddModelError(String.Empty, CategoryIdError);
 
             if (this._massagesService.CheckIfMassageNameExists(addMassageModel.Name))
@@ -136,5 +136,8 @@
 
             return this.RedirectToAction(nameof(this.All));
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

@@ -28,7 +28,7 @@
                 .GetAllCategoriesWithMassages
                     (queryModel.Id, queryModel.Name, queryModel.CurrentPage);
 
-            if (allCategoriesWithMassagesModel == null)
+            if (CheckIfNull(allCategoriesWithMassagesModel))
                 this.ModelState.AddModelError
                     (String.Empty, NoCategoriesAndMassagesFound);
 
@@ -41,7 +41,7 @@
             var massageDetailsModel = this._massagesService
                 .GetMassageDetails(queryModel.MassageId, queryModel.CategoryId);
 
-            if (massageDetailsModel == null) 
+            if (CheckIfNull(massageDetailsModel)) 
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(massageDetailsModel);
@@ -53,7 +53,7 @@
             var availableMassagesModel = this._massagesService.GetAvailableMassages
             (queryModel.MasseurId, queryModel.CategoryId, queryModel.CurrentPage);
 
-            if (availableMassagesModel == null || 
+            if (CheckIfNull(availableMassagesModel) || 
                 !availableMassagesModel.Massages.Any())
                 this.ModelState
                     .AddModelError(String.Empty, SomethingWentWrong);
@@ -68,11 +68,14 @@
                 this._massagesService.GetAvailableMassageDetails
                     (queryModel.MassageId, queryModel.MasseurId);
 
-            if (massageDetailsModel == null)
+            if (CheckIfNull(massageDetailsModel))
                 this.ModelState
                     .AddModelError(String.Empty, SomethingWentWrong);
 
-            return this.View("Details", massageDetailsModel);
+            return this.View("/Views/Massages/Details.cshtml", massageDetailsModel);
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }

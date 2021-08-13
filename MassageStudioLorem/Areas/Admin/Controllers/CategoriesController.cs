@@ -41,7 +41,7 @@
         {
             var allCategoriesModels = this._categoriesService.GetAllCategories();
 
-            if (allCategoriesModels == null) 
+            if (CheckIfNull(allCategoriesModels)) 
                 this.ModelState.AddModelError(String.Empty, NoCategoriesFound);
 
             return this.View(new AllCategoriesViewModel() 
@@ -53,7 +53,7 @@
             var deleteCategoryModel = this._categoriesService
                 .GetCategoryDataForDelete(categoriesModel.CategoryId);
 
-            if (deleteCategoryModel == null)
+            if (CheckIfNull(deleteCategoryModel))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(nameof(this.DeleteCategory), deleteCategoryModel);
@@ -74,5 +74,8 @@
 
             return this.RedirectToAction(nameof(this.All));
         }
+
+        private static bool CheckIfNull(object obj)
+            => obj == null;
     }
 }
