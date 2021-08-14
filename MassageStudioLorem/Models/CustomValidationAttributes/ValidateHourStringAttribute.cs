@@ -1,7 +1,9 @@
 ﻿namespace MassageStudioLorem.Models.CustomValidationAttributes
 {
+    using Global;
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
 
     using static Global.DefaultHourSchedule;
 
@@ -14,7 +16,11 @@
             if (string.IsNullOrEmpty(hourAsString))
                 return false;
 
-            if (!DateTime.TryParse(hourAsString, out DateTime _))
+            var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
+
+            bool isParsed = DateTime.TryParseExact(hourAsString, GlobalConstants.DateTimeFormats.HourFormat, cultureInfo, DateTimeStyles.None, out _);
+
+            if (!isParsed)
                 return false;
 
             if (HourScheduleAsString == null)

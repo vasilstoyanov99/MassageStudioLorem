@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
     using System;
+    using System.Globalization;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -76,6 +77,11 @@
         [HttpPost]
         public IActionResult Book(BookAppointmentServiceModel query)
         {
+            var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
+
+            var clientCurrentDateTime =
+                DateTime.Parse(query.ClientCurrentDateTime, cultureInfo);
+
             var massageId = query.MassageId;
             var masseurId = query.MasseurId;
             var userId = this.User.GetId();
@@ -84,22 +90,22 @@
                 return this.RedirectToAction
                 ("Book", new {massageId, masseurId});
 
-            var date = this._appointmentsService.ParseDate(query.Date);
             var hour = query.Hour.Trim();
+            var date = this._appointmentsService.ParseDate(query.Date, hour);
 
-            var exceededBookedMassagesMessage = this._appointmentsService
-                .CheckIfClientBookedTooManyMassagesInTheSameDay(date, userId);
+            //var exceededBookedMassagesMessage = this._appointmentsService
+            //    .CheckIfClientBookedTooManyMassagesInTheSameDay(date, userId);
 
-            if (!CheckIfNull(exceededBookedMassagesMessage))
-            {
-                this.ModelState.AddModelError
-                    (String.Empty, exceededBookedMassagesMessage);
+            //if (!CheckIfNull(exceededBookedMassagesMessage))
+            //{
+            //    this.ModelState.AddModelError
+            //        (String.Empty, exceededBookedMassagesMessage);
 
-                return this.View(null);
-            }
+            //    return this.View(null);
+            //}
 
             if (this._appointmentsService.CheckIfClientTryingToBookAPastTime
-                (date, hour))
+                (clientCurrentDateTime, date))
             {
                 this.ModelState.AddModelError(String.Empty, CannotBookInThePast);
 

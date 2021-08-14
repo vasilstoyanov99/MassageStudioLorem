@@ -10,7 +10,7 @@
         BookAppointmentServiceModel GetTheMasseurSchedule
             (string masseurId, string massageId);
 
-        DateTime ParseDate(string dateAsString);
+        DateTime ParseDate(string dateAsString, string hourAsString);
 
         string CheckIfMasseurUnavailableAndGetErrorMessage
         (DateTime date, string hour, string masseurId);
@@ -18,7 +18,8 @@
         string CheckIfClientBookedTooManyMassagesInTheSameDay
             (DateTime date, string userId);
 
-        bool CheckIfClientTryingToBookAPastTime(DateTime date, string hour);
+        bool CheckIfClientTryingToBookAPastTime
+            (DateTime clientCurrentDateTime, DateTime date);
 
         void AddNewAppointment
         (string userId, string masseurId, string massageId,

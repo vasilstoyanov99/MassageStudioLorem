@@ -7,8 +7,9 @@
 
     using Data;
     using Data.Models;
+    using Global;
     using Models;
-
+    using System.Globalization;
     using static Global.GlobalConstants.DataValidations;
     using static Global.GlobalConstants.ErrorMessages;
     using static Global.DefaultHourSchedule;
@@ -39,8 +40,14 @@
                 (masseurId, massageId, massage.Name, masseur.FullName);
         }
 
-        public DateTime ParseDate(string dateAsString) 
-            => DateTime.Parse(dateAsString);
+        public DateTime ParseDate(string dateAsString, string hourAsString)
+        {
+            var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
+
+            var parsedHour = DateTime.ParseExact(hourAsString, GlobalConstants.DateTimeFormats.HourFormat, cultureInfo, DateTimeStyles.None).Hour;
+
+            return DateTime.ParseExact(dateAsString, GlobalConstants.DateTimeFormats.DateTimeFormat, cultureInfo, DateTimeStyles.None).AddHours(parsedHour);
+        }
 
         public string CheckIfMasseurUnavailableAndGetErrorMessage
             (DateTime date, string hour, string masseurId)
@@ -97,13 +104,10 @@
         }
 
         public bool CheckIfClientTryingToBookAPastTime
-            (DateTime date, string hour)
+            (DateTime clientCurrentDateTime, DateTime date)
         {
-            var dateTimeNow = GetDateTimeNow();
-            DateTime.TryParse(hour, out DateTime dateTimeHour);
-
-            if (date.Date < dateTimeNow &&
-                dateTimeHour.Hour < dateTimeNow.Hour)
+            if (clientCurrentDateTime > date &&
+                clientCurrentDateTime.Hour > date.Hour)
                 return true;
 
             return false;
@@ -116,9 +120,10 @@
             var dataFromDb = this.GetDataFromDB(masseurId, massageId, userId);
 
             var clientId = this.GetClientId(userId);
-            var client = this.GetClientFromDB(clientId);
 
-            var hourAsInt = DateTime.Parse(hour).Hour;
+            var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
+
+            var hourAsInt = DateTime.ParseExact(hour, GlobalConstants.DateTimeFormats.HourFormat, cultureInfo, DateTimeStyles.None).Hour;
 
             var appointment = new Appointment()
             {

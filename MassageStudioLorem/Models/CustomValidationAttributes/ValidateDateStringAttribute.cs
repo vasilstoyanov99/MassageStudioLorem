@@ -1,7 +1,9 @@
 ﻿namespace MassageStudioLorem.Models.CustomValidationAttributes
 {
+    using Global;
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
 
     public class ValidateDateStringAttribute : RequiredAttribute
     {
@@ -12,7 +14,14 @@
             if (string.IsNullOrEmpty(dateAsString))
                 return false;
 
-            if (!DateTime.TryParse(dateAsString, out DateTime dateTime))
+            bool isParsed = DateTime.TryParseExact(
+                dateAsString,
+                GlobalConstants.DateTimeFormats.DateTimeFormat,
+                CultureInfo.InvariantCulture,
+                style: DateTimeStyles.AssumeUniversal,
+                result: out DateTime dateTime);
+
+            if (!isParsed)
                 return false;
 
             if (dateTime < DateTime.UtcNow.Date)

@@ -140,7 +140,9 @@
 
         public static class DateTimeFormats
         {
-            public const string DateTimeFormat = "dd-MM-yy";
+            public const string DateTimeFormat = "dd-MM-yyyy";
+
+            public const string HourFormat = "HH:mm";
         }
 
         public static class Paging
