@@ -1,9 +1,10 @@
 ﻿namespace MassageStudioLorem.Models.CustomValidationAttributes
 {
-    using Global;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
+
+    using Global;
 
     public class ValidateDateStringAttribute : RequiredAttribute
     {
