@@ -25,6 +25,13 @@
 
 @if (Model != null)
 {
+    <div class="text-center">
+        <a class="btn btn-outline-success" style="margin-bottom: 15px"
+           asp-controller="Massages"
+           asp-action="AddMassage">
+            Add Massage
+        </a>
+    </div>
     <partial name="_DividerPartial" model="@Model.Name" />
 
     <div class="card-deck">
@@ -86,13 +93,6 @@
                asp-action="All"
                asp-route-currentPage="@(Model.CurrentPage + 1)">
                 Next
-            </a>
-        </div>
-        <div class="text-center">
-            <a class="btn btn-outline-success" style="margin: 10px"
-               asp-controller="Massages"
-               asp-action="AddMassage">
-                Add Massage
             </a>
         </div>
     </div>
