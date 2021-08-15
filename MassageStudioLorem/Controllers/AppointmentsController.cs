@@ -77,15 +77,10 @@
         [HttpPost]
         public IActionResult Book(BookAppointmentServiceModel query)
         {
-            var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
+            var reversedOffset = query.ClientTimeZoneOffset * -1.00;
 
-            if (!DateTime.TryParse(query.ClientCurrentDateTime, cultureInfo, DateTimeStyles.None, out DateTime clientCurrentDateTime))
-            {
-                this.ModelState.AddModelError
-                    (String.Empty, SomethingWentWrong);
-
-                return this.View();
-            }
+            var clientCurrentDateTime = GetCurrentDateTime
+                (reversedOffset);
 
             var massageId = query.MassageId;
             var masseurId = query.MasseurId;
@@ -148,5 +143,8 @@
 
         private static bool CheckIfNull(object obj)
             => obj == null;
+
+        private static DateTime GetCurrentDateTime(double timeZoneOffset)
+            => DateTime.UtcNow.AddMinutes(timeZoneOffset);
     }
 }

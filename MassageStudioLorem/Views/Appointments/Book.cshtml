@@ -78,8 +78,6 @@
                                     asp-action="Book">
                                 Book An Appointment
                             </button>
-                            <div asp-for="@Model.ClientCurrentDateTime" class="form-control" hidden></div>
-                            <input hidden asp-for="@Model.ClientCurrentDateTime" value="" class="form-control" required readonly/>
                             <div asp-for="@Model.ClientTimeZoneOffset" class="form-control" hidden></div>
                             <input hidden asp-for="@Model.ClientTimeZoneOffset" value="" class="form-control" required readonly/>
                         </div>
@@ -101,7 +99,6 @@
     <partial name="_ValidationScriptsPartial"/>
     <script>
         var date = new Date();
-        $('#ClientCurrentDateTime').val(date.toLocaleTimeString());
         $('#ClientTimeZoneOffset').val(date.getTimezoneOffset());
     </script>
 }}

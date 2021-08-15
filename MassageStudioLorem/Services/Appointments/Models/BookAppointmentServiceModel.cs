@@ -29,8 +29,6 @@
         [Required]
         public string MassageId { get; set; }
 
-        public string ClientCurrentDateTime { get; set; }
-
         public double ClientTimeZoneOffset { get; set; }
 
         public IEnumerable<string> WorkHours { get; set; }
