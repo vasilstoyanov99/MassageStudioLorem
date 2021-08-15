@@ -51,7 +51,6 @@
             if (!DateTime.TryParseExact(dateAsString, GlobalConstants.DateTimeFormats.DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parseDate))
                 return DateTime.MinValue;
 
-            //TODO: Make it bool
             return parseDate.AddHours(parsedTime.Hour);
         }
 
@@ -421,6 +420,6 @@
             this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
 
         private static DateTime GetCurrentDateTime(double timeZoneOffset)
-            => DateTime.UtcNow.AddHours(timeZoneOffset);
+            => DateTime.UtcNow.AddMinutes(timeZoneOffset);
     }
 }

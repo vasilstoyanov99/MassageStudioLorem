@@ -14,18 +14,23 @@
             if (!data.Reviews.Any())
             {
                 var appointments = data.Appointments.ToList();
+                var selected = appointments[0];
+                appointments.Remove(selected);
 
-                foreach (var appointment in appointments)
+                for (int i = 0; i < appointments.Count; i++)
                 {
                     var review = new Review()
                     {
-                        ClientFirstName = appointment.ClientFirstName,
-                        ClientId = appointment.ClientId,
+                        ClientFirstName = appointments[i].ClientFirstName,
+                        ClientId = appointments[i].ClientId,
                         Content = ReviewSeedData.DummyReviewContent,
-                        MasseurId = appointment.MasseurId,
-                        CreatedOn = appointment.Date.AddHours(
-                            (int)(appointment.Hour[1]))
+                        MasseurId = appointments[i].MasseurId,
+                        CreatedOn = appointments[i].Date
+                            .AddHours(appointments[i].Hour[1])
                     };
+
+                    if (i % 2 == 0)
+                        appointments[i].IsUserReviewedMasseur = true;
 
                     data.Reviews.Add(review);
                 }

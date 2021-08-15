@@ -10,6 +10,8 @@
 
         public int CurrentPage { get; set; }
 
+        public int TotalReviews { get; set; }
+
         public double MaxPage { get; set; }
 
         public IEnumerable<ReviewServiceModel> Reviews { get; set; }

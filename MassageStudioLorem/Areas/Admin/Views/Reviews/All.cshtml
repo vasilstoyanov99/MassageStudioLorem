@@ -13,7 +13,7 @@
 
 @if (Model != null || Model?.Reviews?.Count() > 0)
 {
-    <h2>All Reviews(@Model.Reviews.Count())</h2>
+    <h2>All Reviews(@Model.TotalReviews)</h2>
 
     <table class="table table-bordered table-striped text-center">
         <thead class="thead-light">
@@ -30,7 +30,7 @@
             <tr>
                 <td>
                     @review.CreatedOn.ToString(DateTimeFormat)
-                    @review.CreatedOn.ToString("HH"):@review.CreatedOn.ToString("MM")
+                    @review.CreatedOn.ToString(HourFormat)
                 </td>
                 <td>@review.ClientFirstName</td>
                 <td>@review.Content</td>

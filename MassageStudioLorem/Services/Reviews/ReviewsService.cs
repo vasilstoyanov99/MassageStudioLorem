@@ -141,6 +141,7 @@
             {
                 Reviews = allReviews,
                 CurrentPage = currentPage,
+                TotalReviews = totalReviews,
                 MaxPage = GetMaxPage(totalReviews)
             };
 
@@ -220,7 +221,7 @@
                 .TimeZoneOffset;
 
         private static DateTime GetCurrentDateTime(double timeZoneOffset)
-            => DateTime.UtcNow.AddHours(timeZoneOffset);
+            => DateTime.Now.AddMinutes(timeZoneOffset);
 
         private Review GetReviewFromDB(string reviewId) =>
             this._data.Reviews.FirstOrDefault(r => r.Id == reviewId);

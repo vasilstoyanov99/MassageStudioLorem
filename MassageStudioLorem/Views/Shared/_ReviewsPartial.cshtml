@@ -16,7 +16,7 @@
         <tr>
             <td>
                 @review.CreatedOn.ToString(DateTimeFormat)
-                @review.CreatedOn.ToString("HH"):@review.CreatedOn.ToString("MM")
+                @review.CreatedOn.ToString(HourFormat)
             </td>
             <td>@review.ClientFirstName</td>
             <td>@review.Content</td>
