@@ -76,13 +76,16 @@
             var sanitizer = new HtmlSanitizer();
             var sanitizedContent = sanitizer.Sanitize(reviewModel.Content);
             var clientFirstName = this.GetClientFirstName(reviewModel.ClientId);
+            var timeZoneOffset = this.GetClientTimeZoneOffset(reviewModel.ClientId);
+            var currentDateTime = GetCurrentDateTime(timeZoneOffset);
+
             var review = new Review()
             {
                 ClientId = reviewModel.ClientId, 
                 ClientFirstName = clientFirstName,
                 MasseurId = reviewModel.MasseurId, 
                 Content = sanitizedContent,
-                CreatedOn = DateTime.Now
+                CreatedOn = currentDateTime
             };
 
             var appointment = this.GetAppointmentFromDB(reviewModel.AppointmentId);
@@ -209,6 +212,15 @@
 
         private static double GetMaxPage(int count) => Math.Ceiling
             (count * 1.00 / ReviewsPerPage * 1.00);
+
+        private double GetClientTimeZoneOffset(string clientId)
+            => this._data
+                .Clients
+                .FirstOrDefault(c => c.Id == clientId)
+                .TimeZoneOffset;
+
+        private static DateTime GetCurrentDateTime(double timeZoneOffset)
+            => DateTime.UtcNow.AddHours(timeZoneOffset);
 
         private Review GetReviewFromDB(string reviewId) =>
             this._data.Reviews.FirstOrDefault(r => r.Id == reviewId);
