@@ -10,4 +10,4 @@ Test accounts:
 - Female masseur: username: Natalie / password: 123456
 - Admin: username: BestAdminEver / password: 123456 
 
-**The seeded client's Time Zone Offset is 180 minutes!**
+**The seeded client's Time Zone Offset is 180 minutes! (GMT+3)**
