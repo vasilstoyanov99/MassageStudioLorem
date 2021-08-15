@@ -56,11 +56,11 @@
         }
 
         public string CheckIfMasseurUnavailableAndGetErrorMessage
-            (DateTime appointmentDateTime, string appointmentHour, string masseurId)
+            (DateTime appointmentDateTime, string hourAsString, string masseurId)
         {
             var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
             if (DateTime.TryParseExact
-                (appointmentHour, GlobalConstants.DateTimeFormats.HourFormat,
+                (hourAsString, GlobalConstants.DateTimeFormats.HourFormat,
                     cultureInfo, DateTimeStyles.None, out _))
             {
                 var masseursQuery = this._data.Masseurs
@@ -71,7 +71,7 @@
 
                 if (isUnavailable)
                     return GetAvailableHours
-                        (appointmentDateTime, appointmentHour, 
+                        (appointmentDateTime, hourAsString, 
                             masseurId, masseursQuery);
 
                 var hoursBookedInTheDay = masseursQuery
@@ -122,19 +122,21 @@
         }
 
         public void AddNewAppointment
-            (string userId, string masseurId, string massageId,
-             DateTime appointmentDateTime, string hour)
+            (string userId, 
+             string masseurId, 
+             string massageId,
+             DateTime appointmentDateTime, 
+             string hourAsString, 
+             double clientTimeZoneOffset)
         {
             var dataFromDb = this.GetDataFromDB(masseurId, massageId, userId);
-
-            var clientId = this.GetClientId(userId);
 
             var appointment = new Appointment()
             {
                 Date = appointmentDateTime,
-                Hour = hour,
-                ClientId = clientId,
-                ClientPhoneNumber = this.GetClientPhoneNumber(clientId),
+                Hour = hourAsString,
+                ClientId = dataFromDb.clientId,
+                ClientPhoneNumber = this.GetClientPhoneNumber(dataFromDb.clientId),
                 ClientFirstName = dataFromDb.clientFirstName,
                 MassageId = massageId,
                 MasseurId = masseurId,
@@ -145,6 +147,15 @@
             };
 
             this._data.Appointments.Add(appointment);
+
+            var client = this.GetClientFromDB(dataFromDb.clientId);
+
+            if (client.TimeZoneOffset == Double.MinValue)
+            {
+                var reversedOffset = clientTimeZoneOffset * -1.00;
+                client.TimeZoneOffset = reversedOffset;
+            }
+
             this._data.SaveChanges();
         }
 
@@ -156,10 +167,10 @@
             if (!this._data.Appointments.Any(a => a.ClientId == clientId))
                 return null;
 
-            var dateTimeNow = GetDateTimeNow();
+            var clientCurrentDateTime = this.GetClientCurrentDateTime(clientId);
 
             var upcomingAppointmentsModels = this.GetUpcomingAppointments
-                (clientId, dateTimeNow);
+                (clientId, clientCurrentDateTime);
 
             return upcomingAppointmentsModels;
         }
@@ -168,7 +179,7 @@
             (string userId)
         {
             var clientId = this.GetClientId(userId);
-            var dateTimeNow = GetDateTimeNow();
+            var dateTimeNow = this.GetClientCurrentDateTime(clientId);
 
             var pastAppointmentsModels = this.GetPastAppointmentsModels
                 (clientId, dateTimeNow);
@@ -190,10 +201,14 @@
             if (CheckIfNull(masseur))
                 return null;
 
-            var dateTimeNow = GetDateTimeNow();
+            // We assume that both the clients and masseurs live in the same time zone.
+            var appointment = this._data.Appointments.First();
+            var clientTimeZoneOffset = this._data.Clients
+                .FirstOrDefault(c => c.Id == appointment.ClientId).TimeZoneOffset;
+            var currentDateTime = GetCurrentDateTime(clientTimeZoneOffset);
 
             var upcomingAppointmentsModels = this.GetMasseurUpcomingAppointmentsModels
-                (masseurId, dateTimeNow);
+                (masseurId, currentDateTime);
 
             return upcomingAppointmentsModels;
         }
@@ -272,10 +287,26 @@
                 .FirstOrDefault(u => u.Id == clientUserId)?.PhoneNumber;
         }
 
-        private (string masseurFullName,
+        private DateTime GetClientCurrentDateTime(string clientId)
+        {
+            var clientTimeZoneOffset = this.GetClientTimeZoneOffset(clientId);
+            var clientCurrentDateTime =
+                GetCurrentDateTime(clientTimeZoneOffset);
+
+            return clientCurrentDateTime;
+        }
+
+        private double GetClientTimeZoneOffset(string clientId)
+            => this._data
+                .Clients
+                .FirstOrDefault(c => c.Id == clientId)
+                .TimeZoneOffset;
+
+            private (string masseurFullName,
             string masseurPhoneNumber,
             string massageName,
-            string clientFirstName)
+            string clientFirstName,
+            string clientId)
             GetDataFromDB(string masseurId, string massageId, string userId)
         {
             var masseurData = this._data.Masseurs
@@ -297,7 +328,8 @@
             return (masseurData.FullName,
                 masseurPhoneNumber,
                 massageName,
-                clientFirstName);
+                clientFirstName,
+                client.Id);
         }
 
         private static string GetAvailableHours
@@ -333,10 +365,10 @@
 
         private IEnumerable<MasseurUpcomingAppointmentServiceModel>
             GetMasseurUpcomingAppointmentsModels
-            (string masseurId, DateTime dateTimeNow)
+            (string masseurId, DateTime currentDateTime)
             => this._data.Appointments
                 .Where(a => a.MasseurId == masseurId &&
-                            a.Date > dateTimeNow)
+                            a.Date > currentDateTime)
                 .Select(a => new MasseurUpcomingAppointmentServiceModel()
                 {
                     Date = a.Date,
@@ -349,10 +381,10 @@
                 .ToList();
 
         private IEnumerable<UpcomingAppointmentServiceModel>
-            GetUpcomingAppointments(string clientId, DateTime dateTimeNow)
+            GetUpcomingAppointments(string clientId, DateTime clientCurrentDateTime)
             => this._data.Appointments
                 .Where(a => a.ClientId == clientId &&
-                            a.Date > dateTimeNow)
+                            a.Date > clientCurrentDateTime)
                 .Select(a => new UpcomingAppointmentServiceModel()
                 {
                     Id = a.Id,
@@ -388,6 +420,7 @@
         private string GetClientId(string userId) =>
             this._data.Clients.FirstOrDefault(c => c.UserId == userId)?.Id;
 
-        private static DateTime GetDateTimeNow() => DateTime.Now;
+        private static DateTime GetCurrentDateTime(double timeZoneOffset)
+            => DateTime.UtcNow.AddHours(timeZoneOffset);
     }
 }

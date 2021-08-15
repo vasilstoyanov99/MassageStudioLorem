@@ -10,6 +10,7 @@
         public Client()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.TimeZoneOffset = Double.MinValue;
         }
 
         public string Id { get; set; }
@@ -20,5 +21,8 @@
 
         [Required] 
         public string UserId { get; set; }
+
+        [Required]
+        public double TimeZoneOffset { get; set; }
     }
 }

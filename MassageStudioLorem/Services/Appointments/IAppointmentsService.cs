@@ -13,7 +13,7 @@
         DateTime TryToParseDate(string dateAsString, string hourAsString);
 
         string CheckIfMasseurUnavailableAndGetErrorMessage
-        (DateTime appointmentDateTime, string appointmentHour, string masseurId);
+        (DateTime appointmentDateTime, string hourAsString, string masseurId);
 
         string CheckIfClientBookedTooManyMassagesInTheSameDay
             (DateTime date, string userId);
@@ -22,8 +22,12 @@
             (DateTime clientCurrentDateTime, DateTime appointmentDateTime);
 
         void AddNewAppointment
-        (string userId, string masseurId, string massageId,
-            DateTime date, string hour);
+        (string userId, 
+         string masseurId, 
+         string massageId,
+         DateTime date,
+         string hourAsString,
+         double clientTimeZoneOffset);
 
         IEnumerable<UpcomingAppointmentServiceModel> GetUpcomingAppointments
             (string userId);

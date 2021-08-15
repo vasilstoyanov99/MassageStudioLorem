@@ -85,7 +85,8 @@
             var newClient = new Client() 
             {
                 UserId = client.Id,
-                FirstName = UsersSeedData.Client.FirstName
+                FirstName = UsersSeedData.Client.FirstName,
+                TimeZoneOffset = 180
             };
             data.Clients.Add(newClient);
         }

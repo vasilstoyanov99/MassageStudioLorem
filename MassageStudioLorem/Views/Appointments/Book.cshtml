@@ -78,12 +78,11 @@
                                     asp-action="Book">
                                 Book An Appointment
                             </button>
-                            <div id="date" asp-for="@Model.ClientCurrentDateTime" class="form-control" hidden></div>
+                            <div asp-for="@Model.ClientCurrentDateTime" class="form-control" hidden></div>
                             <input hidden asp-for="@Model.ClientCurrentDateTime" value="" class="form-control" required readonly />
-                            @*<div id="date" asp-for="@Model.ClientHour" class="form-control" hidden></div>
-                            <input asp-for="@Model.ClientHour" value="" class="form-control" required readonly />*@
+                            <div asp-for="@Model.ClientTimeZoneOffset" class="form-control" hidden></div>
+                            <input hidden asp-for="@Model.ClientTimeZoneOffset" value="" class="form-control" required readonly />
                         </div>
-
                     </div>
                 </form>
                 <div class="button button-large button_2 elements_button">
@@ -101,21 +100,8 @@
         <script src="~/js/date-picker.js" asp-append-version="true"></script>
         <partial name="_ValidationScriptsPartial" />
         <script>
-
-            //$('#book-button').on('click', ev => 
-            //{
-            //        var date = new Date();
-            //    $('#total-cars').text(date.toLocaleTimeString());
-            //    $('#date').text(date.toLocaleTimeString());
-
-            //});
-
             var date = new Date();
             $('#ClientCurrentDateTime').val(date.toLocaleTimeString());
-            /*$('#ClientHour').val(date);*/
-            //function getClientDate() {
-            //    var d = new Date();
-            //    document.getElementById("demo").value = d;
-            //}
+            $('#ClientTimeZoneOffset').val(date.getTimezoneOffset());
         </script>
     }}

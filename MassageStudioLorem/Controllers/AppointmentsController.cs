@@ -141,7 +141,7 @@
             }
 
             this._appointmentsService.AddNewAppointment
-                (userId, masseurId, massageId, appointmentDateTime, appointmentHourAsString);
+                (userId, masseurId, massageId, appointmentDateTime, appointmentHourAsString, query.ClientTimeZoneOffset);
 
             return this.RedirectToAction("Index");
         }
