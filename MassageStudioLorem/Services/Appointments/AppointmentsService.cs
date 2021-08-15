@@ -41,42 +41,49 @@
                 (masseurId, massageId, massage.Name, masseur.FullName);
         }
 
-        public DateTime ParseDate(string dateAsString, string hourAsString)
+        public DateTime TryToParseDate(string dateAsString, string hourAsString)
         {
             var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
 
-            var parsedHour = DateTime.ParseExact(hourAsString, GlobalConstants.DateTimeFormats.HourFormat, cultureInfo, DateTimeStyles.None).Hour;
+            if (!DateTime.TryParseExact(hourAsString, GlobalConstants.DateTimeFormats.HourFormat, cultureInfo, DateTimeStyles.None, out DateTime parsedTime))
+                return DateTime.MinValue;
 
-            return DateTime.ParseExact(dateAsString, GlobalConstants.DateTimeFormats.DateTimeFormat, cultureInfo, DateTimeStyles.None).AddHours(parsedHour);
+            if (!DateTime.TryParseExact(dateAsString, GlobalConstants.DateTimeFormats.DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parseDate))
+                return DateTime.MinValue;
+
+            //TODO: Make it bool
+            return parseDate.AddHours(parsedTime.Hour);
         }
 
         public string CheckIfMasseurUnavailableAndGetErrorMessage
-            (DateTime date, string hour, string masseurId)
+            (DateTime appointmentDateTime, string appointmentHour, string masseurId)
         {
-            var masseursQuery = this._data.Masseurs
-                .Include(m => m.WorkSchedule).AsQueryable();
-
-            if (DateTime.TryParse(hour, out DateTime time))
+            var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
+            if (DateTime.TryParseExact
+                (appointmentHour, GlobalConstants.DateTimeFormats.HourFormat,
+                    cultureInfo, DateTimeStyles.None, out _))
             {
-               date = date.AddHours(time.Hour);
-
+                var masseursQuery = this._data.Masseurs
+                    .Include(m => m.WorkSchedule).AsQueryable();
                 var isUnavailable = masseursQuery.
                     Any(m => m.Id == masseurId && m.WorkSchedule
-                        .Any(ws => ws.Date == date));
+                        .Any(ws => ws.Date == appointmentDateTime));
 
                 if (isUnavailable)
                     return GetAvailableHours
-                        (date, hour, masseurId, masseursQuery);
+                        (appointmentDateTime, appointmentHour, 
+                            masseurId, masseursQuery);
 
                 var hoursBookedInTheDay = masseursQuery
                     .FirstOrDefault(m => m.Id == masseurId)
                     ?.WorkSchedule
-                    .Count(ws => ws.Date.Day == date.Day && 
-                                 ws.Date.Month == date.Month);
+                    .Count(ws => ws.Date.Day == appointmentDateTime.Day && 
+                                 ws.Date.Month == appointmentDateTime.Month &&
+                                 ws.Date.Year == appointmentDateTime.Year);
 
                 if (hoursBookedInTheDay >= DefaultHoursPerDay)
                     return String.Format(MasseurBookedForTheDay,
-                        date.ToString("dd-MM-yy"));
+                        appointmentDateTime.ToString("dd-MM-yy"));
             }
             else
             {
@@ -87,15 +94,16 @@
         }
 
         public string CheckIfClientBookedTooManyMassagesInTheSameDay
-            (DateTime date, string userId)
+            (DateTime appointmentDateTime, string userId)
         {
             var clientId = this.GetClientId(userId);
 
             var bookedMassages = this._data
                 .Appointments
                 .Count(a => a.ClientId == clientId && 
-                            a.Date.Day == date.Day &&
-                            a.Date.Month == date.Month);
+                            a.Date.Day == appointmentDateTime.Day &&
+                            a.Date.Month == appointmentDateTime.Month &&
+                            a.Date.Year == appointmentDateTime.Year);
 
             if (bookedMassages == MaxAmountToBookMassages)
                 return String.Format(TooManyBookingsOfTheSameMassage,
@@ -105,10 +113,9 @@
         }
 
         public bool CheckIfClientTryingToBookAPastTime
-            (DateTime clientCurrentDateTime, DateTime date)
+            (DateTime clientCurrentDateTime, DateTime appointmentDateTime)
         {
-            if (clientCurrentDateTime > date &&
-                clientCurrentDateTime.Hour > date.Hour)
+            if (clientCurrentDateTime > appointmentDateTime)
                 return true;
 
             return false;
@@ -116,19 +123,15 @@
 
         public void AddNewAppointment
             (string userId, string masseurId, string massageId,
-             DateTime date, string hour)
+             DateTime appointmentDateTime, string hour)
         {
             var dataFromDb = this.GetDataFromDB(masseurId, massageId, userId);
 
             var clientId = this.GetClientId(userId);
 
-            var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
-
-            var hourAsInt = DateTime.ParseExact(hour, GlobalConstants.DateTimeFormats.HourFormat, cultureInfo, DateTimeStyles.None).Hour;
-
             var appointment = new Appointment()
             {
-                Date = date.AddHours(hourAsInt),
+                Date = appointmentDateTime,
                 Hour = hour,
                 ClientId = clientId,
                 ClientPhoneNumber = this.GetClientPhoneNumber(clientId),
@@ -298,12 +301,17 @@
         }
 
         private static string GetAvailableHours
-            (DateTime date, string hour, string masseurId,
+            (DateTime appointmentDateTime, 
+             string appointmentHour, 
+             string masseurId,
             IQueryable<Masseur> masseursQuery)
         {
             var bookedHours = masseursQuery
                 .FirstOrDefault(m => m.Id == masseurId)
-                .WorkSchedule.Where(ws => ws.Date == date)
+                ?.WorkSchedule
+                .Where(ws => ws.Date.Day == appointmentDateTime.Day && 
+                             ws.Date.Month == appointmentDateTime.Month && 
+                             ws.Date.Year == appointmentDateTime.Year)
                 .Select(s => new {s.Hour})
                 .ToList();
 
@@ -318,8 +326,8 @@
             }
 
             return
-                String.Format(AvailableHoursForDate, hour,
-                    date.Date.ToString("dd-MM-yy"),
+                String.Format(AvailableHoursForDate, appointmentHour,
+                    appointmentDateTime.Date.ToString("dd-MM-yy"),
                     String.Join(' ', defaultHourSchedule));
         }
 

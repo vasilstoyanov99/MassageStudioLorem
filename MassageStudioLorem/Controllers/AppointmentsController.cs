@@ -79,8 +79,13 @@
         {
             var cultureInfo = CultureInfo.GetCultureInfo("bg-BG");
 
-            var clientCurrentDateTime =
-                DateTime.Parse(query.ClientCurrentDateTime, cultureInfo);
+            if (!DateTime.TryParse(query.ClientCurrentDateTime, cultureInfo, DateTimeStyles.None, out DateTime clientCurrentDateTime))
+            {
+                this.ModelState.AddModelError
+                    (String.Empty, SomethingWentWrong);
+
+                return this.View();
+            }
 
             var massageId = query.MassageId;
             var masseurId = query.MasseurId;
@@ -90,32 +95,42 @@
                 return this.RedirectToAction
                 ("Book", new {massageId, masseurId});
 
-            var hour = query.Hour.Trim();
-            var date = this._appointmentsService.ParseDate(query.Date, hour);
+            var appointmentHourAsString = query.Hour.Trim();
+            var appointmentDateTime = this._appointmentsService
+                .TryToParseDate(query.Date, appointmentHourAsString);
 
-            //var exceededBookedMassagesMessage = this._appointmentsService
-            //    .CheckIfClientBookedTooManyMassagesInTheSameDay(date, userId);
+            if (appointmentDateTime < DateTime.UtcNow)
+            {
+                this.ModelState.AddModelError
+                    (String.Empty, SomethingWentWrong);
 
-            //if (!CheckIfNull(exceededBookedMassagesMessage))
-            //{
-            //    this.ModelState.AddModelError
-            //        (String.Empty, exceededBookedMassagesMessage);
+                return this.View();
+            }
 
-            //    return this.View(null);
-            //}
+            var exceededBookedMassagesMessage = this._appointmentsService
+                .CheckIfClientBookedTooManyMassagesInTheSameDay
+                    (appointmentDateTime, userId);
+
+            if (!CheckIfNull(exceededBookedMassagesMessage))
+            {
+                this.ModelState.AddModelError
+                    (String.Empty, exceededBookedMassagesMessage);
+
+                return this.View();
+            }
 
             if (this._appointmentsService.CheckIfClientTryingToBookAPastTime
-                (clientCurrentDateTime, date))
+                (clientCurrentDateTime, appointmentDateTime))
             {
                 this.ModelState.AddModelError(String.Empty, CannotBookInThePast);
 
-                return this.View(null);
+                return this.View();
             }
 
             var availableHoursMessage =
                 this._appointmentsService.
                     CheckIfMasseurUnavailableAndGetErrorMessage
-                        (date, hour, masseurId);
+                        (appointmentDateTime, appointmentHourAsString, masseurId);
 
             if (!CheckIfNull(availableHoursMessage))
             {
@@ -126,7 +141,7 @@
             }
 
             this._appointmentsService.AddNewAppointment
-                (userId, masseurId, massageId, date, hour);
+                (userId, masseurId, massageId, appointmentDateTime, appointmentHourAsString);
 
             return this.RedirectToAction("Index");
         }
