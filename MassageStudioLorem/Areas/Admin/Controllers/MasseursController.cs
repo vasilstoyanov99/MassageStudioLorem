@@ -51,7 +51,8 @@
             var editMasseurModel = this._masseursService
                 .GetMasseurDataForEdit(masseurId);
 
-            if (editMasseurModel.Categories?.Count() <= 0)
+            if (editMasseurModel == null || 
+                editMasseurModel.Categories?.Count() <= 0)
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
 
             return this.View(editMasseurModel);
