@@ -55,3 +55,10 @@ https://massagestudiolorem.azurewebsites.net/
 - jQuery
 - HtmlSanitizer 6.0.441
  
+ ## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+___
+**This project is made only for educational purposes!**
+___
