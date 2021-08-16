@@ -28,10 +28,10 @@ https://massagestudiolorem.azurewebsites.net/
 
 **When you run the project for the first time sample data will be seeded as well as these test accounts:**
 
-- Client: username: Client / password: 123456
-- Male masseur: username: Brayden / password: 123456
-- Female masseur: username: Natalie / password: 123456
-- Admin: username: BestAdminEver / password: 123456
+- Client -> username: **Client** / password: **123456**
+- Male masseur -> username: **Brayden** / password: **123456**
+- Female masseur -> username: **Natalie** / password: **123456**
+- Admin -> username: **BestAdminEver** / password: **123456**
 
 **The seeded client's Time Zone Offset is 180 minutes! (GMT+3)**
 
