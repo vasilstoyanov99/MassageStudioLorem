@@ -235,6 +235,16 @@
                 "SDRK";
 
             public const string SuccessfullyDeletedReview = "The review was deleted successfully!";
+
+            public const string SuccessfullyCanceledAppointmentKey =
+                "SCAK";
+
+            public const string SuccessfullyCanceledAppointment = "The appointment was canceled successfully!";
+
+            public const string SuccessfullyReviewedMasseurKey =
+                "SRMK";
+
+            public const string SuccessfullyReviewedMasseur = "The masseur was successfully reviewed!";
         }
     }
 }

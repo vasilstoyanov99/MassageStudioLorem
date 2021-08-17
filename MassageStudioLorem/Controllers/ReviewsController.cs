@@ -10,6 +10,7 @@
     using Services.Reviews.Models;
 
     using static Global.GlobalConstants.ErrorMessages;
+    using static Global.GlobalConstants.Notifications;
     using static Areas.Client.ClientConstants;
 
     [Authorize(Roles = ClientRoleName)]
@@ -56,6 +57,9 @@
             }
 
             this._reviewsService.AddNewReview(reviewModel);
+
+            this.TempData[SuccessfullyReviewedMasseurKey] =
+                SuccessfullyReviewedMasseur;
 
             return this.RedirectToAction("Index", "Appointments");
         }

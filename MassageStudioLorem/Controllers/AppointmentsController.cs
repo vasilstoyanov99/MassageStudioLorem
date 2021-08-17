@@ -10,6 +10,7 @@
     using Services.Appointments.Models;
 
     using static Global.GlobalConstants.ErrorMessages;
+    using static Global.GlobalConstants.Notifications;
     using static Areas.Client.ClientConstants;
 
     [Authorize(Roles = ClientRoleName)]
@@ -57,6 +58,9 @@
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);
                 return this.View("CancelAppointment", null);
             }
+
+            this.TempData[SuccessfullyCanceledAppointmentKey] =
+                SuccessfullyCanceledAppointment;
 
             return this.RedirectToAction("Index");
         }

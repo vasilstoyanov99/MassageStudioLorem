@@ -2,6 +2,19 @@
 
 @{ ViewBag.Title = "My Appointments"; }
 
+@if (TempData.ContainsKey(SuccessfullyCanceledAppointmentKey))
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData[SuccessfullyCanceledAppointmentKey]
+    </div>
+}
+@if (TempData.ContainsKey(SuccessfullyReviewedMasseurKey))
+{
+    <div class="alert alert-success text-center" role="alert">
+        @TempData[SuccessfullyReviewedMasseurKey]
+    </div>
+}
+
 @if (Model?.UpcomingAppointments == null || Model?.PastAppointments == null)
 {
     <div class="text-center" style="font-weight: bold">
