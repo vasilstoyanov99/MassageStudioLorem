@@ -245,6 +245,11 @@
                 "SRMK";
 
             public const string SuccessfullyReviewedMasseur = "The masseur was successfully reviewed!";
+
+            public const string SuccessfullyBookedAppointmentKey =
+                "SBAK";
+
+            public const string SuccessfullyBookedAppointment = "The appointment was successfully booked!";
         }
     }
 }
