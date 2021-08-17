@@ -31,6 +31,8 @@
                 .ShouldReturn()
                 .View();
 
+        //TODO: Fix the test
+
         //[Fact]
         //public void BecomeMasseurShouldRedirectWithTempDataMessageAndSaveMasseurWithValidData
         //    ()
@@ -62,7 +64,6 @@
         //        .AndAlso()
         //        .ShouldReturn()
         //        .RedirectToAction();
-
 
         [Fact]
         public void AllShouldReturnViewWithModelWithValidData()
