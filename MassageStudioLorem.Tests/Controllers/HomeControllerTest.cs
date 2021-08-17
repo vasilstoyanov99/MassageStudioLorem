@@ -38,7 +38,7 @@
                 .WithUser(u => u.InRole(ClientRoleName)
                     .AndAlso()
                     .WithUsername(TestUserData.Username))
-                .WithData(DummyClient)
+                .WithData(TestClient)
                 .Calling(c => c.Index())
                 .ShouldHave()
                 .ViewBag(viewBag => viewBag
@@ -54,7 +54,7 @@
                 .WithUser(u => u.InRole(MasseurRoleName)
                     .AndAlso()
                     .WithUsername(TestUserData.Username))
-                .WithData(DummyMasseur)
+                .WithData(TestMasseur)
                 .Calling(c => c.Index())
                 .ShouldReturn()
                 .RedirectToAction(HomeActionName, HomeControllerName,

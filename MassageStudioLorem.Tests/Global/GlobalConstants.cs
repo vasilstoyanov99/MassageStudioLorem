@@ -1,5 +1,7 @@
 ﻿namespace MassageStudioLorem.Tests.Global
 {
+    using MassageStudioLorem.Data.Enums;
+
     public class GlobalConstants
     {
         public const string DummyDescription =
@@ -8,6 +10,8 @@
         public const string TestImageUrl = "https://i.imgur.com/9NfF4Cw.png";
 
         public const string TestUserId = "TestId";
+
+        public const string DummyPhoneNumber = "TestPhoneNumber";
 
         public const string HomeActionName = "Index";
 
@@ -25,11 +29,26 @@
             public const string FullName = "Test Masseur";
             public const string UserId = TestUserId;
             public const string Id = "TestMasseurId";
+            public const Gender Gender = MassageStudioLorem.Data.Enums.Gender.Male;
         }
 
         public static class TestUserData
         {
             public const string Username = "TestUsername";
+        }
+
+        public static class TestCategoryData
+        {
+            public const string Id = "TestCategoryId";
+
+            public const string Name = "TestCategory";
+        }
+
+        public static class TestMassageData
+        {
+            public const string Id = "TestMassageId";
+
+            public const string Name = "TestMassage";
         }
     }
 }
