@@ -141,6 +141,9 @@
             this._appointmentsService.AddNewAppointment
                 (userId, masseurId, massageId, appointmentDateTime, appointmentHourAsString, query.ClientTimeZoneOffset);
 
+            this.TempData[SuccessfullyBookedAppointmentKey] =
+                SuccessfullyBookedAppointment;
+
             return this.RedirectToAction("Index");
         }
 
