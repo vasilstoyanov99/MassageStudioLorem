@@ -4,11 +4,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using MyTested.AspNetCore.Mvc;
     using Services.Home;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class TestStartup : Startup
     {

@@ -1,8 +1,8 @@
 ﻿namespace MassageStudioLorem.Tests.Data
 {
-    using Global;
     using MassageStudioLorem.Data.Enums;
     using MassageStudioLorem.Data.Models;
+
     using static Global.GlobalConstants;
 
     public class TestDbModels

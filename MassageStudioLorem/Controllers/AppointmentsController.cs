@@ -1,7 +1,6 @@
 ﻿namespace MassageStudioLorem.Controllers
 {
     using System;
-    using System.Globalization;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
