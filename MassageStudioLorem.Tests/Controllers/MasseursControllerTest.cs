@@ -1,8 +1,9 @@
 ﻿namespace MassageStudioLorem.Tests.Controllers
 {
-    using Data;
+    using System.Linq;
     using System.Collections.Generic;
 
+    using Data;
     using MassageStudioLorem.Controllers;
     using MassageStudioLorem.Data.Enums;
     using MassageStudioLorem.Data.Models;
@@ -11,7 +12,6 @@
 
     using MyTested.AspNetCore.Mvc;
     using Shouldly;
-    using System.Linq;
     using Xunit;
 
     using static Global.GlobalConstants;
@@ -74,7 +74,7 @@
                     .ContainingEntryWithKey(SuccessfullyBecomeMasseurKey))
                 .AndAlso()
                 .ShouldReturn()
-                .RedirectToAction("Index", "Home");
+                .RedirectToAction(HomeActionName, HomeControllerName);
         }
 
         [Fact]
