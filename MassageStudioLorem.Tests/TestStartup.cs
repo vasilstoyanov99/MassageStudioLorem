@@ -2,6 +2,8 @@
 {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using MyTested.AspNetCore.Mvc;
+    using Services.Home;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,7 +23,7 @@
 
             // Replace only your own custom services. The ASP.NET Core ones 
             // are already replaced by MyTested.AspNetCore.Mvc. 
-            //services.Replace<IService, MockedService>();
+            services.ReplaceTransient<IHomeService, HomeService>();
         }
     }
 }
