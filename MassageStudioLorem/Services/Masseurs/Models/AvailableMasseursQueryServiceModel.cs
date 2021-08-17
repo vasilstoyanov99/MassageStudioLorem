@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Services.Masseurs.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Data.Enums;
 
@@ -22,6 +23,7 @@
 
         public double MaxPage { get; set; }
 
+        [Display(Name = "Biological Gender")]
         public Gender Sorting { get; set; }
 
         public IEnumerable<AvailableMasseurListingServiceModel> Masseurs
