@@ -1,17 +1,23 @@
 ﻿namespace MassageStudioLorem.Tests.Controllers
 {
+    using Data;
     using System.Collections.Generic;
 
     using MassageStudioLorem.Controllers;
     using MassageStudioLorem.Data.Enums;
+    using MassageStudioLorem.Data.Models;
     using Models.Masseurs;
     using Services.Masseurs.Models;
 
     using MyTested.AspNetCore.Mvc;
+    using Shouldly;
+    using System.Linq;
     using Xunit;
 
     using static Global.GlobalConstants;
+    using static MassageStudioLorem.Global.GlobalConstants.Notifications;
     using static Data.TestDbModels;
+    using static Areas.Client.ClientConstants;
 
     public class MasseursControllerTest
     {
@@ -31,39 +37,45 @@
                 .ShouldReturn()
                 .View();
 
-        //TODO: Fix the test
+        [Fact]
+        public void BecomeMasseurShouldRedirectWithTempDataMessageAndSaveMasseurWithValidData
+            ()
+        {
+            var model = new BecomeMasseurFormModel()
+            {
+                Description = DummyDescription,
+                FullName = TestMasseurData.FullName,
+                Gender = TestMasseurData.Gender,
+                ProfileImageUrl = TestImageUrl,
+                CategoryId = TestCategory.Id
+            };
 
-        //[Fact]
-        //public void BecomeMasseurShouldRedirectWithTempDataMessageAndSaveMasseurWithValidData
-        //    ()
-        //    => MyController<MasseursController>
-        //        .Instance()
-        //        .WithUser(u => u.InRole(ClientRoleName))
-        //        .WithData(TestCategory, TestDbModels.TestUser, MasseurRole())
-        //        .Calling(c => c.BecomeMasseur(new BecomeMasseurFormModel()
-        //        {
-        //            Description = DummyDescription,
-        //            FullName = TestMasseurData.FullName,
-        //            Gender = TestMasseurData.Gender,
-        //            ProfileImageUrl = TestImageUrl,
-        //            CategoryId = TestClientData.Id
-        //        }))
-        //        .ShouldHave()
-        //        .Data(data => data
-        //            .WithSet<Masseur>(set =>
-        //            {
-        //                set.ShouldNotBeNull();
-        //                set.FirstOrDefault(masseur =>
-        //                        masseur.CategoryId == TestCategory.Id)
-        //                    .ShouldNotBeNull();
-        //            }))
-        //        .AndAlso()
-        //        .ShouldHave()
-        //        .TempData(tempData => tempData
-        //            .ContainingEntryWithKey(SuccessfullyBecomeMasseurKey))
-        //        .AndAlso()
-        //        .ShouldReturn()
-        //        .RedirectToAction();
+            MyController<MasseursController>
+                .Instance()
+                .WithUser(u => u.InRole(ClientRoleName))
+                .WithData
+                (TestCategory,
+                    TestDbModels.TestUser,
+                    TestClient,
+                    MasseurRole)
+                .Calling(c => c.BecomeMasseur(model))
+                .ShouldHave()
+                .Data(data => data
+                    .WithSet<Masseur>(set =>
+                    {
+                        set.ShouldNotBeNull();
+                        set.FirstOrDefault(masseur =>
+                                masseur.CategoryId == TestCategory.Id)
+                            .ShouldNotBeNull();
+                    }))
+                .AndAlso()
+                .ShouldHave()
+                .TempData(tempData => tempData
+                    .ContainingEntryWithKey(SuccessfullyBecomeMasseurKey))
+                .AndAlso()
+                .ShouldReturn()
+                .RedirectToAction("Index", "Home");
+        }
 
         [Fact]
         public void AllShouldReturnViewWithModelWithValidData()
