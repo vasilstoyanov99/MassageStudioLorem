@@ -18,7 +18,9 @@
         public void PostBecomeMasseurShouldBeMapped()
             => MyRouting
                 .Configuration()
-                .ShouldMap("/Masseurs/BecomeMasseur")
+                .ShouldMap(request => request
+                    .WithPath("/Masseurs/BecomeMasseur")
+                    .WithMethod(HttpMethod.Post))
                 .To<MasseursController>(c => c.BecomeMasseur(null));
 
         [Fact]
