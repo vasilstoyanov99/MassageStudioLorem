@@ -1,12 +1,37 @@
-﻿namespace MassageStudioLorem.Tests.Data
+﻿namespace MassageStudioLorem.Tests.Data.DbModels
 {
-    using MassageStudioLorem.Data.Enums;
     using MassageStudioLorem.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using static Global.GlobalConstants;
 
-    public class TestDbModels
+    public class MasseursControllerTestDbModels
     {
+        public static Category TestCategory => new()
+        {
+            Id = TestCategoryData.Id,
+            Name = TestCategoryData.Name
+        };
+
+        public static IdentityUser TestUser => new()
+        {
+            Id = TestUserId,
+            UserName = "TestUserUsername"
+        };
+
+        public static Client TestClient => new()
+        {
+            FirstName = TestClientData.FirstName,
+            UserId = TestUserId,
+            Id = "TestClientId"
+        };
+
+        public static IdentityRole MasseurRole => new()
+        {
+            Name = "Masseur",
+            NormalizedName = "MASSEUR",
+            Id = "MasseurRoleId"
+        };
+
         public static Masseur TestMasseur => new()
         {
             Description = DummyDescription,
@@ -20,45 +45,20 @@
 
         public static IdentityUser TestMasseurUser => new()
         {
-            PhoneNumber = DummyPhoneNumber,
+            PhoneNumber = TestMasseurData.PhoneNumber,
             UserName = "MasseurUserName",
             Id = TestMasseurData.UserId
-        };
-
-        public static Client TestClient => new()
-        {
-            TimeZoneOffset = 180,
-            FirstName = TestClientData.FirstName,
-            UserId = TestClientData.UserId,
-            Id = TestClientData.Id
-        };
-
-        public static Category TestCategory => new()
-        {
-            Id = TestCategoryData.Id, 
-            Name = TestCategoryData.Name
         };
 
         public static Massage TestMassage => new()
         {
             Id = TestMassageData.Id,
             ImageUrl = TestImageUrl,
-            Price = 60.00,
+            Price = TestMassageData.Price,
             ShortDescription = DummyDescription,
             LongDescription = DummyDescription,
             CategoryId = TestCategoryData.Id,
             Name = TestMassageData.Name
         };
-
-        //public static IdentityRole MasseurRole() => new()
-        //{
-        //    Name = "Masseur"
-        //};
-
-        //public static IdentityUser TestUser => new()
-        //{
-        //    Id = "TestId",
-        //    UserName = "TestUsername"
-        //};
-}
+    }
 }

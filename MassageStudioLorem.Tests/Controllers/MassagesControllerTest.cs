@@ -10,7 +10,7 @@
     using Xunit;
 
     using static Global.GlobalConstants;
-    using static Data.TestDbModels;
+    using static Data.DbModels.MassagesControllerTestDbModels;
     public class MassagesControllerTest
     {
         [Fact]

@@ -9,7 +9,7 @@
     using static Areas.Masseur.MasseurConstants;
     using static Areas.Admin.AdminConstants;
     using static Global.GlobalConstants;
-    using static Data.TestDbModels;
+    using static Data.DbModels.HomeControllerTestDbModels;
 
     public class HomeControllerTest
     {
@@ -35,14 +35,12 @@
             (string viewBagKey)
             => MyMvc
                 .Controller<HomeController>()
-                .WithUser(u => u.InRole(ClientRoleName)
-                    .AndAlso()
-                    .WithUsername(TestUserData.Username))
+                .WithUser(u => u.InRole(ClientRoleName))
                 .WithData(TestClient)
                 .Calling(c => c.Index())
                 .ShouldHave()
                 .ViewBag(viewBag => viewBag
-                    .ContainingEntry(viewBagKey, TestClientData.FirstName))
+                    .ContainingEntry(viewBagKey, TestClient.FirstName))
                 .AndAlso()
                 .ShouldReturn()
                 .View();
@@ -51,9 +49,7 @@
         public void ControllerShouldRedirectToActionWhenUserIsMasseur()
             => MyMvc
                 .Controller<HomeController>()
-                .WithUser(u => u.InRole(MasseurRoleName)
-                    .AndAlso()
-                    .WithUsername(TestUserData.Username))
+                .WithUser(u => u.InRole(MasseurRoleName))
                 .WithData(TestMasseur)
                 .Calling(c => c.Index())
                 .ShouldReturn()
@@ -64,9 +60,7 @@
         public void ControllerShouldRedirectToActionWhenUserIsAdmin()
             => MyMvc
                 .Controller<HomeController>()
-                .WithUser(u => u.InRole(AdminRoleName)
-                    .AndAlso()
-                    .WithUsername(TestUserData.Username))
+                .WithUser(u => u.InRole(AdminRoleName))
                 .Calling(c => c.Index())
                 .ShouldReturn()
                 .RedirectToAction(HomeActionName, HomeControllerName,

@@ -9,32 +9,27 @@
 
         public const string TestImageUrl = "https://i.imgur.com/9NfF4Cw.png";
 
-        public const string TestUserId = "TestId";
-
-        public const string DummyPhoneNumber = "TestPhoneNumber";
-
         public const string HomeActionName = "Index";
 
         public const string HomeControllerName = "Home";
 
+        public const string TestUserId = "TestId";
+
         public static class TestClientData
         {
             public const string FirstName = "TestClientFirstName";
-            public const string UserId = TestUserId;
+            public const string Username = "TestClientUsername";
+            public const string UserId = "TestClientUserId";
             public const string Id = "TestClientId";
         }
 
         public static class TestMasseurData
         {
             public const string FullName = "Test Masseur";
-            public const string UserId = TestUserId;
+            public const string UserId = "TestMasseurUserId";
             public const string Id = "TestMasseurId";
+            public const string PhoneNumber = "MasseurPhoneNumber";
             public const Gender Gender = MassageStudioLorem.Data.Enums.Gender.Male;
-        }
-
-        public static class TestUserData
-        {
-            public const string Username = "TestUsername";
         }
 
         public static class TestCategoryData
@@ -49,6 +44,15 @@
             public const string Id = "TestMassageId";
 
             public const string Name = "TestMassage";
+
+            public const double Price = 60.00;
+        }
+
+        public static class TestUpcomingAppointmentData
+        {
+            public const string Id = "TestAppointmentId";
+
+            public const string Hour = "14:00";
         }
     }
 }

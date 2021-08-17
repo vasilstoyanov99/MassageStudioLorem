@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using Data;
+    using Data.DbModels;
     using MassageStudioLorem.Controllers;
     using MassageStudioLorem.Data.Enums;
     using MassageStudioLorem.Data.Models;
@@ -16,7 +17,7 @@
 
     using static Global.GlobalConstants;
     using static MassageStudioLorem.Global.GlobalConstants.Notifications;
-    using static Data.TestDbModels;
+    using static Data.DbModels.MasseursControllerTestDbModels;
     using static Areas.Client.ClientConstants;
 
     public class MasseursControllerTest
@@ -44,8 +45,8 @@
             var model = new BecomeMasseurFormModel()
             {
                 Description = DummyDescription,
-                FullName = TestMasseurData.FullName,
-                Gender = TestMasseurData.Gender,
+                FullName = TestMasseur.FullName,
+                Gender = TestMasseur.Gender,
                 ProfileImageUrl = TestImageUrl,
                 CategoryId = TestCategory.Id
             };
@@ -55,7 +56,7 @@
                 .WithUser(u => u.InRole(ClientRoleName))
                 .WithData
                 (TestCategory,
-                    TestDbModels.TestUser,
+                    MasseursControllerTestDbModels.TestUser,
                     TestClient,
                     MasseurRole)
                 .Calling(c => c.BecomeMasseur(model))
@@ -115,7 +116,7 @@
                 Description = DummyDescription,
                 FullName = TestMasseur.FullName,
                 Id = TestMasseur.Id,
-                PhoneNumber = DummyPhoneNumber,
+                PhoneNumber = TestMasseurUser.PhoneNumber,
                 ProfileImageUrl = TestMasseur.ProfileImageUrl
             };
 
@@ -175,7 +176,7 @@
                 FullName = TestMasseur.FullName,
                 Id = TestMasseur.Id,
                 MassageId = null,
-                PhoneNumber = DummyPhoneNumber,
+                PhoneNumber = TestMasseurUser.PhoneNumber,
                 ProfileImageUrl = TestImageUrl
             };
 
