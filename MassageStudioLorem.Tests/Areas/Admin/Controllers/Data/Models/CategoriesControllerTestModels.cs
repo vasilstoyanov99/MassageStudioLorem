@@ -2,6 +2,7 @@
 {
     using MassageStudioLorem.Areas.Admin.Services.Models;
     using System.Collections.Generic;
+
     using static DbModels.CategoriesControllerTestDbModels;
 
     public class CategoriesControllerTestModels

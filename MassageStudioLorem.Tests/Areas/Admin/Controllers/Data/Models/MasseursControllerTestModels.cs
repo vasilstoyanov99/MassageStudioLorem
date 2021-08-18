@@ -2,7 +2,8 @@
 {
     using Services.Masseurs.Models;
     using System.Collections.Generic;
-    using static Data.DbModels.MasseursControllerTestDbModels;
+
+    using static DbModels.MasseursControllerTestDbModels;
 
     public class MasseursControllerTestModels
     {
