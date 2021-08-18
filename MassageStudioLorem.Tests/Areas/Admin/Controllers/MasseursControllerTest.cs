@@ -11,7 +11,7 @@
     using MassageStudioLorem.Data.Models;
     using Services.Masseurs.Models;
     using Services.SharedModels;
-
+    using System.Linq;
     using static Data.Models.MasseursControllerTestModels;
     using static Data.DbModels.MasseursControllerTestDbModels;
     using static Global.GlobalConstants.Notifications;
@@ -79,18 +79,22 @@
         public void EditMasseurShouldEditMasseurWithValidDataAndReturnRedirectWithTempData
             ()
         {
-            var editMasseurModel = EditMasseurModel;
-            editMasseurModel.FullName = "New Test Full Name";
-            editMasseurModel.CategoryId = TestMasseur.CategoryId;
+            var editedMasseurModel = EditMasseurModel;
+            editedMasseurModel.FullName = "New Test Full Name";
+            editedMasseurModel.CategoryId = TestMasseur.CategoryId;
 
             MyController<MasseursController>
                 .Instance()
                 .WithData(TestMasseur, TestCategory)
-                .Calling(c => c.Edit(editMasseurModel))
+                .Calling(c => c.Edit(editedMasseurModel))
                 .ShouldHave()
                 .Data(data => data
-                    .WithSet<Masseur>(set => set.ShouldNotBeSameAs
-                        (TestMasseur.FullName, editMasseurModel.FullName)))
+                    .WithSet<Masseur>(set =>
+                    {
+                        var editedFullName = set.First().FullName;
+                        editedFullName.ShouldNotBeSameAs
+                            (TestMasseurData.FullName);
+                    }))
                 .AndAlso()
                 .ShouldHave()
                 .TempData(tempData => tempData
