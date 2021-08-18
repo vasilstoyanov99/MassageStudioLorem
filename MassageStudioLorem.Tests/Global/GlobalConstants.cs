@@ -18,8 +18,6 @@
         public static class TestClientData
         {
             public const string FirstName = "TestClientFirstName";
-            public const string Username = "TestClientUsername";
-            public const string UserId = "TestClientUserId";
             public const string Id = "TestClientId";
         }
 
@@ -50,9 +48,32 @@
 
         public static class TestUpcomingAppointmentData
         {
-            public const string Id = "TestAppointmentId";
+            public const string Id = "TestUpcomingAppointmentId";
 
             public const string Hour = "14:00";
+        }
+
+        public static class TestPastAppointmentData
+        {
+            public const string Id = "TestPastAppointmentId";
+
+            public const string Hour = "09:00";
+        }
+
+        public static class TestClientUserData
+        {
+            public const string UserName = "TestUserUsername";
+
+            public const string PhoneNumber = "TestClientUserPhoneNumber";
+        }
+
+        public static class TestMasseurUserData
+        {
+            public const string Id = "MasseurUserId";
+
+            public const string UserName = "TestMasseurUserUsername";
+
+            public const string PhoneNumber = "TestMasseurUserPhoneNumber";
         }
     }
 }

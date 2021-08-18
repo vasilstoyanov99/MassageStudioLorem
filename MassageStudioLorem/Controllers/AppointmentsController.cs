@@ -41,7 +41,7 @@
         public IActionResult CancelAppointment(string appointmentId)
         {
             var cancelAppointmentModel = this._appointmentsService
-                .GetAppointment(appointmentId);
+                .GetAppointmentDataForCancel(appointmentId);
 
             if (CheckIfNull(cancelAppointmentModel))
                 this.ModelState.AddModelError(String.Empty, SomethingWentWrong);

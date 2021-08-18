@@ -9,7 +9,7 @@
         {
             FirstName = TestClientData.FirstName,
             UserId = TestUserId,
-            Id = "TestClientId"
+            Id = TestClientData.Id
         };
 
         public static Masseur TestMasseur => new()

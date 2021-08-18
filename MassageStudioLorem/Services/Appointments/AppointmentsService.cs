@@ -213,7 +213,7 @@
         }
 
         public CancelAppointmentServiceModel
-            GetAppointment(string appointmentId)
+            GetAppointmentDataForCancel(string appointmentId)
         {
             var appointment = this.GetAppointmentFromDB(appointmentId);
 

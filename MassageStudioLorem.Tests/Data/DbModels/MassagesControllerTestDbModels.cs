@@ -1,6 +1,7 @@
 ﻿namespace MassageStudioLorem.Tests.Data.DbModels
 {
     using MassageStudioLorem.Data.Models;
+
     using static Global.GlobalConstants;
 
     public class MassagesControllerTestDbModels

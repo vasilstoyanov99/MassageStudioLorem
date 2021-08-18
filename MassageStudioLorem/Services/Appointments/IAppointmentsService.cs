@@ -38,7 +38,7 @@
         IEnumerable<MasseurUpcomingAppointmentServiceModel>
             GetMasseurUpcomingAppointments(string userId);
 
-        CancelAppointmentServiceModel GetAppointment(string appointmentId);
+        CancelAppointmentServiceModel GetAppointmentDataForCancel(string appointmentId);
 
         bool CheckIfAppointmentIsDeletedSuccessfully(string appointmentId);
     }

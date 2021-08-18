@@ -1,9 +1,7 @@
-﻿namespace MassageStudioLorem.Tests.Controllers
+﻿        namespace MassageStudioLorem.Tests.Controllers
 {
     using System.Linq;
     using System.Collections.Generic;
-
-    using Data;
     using Data.DbModels;
     using MassageStudioLorem.Controllers;
     using MassageStudioLorem.Data.Enums;
