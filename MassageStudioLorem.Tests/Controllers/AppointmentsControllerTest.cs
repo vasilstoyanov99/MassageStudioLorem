@@ -139,10 +139,7 @@
                 .Calling(c => c.Book(BookAppointmentData))
                 .ShouldHave()
                 .Data(data => data
-                    .WithSet<Appointment>(set =>
-                    {
-                        set.ShouldNotBeNull();
-                    }))
+                    .WithSet<Appointment>(set => set.ShouldNotBeNull()))
                 .AndAlso()
                 .ShouldHave()
                 .TempData(tempData => tempData
