@@ -2,9 +2,10 @@
 {
     using System;
     using System.Linq;
-    using Data.Enums;
     using Microsoft.AspNetCore.Mvc;
 
+
+    using Data.Enums;
     using MassageStudioLorem.Services.Masseurs;
     using MassageStudioLorem.Services.Masseurs.Models;
 
