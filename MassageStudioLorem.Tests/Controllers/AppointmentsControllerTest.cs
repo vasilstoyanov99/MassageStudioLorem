@@ -1,8 +1,6 @@
 ﻿namespace MassageStudioLorem.Tests.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
-
     using MyTested.AspNetCore.Mvc;
     using Shouldly;
     using Xunit;
@@ -14,9 +12,9 @@
 
     using static Data.Models.AppointmentsControllerTestModels;
     using static Data.DbModels.AppointmentsControllerTestDbModels;
-    using static Areas.Client.ClientConstants;
-    using static MassageStudioLorem.Global.GlobalConstants.Notifications;
-    using static MassageStudioLorem.Global.DefaultHourSchedule;
+    using static Global.GlobalConstants.Notifications;
+    using static Global.DefaultHourSchedule;
+    using static MassageStudioLorem.Areas.Client.ClientConstants;
     public class AppointmentsControllerTest
     {
         [Fact]

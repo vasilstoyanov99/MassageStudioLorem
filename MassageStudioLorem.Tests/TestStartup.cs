@@ -16,7 +16,7 @@
 
         public void ConfigureTestServices(IServiceCollection services)
         {
-            base.ConfigureServices(services);
+            this.ConfigureServices(services);
 
             // Replace only your own custom services. The ASP.NET Core ones 
             // are already replaced by MyTested.AspNetCore.Mvc. 

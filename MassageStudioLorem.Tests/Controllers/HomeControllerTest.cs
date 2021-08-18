@@ -5,10 +5,10 @@
 
     using MassageStudioLorem.Controllers;
 
-    using static Areas.Client.ClientConstants;
-    using static Areas.Masseur.MasseurConstants;
-    using static Areas.Admin.AdminConstants;
     using static Data.DbModels.HomeControllerTestDbModels;
+    using static MassageStudioLorem.Areas.Client.ClientConstants;
+    using static MassageStudioLorem.Areas.Admin.AdminConstants;
+    using static MassageStudioLorem.Areas.Masseur.MasseurConstants;
 
     public class HomeControllerTest
     {

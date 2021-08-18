@@ -2,6 +2,11 @@
 {
     using System.Linq;
     using System.Collections.Generic;
+
+    using MyTested.AspNetCore.Mvc;
+    using Shouldly;
+    using Xunit;
+
     using Data.DbModels;
     using MassageStudioLorem.Controllers;
     using MassageStudioLorem.Data.Enums;
@@ -9,13 +14,9 @@
     using Models.Masseurs;
     using Services.Masseurs.Models;
 
-    using MyTested.AspNetCore.Mvc;
-    using Shouldly;
-    using Xunit;
-
-    using static MassageStudioLorem.Global.GlobalConstants.Notifications;
+    using static Global.GlobalConstants.Notifications;
     using static Data.DbModels.MasseursControllerTestDbModels;
-    using static Areas.Client.ClientConstants;
+    using static MassageStudioLorem.Areas.Client.ClientConstants;
 
     public class MasseursControllerTest
     {

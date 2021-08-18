@@ -12,9 +12,9 @@
     using Services.Reviews.Models;
 
     using static Data.DbModels.ReviewsControllerTestDbModels;
-    using static MassageStudioLorem.Global.GlobalConstants.Notifications;
+    using static Global.GlobalConstants.Notifications;
     using static Data.Models.ReviewsControllerTestModels;
-    using static Areas.Client.ClientConstants;
+    using static MassageStudioLorem.Areas.Client.ClientConstants;
 
     public class ReviewsControllerTest
     {
@@ -82,7 +82,7 @@
 
             MyController<ReviewsController>
                 .Instance()
-                .WithData(TestMasseur, TestMasseurUser, TestCategory, TestReview)
+                .WithData(TestMasseur, TestCategory, TestReview)
                 .Calling(c => c.MasseurReviews(new MasseurDetailsQueryModel()
                 {
                     MasseurId = TestMasseur.Id, 
