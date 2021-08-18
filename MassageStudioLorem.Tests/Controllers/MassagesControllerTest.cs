@@ -9,7 +9,6 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    using static Global.GlobalConstants;
     using static Data.DbModels.MassagesControllerTestDbModels;
     public class MassagesControllerTest
     {
@@ -25,7 +24,7 @@
         [Fact]
         public void AllShouldReturnViewWithModelWithValidData()
         {
-            var model = new AllCategoriesQueryServiceModel()
+            var expectedModel = new AllCategoriesQueryServiceModel()
             {
                 CurrentPage = 1,
                 TotalCategories = 1,
@@ -46,15 +45,15 @@
             MyController<MassagesController>
                 .Instance()
                 .WithData(TestCategory, TestMassage)
-                .Calling(c => c.All(model))
+                .Calling(c => c.All(expectedModel))
                 .ShouldReturn()
-                .View(model);
+                .View(expectedModel);
         }
 
         [Fact]
         public void DetailsShouldReturnViewWithModelWithValidData()
         {
-            var model = new MassageDetailsServiceModel
+            var expectedModel = new MassageDetailsServiceModel
             {
                 Id = TestMassage.Id,
                 CategoryId = TestCategory.Id,
@@ -72,13 +71,13 @@
                     CategoryId = TestCategory.Id, MassageId = TestMassage.Id
                 }))
                 .ShouldReturn()
-                .View(model);
+                .View(expectedModel);
         }
 
         [Fact]
         public void AvailableMassagesShouldReturnViewWithModelWithValidData()
         {
-            var model = new AvailableMassagesQueryServiceModel()
+            var expectedModel = new AvailableMassagesQueryServiceModel()
             {
                 CategoryId = TestCategory.Id,
                 CurrentPage = 1,
@@ -99,15 +98,15 @@
             MyController<MassagesController>
                 .Instance()
                 .WithData(TestCategory, TestMassage, TestMasseur)
-                .Calling(c => c.AvailableMassages(model))
+                .Calling(c => c.AvailableMassages(expectedModel))
                 .ShouldReturn()
-                .View(model);
+                .View(expectedModel);
         }
 
         [Fact]
         public void AvailableMassageDetailsShouldReturnViewWithModelWithValidData()
         {
-            var model = new MassageDetailsServiceModel()
+            var expectedModel = new MassageDetailsServiceModel()
             {
                 Id = TestMassage.Id,
                 MasseurId = TestMasseur.Id,
@@ -126,7 +125,7 @@
                     MasseurId = TestMasseur.Id, MassageId = TestMassage.Id
                 }))
                 .ShouldReturn()
-                .View("/Views/Massages/Details.cshtml", model);
+                .View("/Views/Massages/Details.cshtml", expectedModel);
         }
     }
 }

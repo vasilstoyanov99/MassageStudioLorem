@@ -8,7 +8,6 @@
     using static Areas.Client.ClientConstants;
     using static Areas.Masseur.MasseurConstants;
     using static Areas.Admin.AdminConstants;
-    using static Global.GlobalConstants;
     using static Data.DbModels.HomeControllerTestDbModels;
 
     public class HomeControllerTest

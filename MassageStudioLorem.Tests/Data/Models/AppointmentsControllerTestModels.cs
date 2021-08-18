@@ -5,7 +5,7 @@
     using MassageStudioLorem.Data.Models;
     using Services.Appointments.Models;
     using System.Collections.Generic;
-    using static Global.GlobalConstants;
+
     using static DbModels.AppointmentsControllerTestDbModels;
 
     public class AppointmentsControllerTestModels

@@ -13,7 +13,6 @@
     using Shouldly;
     using Xunit;
 
-    using static Global.GlobalConstants;
     using static MassageStudioLorem.Global.GlobalConstants.Notifications;
     using static Data.DbModels.MasseursControllerTestDbModels;
     using static Areas.Client.ClientConstants;
@@ -40,7 +39,7 @@
         public void BecomeMasseurShouldRedirectWithTempDataMessageAndSaveMasseurWithValidData
             ()
         {
-            var model = new BecomeMasseurFormModel()
+            var expectedModel = new BecomeMasseurFormModel()
             {
                 Description = DummyDescription,
                 FullName = TestMasseur.FullName,
@@ -57,7 +56,7 @@
                     MasseursControllerTestDbModels.TestUser,
                     TestClient,
                     MasseurRole)
-                .Calling(c => c.BecomeMasseur(model))
+                .Calling(c => c.BecomeMasseur(expectedModel))
                 .ShouldHave()
                 .Data(data => data
                     .WithSet<Masseur>(set =>
@@ -79,7 +78,7 @@
         [Fact]
         public void AllShouldReturnViewWithModelWithValidData()
         {
-            var model = new AllMasseursQueryServiceModel()
+            var expectedModel = new AllMasseursQueryServiceModel()
             {
                 Masseurs = new List<MasseurListingServiceModel>()
                 {
@@ -99,15 +98,15 @@
             MyController<MasseursController>
                 .Instance()
                 .WithData(TestCategory, TestMasseur)
-                .Calling(c => c.All(model))
+                .Calling(c => c.All(expectedModel))
                 .ShouldReturn()
-                .View(model);
+                .View(expectedModel);
         }
 
         [Fact]
         public void DetailsShouldReturnViewWithModelWithValidData()
         {
-            var model = new AvailableMasseurDetailsServiceModel
+            var expectedModel = new AvailableMasseurDetailsServiceModel
             {
                 CategoryId = TestCategory.Id,
                 MassageId = TestMassage.Id,
@@ -132,13 +131,13 @@
                     MassageId = TestMassage.Id
                 }))
                 .ShouldReturn()
-                .View(model);
+                .View(expectedModel);
         }
 
         [Fact]
         public void AvailableMasseursShouldReturnViewWithModelWithValidData()
         {
-            var model = new AvailableMasseursQueryServiceModel()
+            var expectedModel = new AvailableMasseursQueryServiceModel()
             {
                 CategoryId = TestCategory.Id,
                 MassageId = TestMassage.Id,
@@ -159,15 +158,15 @@
             MyController<MasseursController>
                 .Instance()
                 .WithData(TestCategory, TestMasseur, TestMassage)
-                .Calling(c => c.AvailableMasseurs(model))
+                .Calling(c => c.AvailableMasseurs(expectedModel))
                 .ShouldReturn()
-                .View(model);
+                .View(expectedModel);
         }
 
         [Fact]
         public void AvailableMasseurDetailsShouldReturnViewWithModelWithValidData()
         {
-            var model = new AvailableMasseurDetailsServiceModel()
+            var expectedModel = new AvailableMasseurDetailsServiceModel()
             {
                 CategoryId = TestCategory.Id,
                 Description = TestMasseur.Description,
@@ -187,7 +186,7 @@
                   TestMasseurUser)
                 .Calling(c => c.AvailableMasseurDetails(TestMasseur.Id))
                 .ShouldReturn()
-                .View("/Views/Masseurs/Details.cshtml", model);
+                .View("/Views/Masseurs/Details.cshtml", expectedModel);
         }
     }
 }

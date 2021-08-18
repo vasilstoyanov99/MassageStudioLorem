@@ -1,75 +1,82 @@
 ﻿namespace MassageStudioLorem.Tests.Data.DbModels
 {
+    using MassageStudioLorem.Data.Enums;
+    using System;
+
     using Microsoft.AspNetCore.Identity;
 
     using MassageStudioLorem.Data.Models;
-    using MassageStudioLorem.Data.Enums;
 
-    public class MasseursControllerTestDbModels
+    using static Models.ReviewsControllerTestModels;
+
+    public class ReviewsControllerTestDbModels
     {
-        public static Category TestCategory => new()
+        public static Massage TestMassage => new()
         {
-            Id = TestCategoryData.Id,
-            Name = TestCategoryData.Name
-        };
-
-        public static IdentityUser TestUser => new()
-        {
-            Id = TestUserId,
-            UserName = "TestUserUsername"
-        };
-
-        public static Client TestClient => new()
-        {
-            FirstName = TestClientData.FirstName,
-            UserId = TestUserId,
-            Id = "TestClientId"
-        };
-
-        public static IdentityRole MasseurRole => new()
-        {
-            Name = "Masseur",
-            NormalizedName = "MASSEUR",
-            Id = "MasseurRoleId"
+            Id = TestMassageData.Id,
+            CategoryId = TestCategoryData.Id
         };
 
         public static Masseur TestMasseur => new()
         {
-            Description = DummyDescription,
             CategoryId = TestCategoryData.Id,
             FullName = TestMasseurData.FullName,
-            Gender = TestMasseurData.Gender,
             UserId = TestMasseurData.UserId,
-            ProfileImageUrl = TestImageUrl,
             Id = TestMasseurData.Id
+        };
+
+        public static Category TestCategory => new()
+        {
+            Id = TestCategoryData.Id
+        };
+
+        public static Client TestClient => new()
+        {
+            Id = TestClientData.Id,
+            UserId = TestUserId,
+            FirstName = TestClientData.FirstName,
+            TimeZoneOffset = 180
+        };
+
+        public static IdentityUser TestClientUser => new()
+        {
+            Id = TestUserId,
+            UserName = TestClientUserData.UserName,
+            PhoneNumber = TestClientUserData.PhoneNumber
         };
 
         public static IdentityUser TestMasseurUser => new()
         {
-            PhoneNumber = TestMasseurData.PhoneNumber,
-            UserName = "MasseurUserName",
-            Id = TestMasseurData.UserId
+            Id = TestMasseurUserData.Id,
+            UserName = TestMasseurUserData.UserName,
+            PhoneNumber = TestMasseurUserData.PhoneNumber
         };
 
-        public static Massage TestMassage => new()
+        public static Appointment TestPastAppointment => new()
         {
-            Id = TestMassageData.Id,
-            ImageUrl = TestImageUrl,
-            Price = TestMassageData.Price,
-            ShortDescription = DummyDescription,
-            LongDescription = DummyDescription,
-            CategoryId = TestCategoryData.Id,
-            Name = TestMassageData.Name
+            Id = PastAppointmentModel.Id,
+            Date = PastAppointmentModel.Date,
+            Hour = PastAppointmentModel.Hour,
+            MassageName = TestMassage.Name,
+            MasseurFullName = TestMasseur.FullName,
+            MasseurPhoneNumber = TestMasseurUser.PhoneNumber,
+            MasseurId = TestMasseur.Id,
+            MassageId = TestMassage.Id,
+            ClientFirstName = TestClient.FirstName,
+            ClientId = TestClient.Id,
+            ClientPhoneNumber = TestClientUser.PhoneNumber,
+            IsUserReviewedMasseur = false,
         };
 
-        public const string DummyDescription =
-           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut leo quam, eleifend sit amet faucibus non, tempus et purus. Nullam nunc leo, varius vitae mauris ut, semper bibendum sapien. Quisque ut dapibus dolor. Nulla facilisi. Vivamus nunc mauris, pharetra eu orci in, auctor hendrerit lacus. Ut eget eros sed urna aliquet vestibulum. Morbi non lacus a mauris faucibus elementum a et quam.";
-
-        public const string TestImageUrl = "https://i.imgur.com/9NfF4Cw.png";
-
-        public const string HomeActionName = "Index";
-
-        public const string HomeControllerName = "Home";
+        public static Review TestReview => new()
+        {
+            Id = TestReviewData.Id,
+            MasseurId = TestMasseur.Id,
+            ClientId = TestClient.Id,
+            ClientFirstName = TestClient.FirstName,
+            Content = TestReviewData.Content,
+            CreatedOn = DateTime.Parse("19-08-2021")
+        };
 
         public const string TestUserId = "TestId";
 
@@ -84,7 +91,6 @@
             public const string FullName = "Test Masseur";
             public const string UserId = "TestMasseurUserId";
             public const string Id = "TestMasseurId";
-            public const string PhoneNumber = "MasseurPhoneNumber";
             public const Gender Gender = MassageStudioLorem.Data.Enums.Gender.Male;
         }
 
@@ -123,6 +129,8 @@
         public static class TestClientUserData
         {
             public const string UserName = "TestUserUsername";
+
+            public const string PhoneNumber = "TestClientUserPhoneNumber";
         }
 
         public static class TestMasseurUserData
@@ -130,6 +138,8 @@
             public const string Id = "MasseurUserId";
 
             public const string UserName = "TestMasseurUserUsername";
+
+            public const string PhoneNumber = "TestMasseurUserPhoneNumber";
         }
 
         public static class TestReviewData
