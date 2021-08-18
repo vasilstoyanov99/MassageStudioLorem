@@ -1,8 +1,9 @@
 ﻿namespace MassageStudioLorem.Tests.Areas.Admin.Controllers
 {
-    using MassageStudioLorem.Areas.Admin.Controllers;
     using MyTested.AspNetCore.Mvc;
     using Xunit;
+
+    using MassageStudioLorem.Areas.Admin.Controllers;
 
     using static MassageStudioLorem.Areas.Admin.AdminConstants;
     using static Data.DbModels.HomeControllerTestDbModels;

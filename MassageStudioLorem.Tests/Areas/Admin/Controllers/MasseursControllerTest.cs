@@ -1,14 +1,16 @@
 ﻿namespace MassageStudioLorem.Tests.Areas.Admin.Controllers
 {
+    using System.Collections.Generic;
+
+    using MyTested.AspNetCore.Mvc;
+    using Shouldly;
+    using Xunit;
+
     using MassageStudioLorem.Areas.Admin.Controllers;
     using MassageStudioLorem.Data.Enums;
     using MassageStudioLorem.Data.Models;
-    using MyTested.AspNetCore.Mvc;
     using Services.Masseurs.Models;
     using Services.SharedModels;
-    using Shouldly;
-    using System.Collections.Generic;
-    using Xunit;
 
     using static Data.Models.MasseursControllerTestModels;
     using static Data.DbModels.MasseursControllerTestDbModels;
