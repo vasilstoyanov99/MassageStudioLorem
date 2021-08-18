@@ -49,6 +49,5 @@
                     .WithMethod(HttpMethod.Post))
                 .To<AppointmentsController>(c => c.Book
                     (new BookAppointmentServiceModel()));
-
     }
 }

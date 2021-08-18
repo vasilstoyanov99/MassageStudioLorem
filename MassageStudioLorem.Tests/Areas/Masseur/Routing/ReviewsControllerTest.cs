@@ -8,7 +8,7 @@
     public class ReviewsControllerTest
     {
         [Fact]
-        public void GetIndexShouldBeMapped()
+        public void GetAllShouldBeMapped()
             => MyRouting
                 .Configuration()
                 .ShouldMap("/Masseur/Reviews/All")
