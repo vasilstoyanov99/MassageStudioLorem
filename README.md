@@ -53,7 +53,11 @@ https://massagestudiolorem.azurewebsites.net/
 - Responsive Design
 - Bootstrap
 - jQuery
-- HtmlSanitizer 6.0.441
+- HtmlSanitizer 
+- MyTested.AspNetCore.Mvc 
+- Shouldly 
+- xunit
+- Microsoft.NET.Test.Sdk
  
  ## License
 
