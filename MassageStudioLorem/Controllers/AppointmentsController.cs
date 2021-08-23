@@ -97,14 +97,6 @@
             var appointmentDateTime = this._appointmentsService
                 .TryToParseDate(query.Date, appointmentHourAsString);
 
-            if (appointmentDateTime < DateTime.UtcNow)
-            {
-                this.ModelState.AddModelError
-                    (String.Empty, SomethingWentWrong);
-
-                return this.View();
-            }
-
             var exceededBookedMassagesMessage = this._appointmentsService
                 .CheckIfClientBookedTooManyMassagesInTheSameDay
                     (appointmentDateTime, userId);
